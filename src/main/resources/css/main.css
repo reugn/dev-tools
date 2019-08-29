@@ -1,0 +1,20 @@
+.root {
+    -fx-background-color: #eeeeee;
+}
+
+.label.uc {
+    -fx-font-size: 18px;
+    -fx-font-style: italic;
+    -fx-text-fill: grey;
+    -fx-text-alignment: center;
+    -fx-fill-width: true;
+}
+
+.row {
+    -fx-padding: 5 5 5 5;
+}
+
+.resultLabel {
+    -fx-font-size: 14px;
+    -fx-text-fill: grey;
+}

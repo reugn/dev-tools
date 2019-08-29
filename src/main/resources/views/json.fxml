@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.reugn.devtools.controllers.JsonController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <top>
+        <HBox>
+            <Button text="Remove white space"
+                    onAction="#handleClearSpaces"/>
+            <Button text="Format"
+                    onAction="#handlePrettyPrint"/>
+            <Button text="Clear"
+                    onAction="#handleClear"/>
+            <Label fx:id="jsonMessage" id="jsonMessage"/>
+        </HBox>
+    </top>
+    <center>
+        <VBox>
+            <TextArea fx:id="jsonArea" id="jsonArea" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </center>
+</BorderPane>

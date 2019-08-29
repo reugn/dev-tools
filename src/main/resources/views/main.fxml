@@ -1,0 +1,44 @@
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<VBox fx:controller="com.github.reugn.devtools.controllers.MainController"
+      xmlns:fx="http://javafx.com/fxml" alignment="TOP_CENTER">
+
+    <MenuBar fx:id="menuBar" onKeyPressed="#handleKeyInput">
+        <menus>
+            <Menu text="File">
+                <items>
+                    <MenuItem text="Open" disable="true"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem text="Exit" onAction="#handleExitAction"/>
+                </items>
+            </Menu>
+            <Menu text="Help">
+                <items>
+                    <MenuItem text="Search" disable="true"/>
+                    <MenuItem text="Online Manual" visible="false"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem text="About" onAction="#handleAboutAction"/>
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
+
+
+    <TabPane fx:id="tabPane" xmlns="http://javafx.com/javafx/8.0.40"
+             xmlns:fx="http://www.w3.org/2001/XInclude">
+        <tabs>
+            <Tab fx:id="jsonTab" text="Json Editor">
+                <fx:include source="json.fxml"/>
+            </Tab>
+            <Tab fx:id="uuidTab" text="UUID Generator">
+                <fx:include source="uuid.fxml"/>
+            </Tab>
+            <Tab fx:id="hashTab" text="Hash Calculator">
+                <fx:include source="hash.fxml"/>
+            </Tab>
+            <Tab fx:id="urlTab" text="URL encoder/decoder">
+                <fx:include source="url.fxml"/>
+            </Tab>
+        </tabs>
+    </TabPane>
+</VBox>
