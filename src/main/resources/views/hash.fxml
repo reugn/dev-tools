@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.github.reugn.devtools.controllers.HashController">
@@ -11,7 +13,22 @@
     </padding>
 
     <top>
-        <Label styleClass="uc" text="Under Construction"/>
+        <Label styleClass="uc" text="Hash Calculator"/>
     </top>
+
+    <center>
+        <VBox>
+            <TextArea fx:id="hashInput">
+            </TextArea>
+            <HBox>
+                <ComboBox fx:id="hashAlgoSelector" promptText="Choose Action..."/>
+                <Button fx:id="hashCalculateButton" onAction="#handleCalculate">Calculate</Button>
+                <Button fx:id="hashClearButton" onAction="#handleClear">Clear</Button>
+                <Label fx:id="hashMessage" id="hashMessage"/>
+            </HBox>
+            <TextArea fx:id="hashOutput">
+            </TextArea>
+        </VBox>
+    </center>
 
 </BorderPane>
