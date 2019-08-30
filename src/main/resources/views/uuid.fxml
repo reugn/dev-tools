@@ -16,8 +16,8 @@
     </top>
     <center>
         <VBox>
-            <CheckBox styleClass="row" text="Upper case"/>
-            <CheckBox styleClass="row" text="Hyphens"/>
+            <CheckBox fx:id="uuidUpperCase" styleClass="row" text="Upper case"/>
+            <CheckBox fx:id="uuidHyphens" styleClass="row" text="Hyphens"/>
             <Button styleClass="row" text="Generate" onAction="#handleGenerateAction"/>
             <Separator styleClass="row"/>
             <Label styleClass="resultLabel" text="Result:"/>
