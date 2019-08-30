@@ -1,4 +1,5 @@
 <?import javafx.scene.control.*?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.VBox?>
 <VBox fx:controller="com.github.reugn.devtools.controllers.MainController"
       xmlns:fx="http://javafx.com/fxml" alignment="TOP_CENTER">
@@ -9,20 +10,26 @@
                 <items>
                     <MenuItem text="Open" disable="true"/>
                     <SeparatorMenuItem/>
-                    <MenuItem text="Exit" onAction="#handleExitAction"/>
+                    <MenuItem text="Exit" onAction="#handleExitAction">
+                        <accelerator>
+                            <KeyCodeCombination alt="DOWN" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+                        </accelerator>
+                    </MenuItem>
                 </items>
             </Menu>
             <Menu text="Help">
                 <items>
                     <MenuItem text="Search" disable="true"/>
-                    <MenuItem text="Online Manual" visible="false"/>
                     <SeparatorMenuItem/>
-                    <MenuItem text="About" onAction="#handleAboutAction"/>
+                    <MenuItem text="About" onAction="#handleAboutAction">
+                        <accelerator>
+                            <KeyCodeCombination alt="DOWN" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+                        </accelerator>
+                    </MenuItem>
                 </items>
             </Menu>
         </menus>
     </MenuBar>
-
 
     <TabPane fx:id="tabPane" xmlns="http://javafx.com/javafx/8.0.40"
              xmlns:fx="http://www.w3.org/2001/XInclude">
