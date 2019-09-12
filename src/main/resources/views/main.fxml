@@ -43,8 +43,8 @@
             <Tab fx:id="hashTab" text="Hash Calculator">
                 <fx:include source="hash.fxml"/>
             </Tab>
-            <Tab fx:id="urlTab" text="URL encoder/decoder">
-                <fx:include source="url.fxml"/>
+            <Tab fx:id="urlTab" text="Epoch Converter">
+                <fx:include source="epoch.fxml"/>
             </Tab>
         </tabs>
     </TabPane>
