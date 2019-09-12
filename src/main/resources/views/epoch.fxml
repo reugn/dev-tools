@@ -1,17 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.github.reugn.devtools.controllers.URLController">
+            fx:controller="com.github.reugn.devtools.controllers.EpochController">
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
 
     <top>
-        <Label styleClass="uc" text="Under Construction"/>
+        <Label styleClass="uc" text="Epoch Converter"/>
     </top>
 
+    <center>
+        <VBox>
+            <HBox>
+                <Label fx:id="currentEpochLabel" text="The current Unix epoch time is: "/>
+                <TextField fx:id="currentEpoch"/>
+                <Button fx:id="currentEpochRefreshButton" onAction="#handleRefreshEpoch">Refresh</Button>
+            </HBox>
+            <Separator/>
+            <HBox>
+                <TextField fx:id="tsToHumanField"/>
+                <Button fx:id="tsToHumanButton">Timestamp to Human date</Button>
+            </HBox>
+            <TextArea fx:id="tsToHumanResult"/>
+            <GridPane fx:id="humanToTsGrid">
+                <Label maxWidth="100" text="Year" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <Label maxWidth="50" text="Mon" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label maxWidth="50" text="Day" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <Label maxWidth="50" text="Hr" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                <Label maxWidth="50" text="Min" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+                <Label maxWidth="50" text="Sec" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
+                <Label maxWidth="100" GridPane.columnIndex="6" GridPane.rowIndex="1"/>
+
+                <TextField fx:id="epochYear" maxWidth="100" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="epochMonth" maxWidth="50" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <TextField fx:id="epochDay" maxWidth="50" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <TextField fx:id="epochHour" maxWidth="50" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                <TextField fx:id="epochMinute" maxWidth="50" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+                <TextField fx:id="epochSecond" maxWidth="50" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+                <Button fx:id="humanToTsButton" GridPane.columnIndex="6" GridPane.rowIndex="0">
+                    Human date to Timestamp
+                </Button>
+            </GridPane>
+            <TextArea fx:id="humanToTsResult"/>
+        </VBox>
+    </center>
 </BorderPane>
