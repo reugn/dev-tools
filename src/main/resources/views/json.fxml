@@ -13,11 +13,11 @@
     </padding>
     <top>
         <HBox>
-            <Button text="Remove white space"
+            <Button fx:id="clearSpacesButton" text="Remove white space"
                     onAction="#handleClearSpaces"/>
-            <Button text="Format"
+            <Button fx:id="formatButton" text="Format"
                     onAction="#handlePrettyPrint"/>
-            <Button text="Clear"
+            <Button fx:id="clearButton" text="Clear"
                     onAction="#handleClear"/>
             <Label fx:id="jsonMessage" id="jsonMessage"/>
         </HBox>
