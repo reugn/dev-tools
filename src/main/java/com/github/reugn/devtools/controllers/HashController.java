@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
@@ -83,5 +84,10 @@ public class HashController implements Initializable, Logger {
                 "Base64 encode", "Base64 decode");
         hashMessage.setPadding(new Insets(5));
         hashMessage.setTextFill(Color.RED);
+
+        HBox.setMargin(hashAlgoSelector, new Insets(10, 5, 10, 0));
+        HBox.setMargin(hashCalculateButton, new Insets(10, 5, 10, 0));
+        HBox.setMargin(hashClearButton, new Insets(10, 5, 10, 0));
+        HBox.setMargin(hashMessage, new Insets(10, 5, 10, 0));
     }
 }
