@@ -1,6 +1,7 @@
 package com.github.reugn.devtools.services;
 
 import com.google.common.hash.HashCode;
+import com.google.common.hash.Hashing;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -19,6 +20,10 @@ public class HashService {
         MessageDigest digest = MessageDigest.getInstance(algo);
         byte[] enc = digest.digest(data.getBytes(StandardCharsets.UTF_8));
         return HashCode.fromBytes(enc).toString();
+    }
+
+    public static String murmur3_128(String data) {
+        return Hashing.murmur3_128().hashBytes(data.getBytes()).toString();
     }
 
     public static String urlEncode(String value) throws UnsupportedEncodingException {
