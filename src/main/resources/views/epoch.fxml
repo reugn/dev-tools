@@ -19,7 +19,7 @@
             <HBox>
                 <Label fx:id="currentEpochLabel" text="The current Unix epoch time is: "/>
                 <TextField fx:id="currentEpoch"/>
-                <Button fx:id="currentEpochRefreshButton" onAction="#handleRefreshEpoch">Refresh</Button>
+                <Button styleClass="refresh" fx:id="currentEpochRefreshButton" onAction="#handleRefreshEpoch"/>
             </HBox>
             <Separator/>
             <HBox>

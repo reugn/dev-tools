@@ -2,7 +2,7 @@
     -fx-background-color: #eeeeee;
 }
 
-.label.uc {
+Label.uc {
     -fx-font-size: 18px;
     -fx-font-style: italic;
     -fx-text-fill: grey;
@@ -17,4 +17,8 @@
 .resultLabel {
     -fx-font-size: 14px;
     -fx-text-fill: grey;
+}
+
+Button.refresh {
+    -fx-graphic: url('/images/icons8-refresh-16.png');
 }
