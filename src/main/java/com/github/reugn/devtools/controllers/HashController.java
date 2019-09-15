@@ -52,6 +52,9 @@ public class HashController implements Initializable, Logger {
                 case "md5":
                     enc = HashService.calculateHash(data, "MD5");
                     break;
+                case "sha1":
+                    enc = HashService.calculateHash(data, "SHA-1");
+                    break;
                 case "sha256":
                     enc = HashService.calculateHash(data, "SHA-256");
                     break;
@@ -83,7 +86,8 @@ public class HashController implements Initializable, Logger {
     @Override
     @SuppressWarnings("unchecked")
     public void initialize(URL location, ResourceBundle resources) {
-        hashAlgoSelector.getItems().setAll("md5", "sha256", "murmur3_128", "Url encode", "Url decode",
+        hashAlgoSelector.getItems().setAll("md5", "sha1", "sha256", "murmur3_128",
+                "Url encode", "Url decode",
                 "Base64 encode", "Base64 decode");
         hashMessage.setPadding(new Insets(5));
         hashMessage.setTextFill(Color.RED);
