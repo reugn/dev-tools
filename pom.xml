@@ -55,5 +55,10 @@
             <artifactId>guava</artifactId>
             <version>28.1-jre</version>
         </dependency>
+        <dependency>
+            <groupId>org.fxmisc.richtext</groupId>
+            <artifactId>richtextfx</artifactId>
+            <version>0.10.2</version>
+        </dependency>
     </dependencies>
 </project>
