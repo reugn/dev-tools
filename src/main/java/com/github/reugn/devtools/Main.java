@@ -15,7 +15,7 @@ public class Main extends Application {
         primaryStage.setTitle("Dev-tools");
         primaryStage.getIcons().add(new Image("/images/icons8-toolbox-64.png"));
         Scene scene = new Scene(root, 600, 400);
-        scene.getStylesheets().add("/css/main.css");
+        scene.getStylesheets().addAll("/css/main.css", "/css/json-highlighting.css");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

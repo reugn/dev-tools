@@ -1,0 +1,30 @@
+.json_curly {
+    -fx-fill: grey;
+}
+
+.json_property {
+    -fx-fill: grey;
+    -fx-font-weight: bold;
+}
+
+.json_value {
+    -fx-fill: green;
+}
+
+.json_array {
+    -fx-fill: blue;
+}
+
+.json_null {
+    -fx-fill: orange;
+    -fx-font-weight: bold;
+}
+
+.json_bool {
+    -fx-fill: orange;
+    -fx-font-weight: bold;
+}
+
+.json_number {
+    -fx-fill: blue;
+}

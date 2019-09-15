@@ -7,12 +7,18 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.model.StyleSpans;
+import org.fxmisc.richtext.model.StyleSpansBuilder;
 
 import java.net.URL;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class JsonController implements Initializable {
 
@@ -24,18 +30,48 @@ public class JsonController implements Initializable {
     private Label jsonMessage;
 
     @FXML
-    private TextArea jsonArea;
+    private CodeArea jsonArea;
+
+    private static final Pattern JSON_REGEX = Pattern.compile("(?<JSONCURLY>\\{|\\})|" +
+            "(?<JSONPROPERTY>\\\".*\\\")\\s*:\\s*|" +
+            "(?<JSONVALUE>\\\".*\\\")|" +
+            "\\[(?<JSONARRAY>.*)\\]|" +
+            "(?<JSONNUMBER>\\d+.?\\d*)|" +
+            "(?<JSONBOOL>true|false)|" +
+            "(?<JSONNULL>null)");
 
     @FXML
     private void handlePrettyPrint(final ActionEvent event) {
         String data = jsonArea.getText();
         try {
             String pretty = JsonService.format(data);
-            jsonArea.setText(pretty);
+            jsonArea.replaceText(pretty);
             jsonMessage.setText("");
         } catch (Exception e) {
             jsonMessage.setText("Invalid JSON");
         }
+    }
+
+    private StyleSpans<Collection<String>> computeHighlighting(String text) {
+        Matcher matcher = JSON_REGEX.matcher(text);
+        int lastKwEnd = 0;
+        StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
+        while (matcher.find()) {
+            String styleClass
+                    = matcher.group("JSONPROPERTY") != null ? "json_property"
+                    : matcher.group("JSONARRAY") != null ? "json_array"
+                    : matcher.group("JSONCURLY") != null ? "json_curly"
+                    : matcher.group("JSONBOOL") != null ? "json_bool"
+                    : matcher.group("JSONNULL") != null ? "json_null"
+                    : matcher.group("JSONNUMBER") != null ? "json_number"
+                    : matcher.group("JSONVALUE") != null ? "json_value"
+                    : null;
+            spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
+            spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
+            lastKwEnd = matcher.end();
+        }
+        spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
+        return spansBuilder.create();
     }
 
     @FXML
@@ -43,7 +79,7 @@ public class JsonController implements Initializable {
         String data = jsonArea.getText();
         try {
             String cleared = JsonService.clearSpaces(data);
-            jsonArea.setText(cleared);
+            jsonArea.replaceText(cleared);
             jsonMessage.setText("");
         } catch (Exception e) {
             jsonMessage.setText("Invalid JSON");
@@ -53,12 +89,16 @@ public class JsonController implements Initializable {
     @FXML
     private void handleClear(final ActionEvent event) {
         jsonMessage.setText("");
-        jsonArea.setText("");
+        jsonArea.replaceText("");
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        jsonArea.setPrefRowCount(1024);
+        jsonArea.setPrefHeight(1024);
+        jsonArea.setWrapText(true);
+        jsonArea.textProperty().addListener((obs, oldText, newText) -> {
+            jsonArea.setStyleSpans(0, computeHighlighting(newText));
+        });
         jsonMessage.setPadding(new Insets(5));
         jsonMessage.setTextFill(Color.RED);
 
