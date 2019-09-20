@@ -22,3 +22,23 @@ Label.uc {
 Button.refresh {
     -fx-graphic: url('/images/icons8-refresh-16.png');
 }
+
+.searchBoxLabel {
+    -fx-graphic: url('/images/icons8-search-16.png');
+}
+
+.buttonSearchUp {
+    -fx-graphic: url('/images/icons8-collapse-arrow-16.png');
+}
+
+.buttonSearchDown {
+    -fx-graphic: url('/images/icons8-expand-arrow-16.png');
+}
+
+.buttonSearchClose {
+    -fx-graphic: url('/images/icons8-close-window-16.png');
+    -fx-padding: 0;
+    -fx-border-style: none;
+    -fx-border-width: 0;
+    -fx-border-insets: 0;
+}
