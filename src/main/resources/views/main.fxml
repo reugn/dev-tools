@@ -37,8 +37,8 @@
             <Tab fx:id="jsonTab" text="Json Editor">
                 <fx:include source="json.fxml"/>
             </Tab>
-            <Tab fx:id="uuidTab" text="UUID Generator">
-                <fx:include source="uuid.fxml"/>
+            <Tab fx:id="generatorTab" text="Generator">
+                <fx:include source="generator.fxml"/>
             </Tab>
             <Tab fx:id="hashTab" text="Hash Calculator">
                 <fx:include source="hash.fxml"/>

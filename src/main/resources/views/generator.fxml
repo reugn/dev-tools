@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.reugn.devtools.controllers.GeneratorController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <top>
+        <Label styleClass="uc" text="UUID/Password Generator"/>
+    </top>
+    <center>
+        <VBox>
+            <Separator styleClass="row"/>
+            <HBox>
+                <VBox prefWidth="400">
+                    <HBox>
+                        <ComboBox fx:id="uuidAmount"/>
+                        <Label fx:id="uuidAmountLabel" text="Number of UUIDs"/>
+                    </HBox>
+                    <CheckBox fx:id="uuidUpperCase" styleClass="row" text="Upper case"/>
+                    <CheckBox fx:id="uuidHyphens" styleClass="row" text="Hyphens"/>
+                    <Label style="-fx-padding: 6 5 6 5;"/>
+                    <Label style="-fx-padding: 6 5 6 5;"/>
+                    <Button styleClass="row" text="Generate UUIDs" onAction="#handleGenerateUUIDAction"/>
+                </VBox>
+                <VBox>
+                    <HBox>
+                        <TextField fx:id="pwdLength"/>
+                        <Label fx:id="pwdLengthLabel" text="Password Length"/>
+                    </HBox>
+                    <CheckBox fx:id="pwdLowChars" styleClass="row" text="Lowercase Characters"/>
+                    <CheckBox fx:id="pwdDigits" styleClass="row" text="Digits"/>
+                    <CheckBox fx:id="pwdUpperChars" styleClass="row" text="Uppercase Characters"/>
+                    <CheckBox fx:id="pwdSymbols" styleClass="row" text="Symbols"/>
+                    <Button styleClass="row" text="Generate Password" onAction="#handleGeneratePasswordAction"/>
+                </VBox>
+            </HBox>
+            <Separator styleClass="row"/>
+            <TextArea fx:id="generatorResult"/>
+        </VBox>
+    </center>
+</BorderPane>
