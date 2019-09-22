@@ -23,6 +23,7 @@
             <HBox>
                 <ComboBox fx:id="hashAlgoSelector" promptText="Choose Action..."/>
                 <Button fx:id="hashCalculateButton" onAction="#handleCalculate">Calculate</Button>
+                <Button fx:id="hashMoveUpButton" styleClass="buttonMoveUp" onAction="#handleMoveUp"/>
                 <Button fx:id="hashClearButton" onAction="#handleClear">Clear</Button>
                 <Label fx:id="hashMessage" id="hashMessage"/>
             </HBox>

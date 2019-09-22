@@ -42,3 +42,7 @@ Button.refresh {
     -fx-border-width: 0;
     -fx-border-insets: 0;
 }
+
+.buttonMoveUp {
+    -fx-graphic: url('/images/icons8-scroll-up-16.png');
+}

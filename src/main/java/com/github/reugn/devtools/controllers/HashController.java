@@ -31,6 +31,9 @@ public class HashController implements Initializable, Logger {
     private Button hashCalculateButton;
 
     @FXML
+    public Button hashMoveUpButton;
+
+    @FXML
     private Button hashClearButton;
 
     @FXML
@@ -83,6 +86,14 @@ public class HashController implements Initializable, Logger {
         }
     }
 
+    @FXML
+    private void handleMoveUp(final ActionEvent event) {
+        if (!hashOutput.getText().isEmpty()) {
+            hashInput.setText(hashOutput.getText());
+            hashOutput.setText("");
+        }
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public void initialize(URL location, ResourceBundle resources) {
@@ -94,6 +105,7 @@ public class HashController implements Initializable, Logger {
 
         HBox.setMargin(hashAlgoSelector, new Insets(10, 5, 10, 0));
         HBox.setMargin(hashCalculateButton, new Insets(10, 5, 10, 0));
+        HBox.setMargin(hashMoveUpButton, new Insets(10, 5, 10, 0));
         HBox.setMargin(hashClearButton, new Insets(10, 5, 10, 0));
         HBox.setMargin(hashMessage, new Insets(10, 5, 10, 0));
     }
