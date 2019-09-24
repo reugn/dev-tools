@@ -51,6 +51,9 @@ public class GeneratorController implements Initializable, Logger {
     private Label pwdLengthLabel;
 
     @FXML
+    private Button clearButton;
+
+    @FXML
     private void handleGenerateUUIDAction(final ActionEvent event) {
         StringBuilder buff = new StringBuilder();
         Integer amount = uuidAmount.getValue();
@@ -93,12 +96,18 @@ public class GeneratorController implements Initializable, Logger {
         return length;
     }
 
+    @FXML
+    private void handleClearResult(final ActionEvent actionEvent) {
+        generatorResult.setText("");
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         uuidAmount.getItems().setAll(1, 2, 3, 5, 10, 20, 50, 100);
         uuidAmount.setValue(1);
         uuidAmountLabel.setPadding(new Insets(5));
         pwdLengthLabel.setPadding(new Insets(5));
+        VBox.setMargin(clearButton, new Insets(5, 0, 0, 0));
         pwdLength.setPrefWidth(64);
         pwdLength.setText("16");
 

@@ -41,6 +41,7 @@
             </HBox>
             <Separator styleClass="row"/>
             <TextArea fx:id="generatorResult"/>
+            <Button fx:id="clearButton" styleClass="row" text="Clear" onAction="#handleClearResult"/>
         </VBox>
     </center>
 </BorderPane>
