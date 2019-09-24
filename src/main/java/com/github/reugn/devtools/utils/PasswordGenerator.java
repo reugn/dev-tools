@@ -28,6 +28,7 @@ public class PasswordGenerator {
     }
 
     public String generate(int length) {
+        if (dictionary.isEmpty()) return "";
         StringBuilder password = new StringBuilder(length);
         Random random = new Random(System.nanoTime());
         for (int i = 0; i < length; i++) {
@@ -64,8 +65,8 @@ public class PasswordGenerator {
             return this;
         }
 
-        public PasswordGeneratorBuilder withSymbols(boolean usePunctuation) {
-            this.useSymbols = usePunctuation;
+        public PasswordGeneratorBuilder withSymbols(boolean useSymbols) {
+            this.useSymbols = useSymbols;
             return this;
         }
 
