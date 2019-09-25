@@ -10,12 +10,10 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 
-import java.io.FileReader;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.jar.Manifest;
 
 public class MainController implements Initializable, Logger {
 
@@ -60,12 +58,17 @@ public class MainController implements Initializable, Logger {
     }
 
     private String getVersion() {
+        String version;
         try {
-            MavenXpp3Reader reader = new MavenXpp3Reader();
-            Model model = reader.read(new FileReader("pom.xml"));
-            return model.getVersion();
+            Class clazz = this.getClass();
+            String classPath = clazz.getResource(clazz.getSimpleName() + ".class").toString();
+            String manifestPath = classPath.substring(0, classPath.lastIndexOf("!") + 1) +
+                    "/META-INF/MANIFEST.MF";
+            Manifest manifest = new Manifest(new URL(manifestPath).openStream());
+            version = manifest.getMainAttributes().getValue("Implementation-Version");
         } catch (Exception e) {
             return "NA";
         }
+        return version;
     }
 }

@@ -43,9 +43,8 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>
-                                        com.github.reugn.devtools.Main
-                                    </mainClass>
+                                    <mainClass>com.github.reugn.devtools.Main</mainClass>
+                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
