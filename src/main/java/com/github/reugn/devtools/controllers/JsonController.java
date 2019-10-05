@@ -138,17 +138,21 @@ public class JsonController implements Initializable, Logger {
 
     @FXML
     private void handleSearchUpAction(final ActionEvent event) {
-        Optional<JsonSearchState.SearchSpan> span = getSearchState().prev();
-        jsonArea.deselect();
-        span.ifPresent(searchSpan -> jsonArea.selectRange(searchSpan.getFrom(), searchSpan.getTo()));
-        labelMatches.setText(getSearchState().toString());
+        doSearch(getSearchState().prev());
     }
 
     @FXML
     private void handleSearchDownAction(final ActionEvent event) {
-        Optional<JsonSearchState.SearchSpan> span = getSearchState().next();
+        doSearch(getSearchState().next());
+    }
+
+    private void doSearch(Optional<JsonSearchState.SearchSpan> span) {
         jsonArea.deselect();
-        span.ifPresent(searchSpan -> jsonArea.selectRange(searchSpan.getFrom(), searchSpan.getTo()));
+        span.ifPresent(searchSpan -> {
+            jsonArea.moveTo(searchSpan.getFrom());
+            jsonArea.requestFollowCaret();
+            jsonArea.selectRange(searchSpan.getFrom(), searchSpan.getTo());
+        });
         labelMatches.setText(getSearchState().toString());
     }
 
