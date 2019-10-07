@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.textfield.CustomTextField?>
+<?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.CodeArea?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -41,7 +42,11 @@
                         mnemonicParsing="false" styleClass="buttonSearchDown"/>
                 <Label fx:id="labelMatches"/>
             </ToolBar>
-            <CodeArea fx:id="jsonArea" id="jsonArea" VBox.vgrow="ALWAYS"/>
+            <VirtualizedScrollPane>
+                <content>
+                    <CodeArea fx:id="jsonArea" id="jsonArea" VBox.vgrow="ALWAYS"/>
+                </content>
+            </VirtualizedScrollPane>
         </VBox>
     </center>
 </BorderPane>
