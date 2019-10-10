@@ -89,11 +89,11 @@ public class EpochController implements Initializable, Logger {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        HBox.setMargin(currentEpochLabel, new Insets(20, 5, 15, 0));
-        HBox.setMargin(currentEpoch, new Insets(15, 5, 15, 0));
-        HBox.setMargin(currentEpochRefreshButton, new Insets(15, 5, 15, 0));
-        HBox.setMargin(tsToHumanField, new Insets(15, 5, 15, 0));
-        HBox.setMargin(tsToHumanButton, new Insets(15, 5, 15, 0));
+        HBox.setMargin(currentEpochLabel, new Insets(15, 5, 10, 0));
+        HBox.setMargin(currentEpoch, new Insets(10, 5, 10, 0));
+        HBox.setMargin(currentEpochRefreshButton, new Insets(10, 5, 10, 0));
+        HBox.setMargin(tsToHumanField, new Insets(10, 5, 10, 0));
+        HBox.setMargin(tsToHumanButton, new Insets(10, 5, 10, 0));
 
         GridPane.setMargin(epochYear, new Insets(10, 5, 0, 0));
         GridPane.setMargin(epochMonth, new Insets(10, 5, 0, 0));
