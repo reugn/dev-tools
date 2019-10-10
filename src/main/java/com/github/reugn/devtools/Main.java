@@ -20,7 +20,7 @@ public class Main {
             Parent root = FXMLLoader.load(getClass().getResource("/views/main.fxml"));
             primaryStage.setTitle("Dev-tools");
             primaryStage.getIcons().add(new Image("/images/icons8-toolbox-64.png"));
-            Scene scene = new Scene(root, 800, 500);
+            Scene scene = new Scene(root, 900, 500);
             scene.getStylesheets().addAll("/css/main.css", "/css/json-highlighting.css");
             primaryStage.setScene(scene);
             primaryStage.show();
