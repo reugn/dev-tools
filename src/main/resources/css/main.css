@@ -5,13 +5,24 @@
 Label.uc {
     -fx-font-size: 18px;
     -fx-font-style: italic;
+    -fx-font-weight: bold;
     -fx-text-fill: grey;
-    -fx-text-alignment: center;
-    -fx-fill-width: true;
 }
 
 .row {
     -fx-padding: 5 5 5 5;
+}
+
+.regexField {
+    -fx-text-fill: #001a4d;
+    -fx-font-weight: bold;
+}
+
+Label.info {
+    -fx-font-size: 14px;
+    -fx-text-fill: #001a4d;
+    -fx-font-style: italic;
+    -fx-padding: 5 0 5 0;
 }
 
 .resultLabel {
