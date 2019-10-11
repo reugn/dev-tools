@@ -19,7 +19,7 @@
         <VBox>
             <HBox>
                 <Label fx:id="regexLabel" text="Regex:"/>
-                <TextField styleClass="regexField" fx:id="regexExpression"/>
+                <TextField styleClass="regexField" fx:id="regexExpression" onKeyPressed="#handleKeyMatch"/>
                 <CheckComboBox fx:id="regexFlagsComboBox"/>
                 <Button fx:id="regexCalculateButton" onAction="#handleMatch">Match</Button>
                 <Button fx:id="regexClearButton" onAction="#handleClear">Clear</Button>

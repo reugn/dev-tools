@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.controlsfx.control.CheckComboBox;
@@ -54,7 +56,18 @@ public class RegexController implements Initializable, Logger {
     }
 
     @FXML
+    public void handleKeyMatch(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+            doMatch();
+        }
+    }
+
+    @FXML
     public void handleMatch(ActionEvent actionEvent) {
+        doMatch();
+    }
+
+    private void doMatch() {
         regexMessage.setText("");
         if (validateInput()) {
             String result = "";
