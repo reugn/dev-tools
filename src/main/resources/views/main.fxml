@@ -46,6 +46,9 @@
             <Tab fx:id="urlTab" text="Epoch Converter">
                 <fx:include source="epoch.fxml"/>
             </Tab>
+            <Tab fx:id="regexTab" text="Regex">
+                <fx:include source="regex.fxml"/>
+            </Tab>
         </tabs>
     </TabPane>
 </VBox>
