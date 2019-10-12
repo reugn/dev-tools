@@ -1,6 +1,7 @@
 package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.services.EpochService;
+import com.github.reugn.devtools.utils.Elements;
 import com.github.reugn.devtools.utils.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,8 +9,9 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -63,8 +65,7 @@ public class EpochController implements Initializable, Logger {
             String result = EpochService.toHumanEpoch(dt);
             tsToHumanResult.setText(result);
         } catch (Exception e) {
-            tsToHumanField.setBorder(new Border(new BorderStroke(Color.RED,
-                    BorderStrokeStyle.SOLID, new CornerRadii(3), BorderWidths.DEFAULT)));
+            tsToHumanField.setBorder(Elements.alertBorder);
             tsToHumanResult.setText("");
         }
     }

@@ -1,5 +1,6 @@
 package com.github.reugn.devtools.controllers;
 
+import com.github.reugn.devtools.utils.Elements;
 import com.github.reugn.devtools.utils.Logger;
 import com.github.reugn.devtools.utils.PasswordGenerator;
 import javafx.event.ActionEvent;
@@ -7,8 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.security.InvalidParameterException;
@@ -77,8 +78,7 @@ public class GeneratorController implements Initializable, Logger {
             pwdLength.setBorder(Border.EMPTY);
             length = validatePasswordLength();
         } catch (Exception e) {
-            pwdLength.setBorder(new Border(new BorderStroke(Color.RED,
-                    BorderStrokeStyle.SOLID, new CornerRadii(3), BorderWidths.DEFAULT)));
+            pwdLength.setBorder(Elements.alertBorder);
             return;
         }
         PasswordGenerator generator = new PasswordGenerator.PasswordGeneratorBuilder()

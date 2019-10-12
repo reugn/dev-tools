@@ -2,6 +2,7 @@ package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.models.RestResponse;
 import com.github.reugn.devtools.services.RestService;
+import com.github.reugn.devtools.utils.Elements;
 import com.github.reugn.devtools.utils.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,8 +11,9 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
 import java.net.URL;
@@ -85,8 +87,7 @@ public class RestAPITabController implements Initializable, Logger {
     private boolean validateInput() {
         uriTextField.setBorder(Border.EMPTY);
         if (uriTextField.getText().isEmpty()) {
-            uriTextField.setBorder(new Border(new BorderStroke(Color.RED,
-                    BorderStrokeStyle.SOLID, new CornerRadii(3), BorderWidths.DEFAULT)));
+            uriTextField.setBorder(Elements.alertBorder);
             return false;
         }
         return true;

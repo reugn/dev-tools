@@ -1,8 +1,7 @@
 package com.github.reugn.devtools.services;
 
+import com.github.reugn.devtools.utils.Elements;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 import java.security.InvalidParameterException;
 import java.time.*;
@@ -62,8 +61,7 @@ public class EpochService {
                 throw new InvalidParameterException("Invalid input: " + f.getText());
             }
         } catch (Exception e) {
-            f.setBorder(new Border(new BorderStroke(Color.RED,
-                    BorderStrokeStyle.SOLID, new CornerRadii(3), BorderWidths.DEFAULT)));
+            f.setBorder(Elements.alertBorder);
             throw e;
         }
         return intVal;
