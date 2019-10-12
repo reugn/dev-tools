@@ -22,12 +22,16 @@ Label.info {
     -fx-font-size: 14px;
     -fx-text-fill: #001a4d;
     -fx-font-style: italic;
-    -fx-padding: 5 0 5 0;
+    -fx-padding: 5 5 5 5;
 }
 
 .resultLabel {
     -fx-font-size: 14px;
     -fx-text-fill: grey;
+}
+
+TabPane.inner {
+    -fx-border-color: #d3d3d3;
 }
 
 Button.refresh {
