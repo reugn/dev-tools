@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.github.reugn.devtools.utils.HttpHeadersTextField?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.github.reugn.devtools.controllers.RestAPITabController">
+    <HBox>
+        <ComboBox fx:id="methodComboBox"/>
+        <TextField fx:id="uriTextField"/>
+        <Button fx:id="sendButton" onAction="#handleSend">Send</Button>
+    </HBox>
+    <VBox>
+        <Label styleClass="info" text="Request"/>
+        <TabPane>
+            <Tab text="Request Headers" closable="false">
+                <ScrollPane>
+                    <VBox fx:id="requestHeadersVBox">
+                        <HBox>
+                            <HttpHeadersTextField prefWidth="256"/>
+                            <TextField prefWidth="256"/>
+                            <Button onAction="#handleRemoveHeader">-</Button>
+                            <Button onAction="#handleAddHeader">+</Button>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+            <Tab text="Body" closable="false">
+                <TextArea fx:id="requestBodyTextArea"/>
+            </Tab>
+        </TabPane>
+    </VBox>
+    <VBox>
+        <HBox>
+            <Label styleClass="info" text="Response"/>
+            <Label styleClass="info" fx:id="responseStatusLabel"/>
+        </HBox>
+        <TabPane>
+            <Tab text="Response" closable="false">
+                <TextArea fx:id="responseBodyTextArea"/>
+            </Tab>
+            <Tab text="Response Headers" closable="false">
+                <TextArea fx:id="responseHeadersTextArea"/>
+            </Tab>
+        </TabPane>
+    </VBox>
+</VBox>

@@ -49,6 +49,9 @@
             <Tab fx:id="regexTab" text="Regex">
                 <fx:include source="regex.fxml"/>
             </Tab>
+            <Tab fx:id="restApiTab" text="Rest API">
+                <fx:include source="rest_api.fxml"/>
+            </Tab>
         </tabs>
     </TabPane>
 </VBox>

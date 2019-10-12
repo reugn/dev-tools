@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.reugn.devtools.controllers.RestAPIController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <top>
+        <Label styleClass="uc" text="Rest API Tester"/>
+    </top>
+
+    <center>
+        <TabPane fx:id="restHistoryTabPane" styleClass="inner">
+            <tabs>
+                <Tab text="New" closable="false">
+                    <fx:include source="rest_api_tab.fxml"/>
+                </Tab>
+                <Tab fx:id="addNewTab" text="+" closable="false" onSelectionChanged="#handleNewTab"/>
+            </tabs>
+        </TabPane>
+    </center>
+
+</BorderPane>
