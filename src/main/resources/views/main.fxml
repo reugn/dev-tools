@@ -34,22 +34,22 @@
     <TabPane fx:id="tabPane" xmlns="http://javafx.com/javafx/8.0.40"
              xmlns:fx="http://www.w3.org/2001/XInclude">
         <tabs>
-            <Tab fx:id="jsonTab" text="Json Editor">
+            <Tab fx:id="jsonTab" text="Json Editor" closable="false">
                 <fx:include source="json.fxml"/>
             </Tab>
-            <Tab fx:id="generatorTab" text="Generator">
+            <Tab fx:id="generatorTab" text="Generator" closable="false">
                 <fx:include source="generator.fxml"/>
             </Tab>
-            <Tab fx:id="hashTab" text="Hash Calculator">
+            <Tab fx:id="hashTab" text="Hash Calculator" closable="false">
                 <fx:include source="hash.fxml"/>
             </Tab>
-            <Tab fx:id="urlTab" text="Epoch Converter">
+            <Tab fx:id="urlTab" text="Epoch Converter" closable="false">
                 <fx:include source="epoch.fxml"/>
             </Tab>
-            <Tab fx:id="regexTab" text="Regex">
+            <Tab fx:id="regexTab" text="Regex" closable="false">
                 <fx:include source="regex.fxml"/>
             </Tab>
-            <Tab fx:id="restApiTab" text="Rest API">
+            <Tab fx:id="restApiTab" text="Rest API" closable="false">
                 <fx:include source="rest_api.fxml"/>
             </Tab>
         </tabs>
