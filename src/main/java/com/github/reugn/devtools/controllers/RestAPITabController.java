@@ -59,7 +59,7 @@ public class RestAPITabController implements Initializable, Logger {
     private void handleSend(ActionEvent actionEvent) {
         clear();
         if (!validateInput()) return;
-        RestAPIController.instance().restHistoryTabPane.getSelectionModel().getSelectedItem().setText(tabTitle());
+        RestAPIController.instance().innerTabPane.getSelectionModel().getSelectedItem().setText(tabTitle());
         try {
             Map<String, String> headers = requestHeadersVBox.getChildren().stream().map(n -> {
                 List<Node> h = ((HBox) n).getChildren();
@@ -93,11 +93,11 @@ public class RestAPITabController implements Initializable, Logger {
         return true;
     }
 
-    private static int tabUrlLength = 12;
+    private static int tabTitleLength = 12;
 
     private String tabTitle() {
-        String pUrl = uriTextField.getText().length() > tabUrlLength
-                ? uriTextField.getText().substring(0, tabUrlLength)
+        String pUrl = uriTextField.getText().length() > tabTitleLength
+                ? uriTextField.getText().substring(0, tabTitleLength)
                 : uriTextField.getText();
         return methodComboBox.getValue() + " " + pUrl;
     }

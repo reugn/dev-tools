@@ -17,7 +17,7 @@
     </top>
 
     <center>
-        <TabPane fx:id="restHistoryTabPane" styleClass="inner">
+        <TabPane fx:id="innerTabPane" styleClass="inner">
             <tabs>
                 <Tab text="New" closable="false">
                     <fx:include source="rest_api_tab.fxml"/>
