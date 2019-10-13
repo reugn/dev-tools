@@ -18,6 +18,14 @@ Label.uc {
     -fx-font-weight: bold;
 }
 
+CodeArea {
+    -fx-border-color: #b8b8b8;
+    -fx-background-color: white;
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+    -fx-padding: 5;
+}
+
 Label.info {
     -fx-font-size: 14px;
     -fx-text-fill: #001a4d;

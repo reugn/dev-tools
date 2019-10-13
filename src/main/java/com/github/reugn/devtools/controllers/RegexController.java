@@ -1,5 +1,6 @@
 package com.github.reugn.devtools.controllers;
 
+import com.github.reugn.devtools.models.RegexResult;
 import com.github.reugn.devtools.services.RegexService;
 import com.github.reugn.devtools.utils.Elements;
 import com.github.reugn.devtools.utils.Logger;
@@ -16,9 +17,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.util.Pair;
 import org.controlsfx.control.CheckComboBox;
+import org.fxmisc.richtext.CodeArea;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class RegexController implements Initializable, Logger {
@@ -32,7 +36,7 @@ public class RegexController implements Initializable, Logger {
     @FXML
     private Label regexMessage;
     @FXML
-    private TextArea regexTarget;
+    private CodeArea regexTarget;
     @FXML
     private TextArea regexResult;
     @FXML
@@ -43,6 +47,7 @@ public class RegexController implements Initializable, Logger {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         regexExpression.setPrefWidth(512);
+        regexTarget.setPrefHeight(256);
         HBox.setMargin(regexExpression, new Insets(10, 5, 10, 0));
         HBox.setMargin(regexCalculateButton, new Insets(10, 5, 10, 0));
         HBox.setMargin(regexClearButton, new Insets(10, 5, 10, 0));
@@ -72,11 +77,17 @@ public class RegexController implements Initializable, Logger {
     private void doMatch() {
         regexMessage.setText("");
         if (validateInput()) {
-            String result = "";
             try {
-                result = RegexService.match(regexExpression.getText(), regexTarget.getText(),
+                RegexResult result = RegexService.match(regexExpression.getText(), regexTarget.getText(),
                         regexFlagsComboBox.getCheckModel().getCheckedItems());
-                regexResult.setText(result);
+                regexResult.setText(result.getMatchSummary());
+                List<Pair<Integer, Integer>> l = result.getFullMatchIndexes();
+                if (!l.isEmpty()) {
+                    regexTarget.deselect();
+                    regexTarget.moveTo(l.get(0).getKey());
+                    regexTarget.requestFollowCaret();
+                    regexTarget.selectRange(l.get(0).getKey(), l.get(0).getValue());
+                }
             } catch (Exception e) {
                 regexMessage.setText("Invalid regex");
             }
@@ -99,14 +110,14 @@ public class RegexController implements Initializable, Logger {
 
     private void resetBorders() {
         regexExpression.setBorder(Border.EMPTY);
-        regexTarget.setBorder(Border.EMPTY);
+        regexTarget.setBorder(Elements.codeAreaBorder);
     }
 
     @FXML
     public void handleClear(ActionEvent actionEvent) {
         resetBorders();
         regexExpression.setText("");
-        regexTarget.setText("");
+        regexTarget.replaceText("");
         regexResult.setText("");
     }
 }

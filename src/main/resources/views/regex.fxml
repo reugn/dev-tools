@@ -4,6 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.CheckComboBox?>
+<?import org.fxmisc.flowless.VirtualizedScrollPane?>
+<?import org.fxmisc.richtext.CodeArea?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.github.reugn.devtools.controllers.RegexController">
@@ -28,8 +30,11 @@
             <Separator/>
             <VBox>
                 <Label styleClass="info" text="Target String"/>
-                <TextArea fx:id="regexTarget">
-                </TextArea>
+                <VirtualizedScrollPane>
+                    <content>
+                        <CodeArea fx:id="regexTarget" VBox.vgrow="ALWAYS"/>
+                    </content>
+                </VirtualizedScrollPane>
             </VBox>
             <VBox>
                 <Label styleClass="info" text="Match Results"/>

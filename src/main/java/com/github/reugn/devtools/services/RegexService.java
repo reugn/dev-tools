@@ -1,5 +1,9 @@
 package com.github.reugn.devtools.services;
 
+import com.github.reugn.devtools.models.RegexResult;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,11 +13,12 @@ public class RegexService {
     private RegexService() {
     }
 
-    public static String match(String regex, String target, List<String> flagList) {
+    public static RegexResult match(String regex, String target, List<String> flagList) {
         Pattern pattern = Pattern.compile(regex, calculateFlags(flagList));
         Matcher matcher = pattern.matcher(target);
         StringBuilder builder = new StringBuilder();
         boolean isGlobal = flagList.contains("global");
+        ArrayList<Pair<Integer, Integer>> fullMatch = new ArrayList<>();
         while (matcher.find()) {
             for (int i = 0; i <= matcher.groupCount(); i++) {
                 builder.append(i)
@@ -22,9 +27,10 @@ public class RegexService {
                         .append("\n");
             }
             builder.append("\n");
+            fullMatch.add(new Pair<>(matcher.start(0), matcher.end(0)));
             if (!isGlobal) break;
         }
-        return builder.toString();
+        return new RegexResult(builder.toString(), fullMatch);
     }
 
     private static int calculateFlags(List<String> flagList) {
