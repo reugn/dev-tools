@@ -29,23 +29,30 @@ import java.util.regex.Pattern;
 
 public class JsonController implements Initializable, Logger {
 
-    public Button clearSpacesButton;
-    public Button formatButton;
-    public Button clearButton;
-    public Button buttonCloseSearch;
-    public ToolBar barSearch;
-    public CustomTextField fieldSearch;
-    public Button buttonSearchUp;
-    public Button buttonSearchDown;
-    public Label labelMatches;
-
-    private JsonSearchState searchState;
-
+    @FXML
+    private Button clearSpacesButton;
+    @FXML
+    private Button formatButton;
+    @FXML
+    private Button clearButton;
+    @FXML
+    private Button buttonCloseSearch;
+    @FXML
+    private ToolBar barSearch;
+    @FXML
+    private CustomTextField fieldSearch;
+    @FXML
+    private Button buttonSearchUp;
+    @FXML
+    private Button buttonSearchDown;
+    @FXML
+    private Label labelMatches;
     @FXML
     private Label jsonMessage;
-
     @FXML
     private CodeArea jsonArea;
+
+    private JsonSearchState searchState;
 
     private static final Pattern JSON_REGEX = Pattern.compile("(?<JSONCURLY>\\{|\\})|" +
             "(?<JSONPROPERTY>\\\".*\\\")\\s*:\\s*|" +

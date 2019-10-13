@@ -20,37 +20,26 @@ public class GeneratorController implements Initializable, Logger {
 
     @FXML
     private ComboBox<Integer> uuidAmount;
-
     @FXML
     private Label uuidAmountLabel;
-
     @FXML
     private CheckBox uuidUpperCase;
-
     @FXML
     private CheckBox uuidHyphens;
-
     @FXML
     private TextArea generatorResult;
-
     @FXML
     private CheckBox pwdLowChars;
-
     @FXML
     private CheckBox pwdDigits;
-
     @FXML
     private CheckBox pwdUpperChars;
-
     @FXML
     private CheckBox pwdSymbols;
-
     @FXML
     private TextField pwdLength;
-
     @FXML
     private Label pwdLengthLabel;
-
     @FXML
     private Button clearButton;
 
