@@ -5,22 +5,22 @@ import javafx.fxml.FXML;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class JsonController extends TabPaneController {
+public class RestAPIController extends TabPaneController {
 
     @FXML
-    private static JsonController self;
+    private static RestAPIController self;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         self = this;
     }
 
-    static JsonController instance() {
+    static RestAPIController instance() {
         return self;
     }
 
     @Override
     protected String getInnerResource() {
-        return "/views/json_tab.fxml";
+        return "/views/rest_api_tab.fxml";
     }
 }

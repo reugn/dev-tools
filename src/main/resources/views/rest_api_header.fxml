@@ -1,0 +1,7 @@
+<?import com.github.reugn.devtools.utils.HttpHeadersTextField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<HBox xmlns="http://javafx.com/javafx">
+    <HttpHeadersTextField prefWidth="256"/>
+    <TextField prefWidth="256"/>
+</HBox>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.CheckComboBox?>
+<?import org.fxmisc.flowless.VirtualizedScrollPane?>
+<?import org.fxmisc.richtext.CodeArea?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.reugn.devtools.controllers.RegexController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <top>
+        <Label styleClass="uc" text="Regular Expression Tester"/>
+    </top>
+
+    <center>
+        <VBox>
+            <HBox>
+                <Label fx:id="regexLabel" text="Regex:"/>
+                <TextField styleClass="regexField" fx:id="regexExpression" onKeyPressed="#handleKeyMatch"/>
+                <CheckComboBox fx:id="regexFlagsComboBox"/>
+                <Button fx:id="regexCalculateButton" onAction="#handleMatch">Match</Button>
+                <Button fx:id="regexClearButton" onAction="#handleClear">Clear</Button>
+                <Label fx:id="regexMessage"/>
+            </HBox>
+            <Separator/>
+            <VBox>
+                <Label styleClass="info" text="Target String"/>
+                <VirtualizedScrollPane>
+                    <content>
+                        <CodeArea fx:id="regexTarget" VBox.vgrow="ALWAYS"/>
+                    </content>
+                </VirtualizedScrollPane>
+            </VBox>
+            <VBox>
+                <Label styleClass="info" text="Match Results"/>
+                <TextArea fx:id="regexResult">
+                </TextArea>
+            </VBox>
+        </VBox>
+    </center>
+
+</BorderPane>

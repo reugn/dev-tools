@@ -48,6 +48,7 @@ public class HashController implements Initializable, Logger {
 
     @FXML
     private void handleCalculate(final ActionEvent event) {
+        hashMessage.setText("");
         try {
             String enc;
             String data = hashInput.getText();
