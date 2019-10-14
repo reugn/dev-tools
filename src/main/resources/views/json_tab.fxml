@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.control.textfield.CustomTextField?>
+<?import org.fxmisc.flowless.VirtualizedScrollPane?>
+<?import org.fxmisc.richtext.CodeArea?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            onKeyPressed="#handleSearchBarEvent"
+            fx:controller="com.github.reugn.devtools.controllers.JsonTabController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <top>
+        <HBox>
+            <Button fx:id="clearSpacesButton" text="Remove white space"
+                    onAction="#handleClearSpaces"/>
+            <Button fx:id="formatButton" text="Format"
+                    onAction="#handlePrettyPrint"/>
+            <Button fx:id="clearButton" text="Clear"
+                    onAction="#handleClear"/>
+            <Label fx:id="jsonMessage" id="jsonMessage"/>
+        </HBox>
+    </top>
+    <center>
+        <VBox>
+            <ToolBar fx:id="barSearch">
+                <Button fx:id="buttonCloseSearch" onAction="#handleCloseSearchAction"
+                        mnemonicParsing="false" styleClass="buttonSearchClose"/>
+                <CustomTextField fx:id="fieldSearch" onKeyPressed="#handleSearchBarAction" styleClass="searchField">
+                    <left>
+                        <Label styleClass="searchBoxLabel"/>
+                    </left>
+                </CustomTextField>
+                <Button fx:id="buttonSearchUp" onAction="#handleSearchUpAction"
+                        mnemonicParsing="false" styleClass="buttonSearchUp"/>
+                <Button fx:id="buttonSearchDown" onAction="#handleSearchDownAction"
+                        mnemonicParsing="false" styleClass="buttonSearchDown"/>
+                <Label fx:id="labelMatches"/>
+            </ToolBar>
+            <VirtualizedScrollPane>
+                <content>
+                    <CodeArea fx:id="jsonArea" id="jsonArea" VBox.vgrow="ALWAYS"/>
+                </content>
+            </VirtualizedScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

@@ -1,46 +1,56 @@
 package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.services.EpochService;
+import com.github.reugn.devtools.utils.Elements;
 import com.github.reugn.devtools.utils.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class EpochController implements Initializable, Logger {
 
-    public Label currentEpochLabel;
-
-    public TextField currentEpoch;
-
-    public Button currentEpochRefreshButton;
-
-    public TextField tsToHumanField;
-
-    public Button tsToHumanButton;
-
-    public TextArea tsToHumanResult;
-
-    public Button humanToTsButton;
-
-    public TextArea humanToTsResult;
-
-    public TextField epochYear;
-    public TextField epochMonth;
-    public TextField epochDay;
-    public TextField epochHour;
-    public TextField epochMinute;
-    public TextField epochSecond;
+    @FXML
+    private Label currentEpochLabel;
+    @FXML
+    private TextField currentEpoch;
+    @FXML
+    private Button currentEpochRefreshButton;
+    @FXML
+    private TextField tsToHumanField;
+    @FXML
+    private Button tsToHumanButton;
+    @FXML
+    private TextArea tsToHumanResult;
+    @FXML
+    private Button humanToTsButton;
+    @FXML
+    private TextArea humanToTsResult;
+    @FXML
+    private TextField epochYear;
+    @FXML
+    private TextField epochMonth;
+    @FXML
+    private TextField epochDay;
+    @FXML
+    private TextField epochHour;
+    @FXML
+    private TextField epochMinute;
+    @FXML
+    private TextField epochSecond;
+    @FXML
+    private ComboBox<String> timeZoneComboBox;
+    private int timeZoneComboBoxIndex;
 
     @FXML
     private void handleRefreshEpoch(final ActionEvent event) {
@@ -55,8 +65,7 @@ public class EpochController implements Initializable, Logger {
             String result = EpochService.toHumanEpoch(dt);
             tsToHumanResult.setText(result);
         } catch (Exception e) {
-            tsToHumanField.setBorder(new Border(new BorderStroke(Color.RED,
-                    BorderStrokeStyle.SOLID, new CornerRadii(3), BorderWidths.DEFAULT)));
+            tsToHumanField.setBorder(Elements.alertBorder);
             tsToHumanResult.setText("");
         }
     }
@@ -71,11 +80,28 @@ public class EpochController implements Initializable, Logger {
             int hour = EpochService.validate(epochHour, 0, 24);
             int minute = EpochService.validate(epochMinute, 0, 59);
             int second = EpochService.validate(epochSecond, 0, 59);
-            String result = EpochService.toTsEpoch(year, month, day, hour, minute, second);
+            String timeZone = timeZoneComboBox.getSelectionModel().getSelectedItem();
+            String result = EpochService.toTsEpoch(year, month, day, hour, minute, second, timeZone);
             humanToTsResult.setText(result);
         } catch (Exception e) {
             humanToTsResult.setText("");
         }
+    }
+
+    @FXML
+    private void handleTimeZoneSearch(KeyEvent keyEvent) {
+        String key = keyEvent.getText();
+        if (key.length() == 0) return;
+        int i = 0;
+        for (String item : timeZoneComboBox.getItems()) {
+            if (item.toLowerCase().startsWith(key) && i > timeZoneComboBoxIndex) {
+                timeZoneComboBox.setValue(item);
+                timeZoneComboBoxIndex = i;
+                return;
+            }
+            i++;
+        }
+        timeZoneComboBoxIndex = 0;
     }
 
     private void resetBorders() {
@@ -89,11 +115,11 @@ public class EpochController implements Initializable, Logger {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        HBox.setMargin(currentEpochLabel, new Insets(20, 5, 15, 0));
-        HBox.setMargin(currentEpoch, new Insets(15, 5, 15, 0));
-        HBox.setMargin(currentEpochRefreshButton, new Insets(15, 5, 15, 0));
-        HBox.setMargin(tsToHumanField, new Insets(15, 5, 15, 0));
-        HBox.setMargin(tsToHumanButton, new Insets(15, 5, 15, 0));
+        HBox.setMargin(currentEpochLabel, new Insets(15, 5, 10, 0));
+        HBox.setMargin(currentEpoch, new Insets(10, 5, 10, 0));
+        HBox.setMargin(currentEpochRefreshButton, new Insets(10, 5, 10, 0));
+        HBox.setMargin(tsToHumanField, new Insets(10, 5, 10, 0));
+        HBox.setMargin(tsToHumanButton, new Insets(10, 5, 10, 0));
 
         GridPane.setMargin(epochYear, new Insets(10, 5, 0, 0));
         GridPane.setMargin(epochMonth, new Insets(10, 5, 0, 0));
@@ -102,6 +128,7 @@ public class EpochController implements Initializable, Logger {
         GridPane.setMargin(epochMinute, new Insets(10, 5, 0, 0));
         GridPane.setMargin(epochSecond, new Insets(10, 5, 0, 0));
         GridPane.setMargin(humanToTsButton, new Insets(10, 5, 0, 0));
+        GridPane.setMargin(timeZoneComboBox, new Insets(10, 5, 0, 0));
 
         long now = System.currentTimeMillis();
         currentEpoch.setText(Long.toString(now));
@@ -114,5 +141,9 @@ public class EpochController implements Initializable, Logger {
         epochHour.setText(String.valueOf(date.getHour()));
         epochMinute.setText(String.valueOf(date.getMinute()));
         epochSecond.setText(String.valueOf(date.getSecond()));
+
+        timeZoneComboBox.getItems().setAll(TimeZone.getAvailableIDs());
+        timeZoneComboBox.setValue("UTC");
+        timeZoneComboBoxIndex = 0;
     }
 }

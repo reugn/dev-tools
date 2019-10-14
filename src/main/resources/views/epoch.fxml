@@ -35,6 +35,7 @@
                 <Label maxWidth="50" text="Min" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
                 <Label maxWidth="50" text="Sec" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
                 <Label maxWidth="100" GridPane.columnIndex="6" GridPane.rowIndex="1"/>
+                <Label maxWidth="100" GridPane.columnIndex="7" GridPane.rowIndex="1"/>
 
                 <TextField fx:id="epochYear" maxWidth="100" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
                 <TextField fx:id="epochMonth" maxWidth="50" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
@@ -46,6 +47,8 @@
                         GridPane.rowIndex="0">
                     Human date to Timestamp
                 </Button>
+                <ComboBox fx:id="timeZoneComboBox" onKeyPressed="#handleTimeZoneSearch" GridPane.columnIndex="7"
+                          GridPane.rowIndex="0"/>
             </GridPane>
             <TextArea fx:id="humanToTsResult"/>
         </VBox>

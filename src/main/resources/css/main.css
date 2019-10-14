@@ -5,18 +5,41 @@
 Label.uc {
     -fx-font-size: 18px;
     -fx-font-style: italic;
+    -fx-font-weight: bold;
     -fx-text-fill: grey;
-    -fx-text-alignment: center;
-    -fx-fill-width: true;
 }
 
 .row {
     -fx-padding: 5 5 5 5;
 }
 
+.regexField {
+    -fx-text-fill: #001a4d;
+    -fx-font-weight: bold;
+}
+
+CodeArea {
+    -fx-border-color: #b8b8b8;
+    -fx-background-color: white;
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+    -fx-padding: 5;
+}
+
+Label.info {
+    -fx-font-size: 14px;
+    -fx-text-fill: #001a4d;
+    -fx-font-style: italic;
+    -fx-padding: 5 5 5 5;
+}
+
 .resultLabel {
     -fx-font-size: 14px;
     -fx-text-fill: grey;
+}
+
+TabPane.inner {
+    -fx-border-color: #d3d3d3;
 }
 
 Button.refresh {
