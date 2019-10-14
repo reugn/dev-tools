@@ -1,5 +1,11 @@
 # dev-tools
-Common development tools in one app
+Common development tools in one app.
+* [Json Editor](#json_editor)
+* [UUID/Password Generator](#generator)
+* [Hash Calculator](#hash_calculator)
+* [Epoch Converter](#epoch_converter)
+* [Regular Expression Tester](#regex)
+* [Rest API Tester](#rest_api)
 
 ## Installation
 This is a Maven JavaFX application.  
@@ -13,6 +19,8 @@ or download the latest release.
 
 ## Tools List
 
+<a name="json_editor"/>
+
 ### Json Editor
 * Json Pretty Print with Highlighting
 * Json Validation
@@ -20,11 +28,15 @@ or download the latest release.
 
 ![](./images/json_editor.png)
 
-### Generator
+<a name="generator"/>
+
+### UUID/Password Generator
 * UUID Generator
 * Password Generator
 
 ![](./images/generator.png)
+
+<a name="hash_calculator"/>
 
 ### Hash Calculator
 * Hash Functions
@@ -33,12 +45,29 @@ or download the latest release.
 
 ![](./images/hash_calculator.png)
 
+<a name="epoch_converter"/>
+
 ### Epoch Converter
 * Current Unix Epoch Time
 * Timestamp to Human Date
 * Human Date to Timestamp
 
 ![](./images/epoch_converter.png)
+
+<a name="regex"/>
+
+### Regular Expression Tester
+* Regex Flags
+* Capturing Groups
+
+![](./images/regex.png)
+
+<a name="rest_api"/>
+
+### Rest API Tester
+* Rest API Testing Client
+
+![](./images/rest_api.png)
 
 ## Contributing
 If you find this project useful and want to contribute, please open an issue or create a PR.
