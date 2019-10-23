@@ -12,6 +12,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -30,6 +31,8 @@ public class EpochController implements Initializable, Logger {
     private TextField tsToHumanField;
     @FXML
     private Button tsToHumanButton;
+    @FXML
+    private Button millisToTimeButton;
     @FXML
     private TextArea tsToHumanResult;
     @FXML
@@ -63,6 +66,19 @@ public class EpochController implements Initializable, Logger {
         try {
             LocalDateTime dt = EpochService.tsToLocalDateTime(tsToHumanField.getText());
             String result = EpochService.toHumanEpoch(dt);
+            tsToHumanResult.setText(result);
+        } catch (Exception e) {
+            tsToHumanField.setBorder(Elements.alertBorder);
+            tsToHumanResult.setText("");
+        }
+    }
+
+    @FXML
+    private void handleMillisToTime(final ActionEvent actionEvent) {
+        tsToHumanField.setBorder(Border.EMPTY);
+        try {
+            long millis = Long.parseLong(tsToHumanField.getText());
+            String result = DurationFormatUtils.formatDurationWords(millis, true, true);
             tsToHumanResult.setText(result);
         } catch (Exception e) {
             tsToHumanField.setBorder(Elements.alertBorder);
@@ -120,6 +136,7 @@ public class EpochController implements Initializable, Logger {
         HBox.setMargin(currentEpochRefreshButton, new Insets(10, 5, 10, 0));
         HBox.setMargin(tsToHumanField, new Insets(10, 5, 10, 0));
         HBox.setMargin(tsToHumanButton, new Insets(10, 5, 10, 0));
+        HBox.setMargin(millisToTimeButton, new Insets(10, 5, 10, 0));
 
         GridPane.setMargin(epochYear, new Insets(10, 5, 0, 0));
         GridPane.setMargin(epochMonth, new Insets(10, 5, 0, 0));
