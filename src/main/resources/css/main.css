@@ -26,6 +26,12 @@ CodeArea {
     -fx-padding: 5;
 }
 
+CodeArea:focused {
+    -fx-background-color: -fx-focus-color, -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: -1.4, 0, 1;
+    -fx-background-radius: 1.4, 0, 0;
+}
+
 Label.info {
     -fx-font-size: 14px;
     -fx-text-fill: #001a4d;
