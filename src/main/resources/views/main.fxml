@@ -52,6 +52,9 @@
             <Tab fx:id="restApiTab" text="Rest API" closable="false">
                 <fx:include source="rest_api.fxml"/>
             </Tab>
+            <Tab fx:id="asciiArtTab" text="ASCII Art" closable="false">
+                <fx:include source="ascii.fxml"/>
+            </Tab>
         </tabs>
     </TabPane>
 </VBox>
