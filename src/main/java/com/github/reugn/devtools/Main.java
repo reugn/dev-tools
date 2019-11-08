@@ -18,7 +18,7 @@ public class Main {
         @Override
         public void start(Stage primaryStage) throws Exception {
             Parent root = FXMLLoader.load(getClass().getResource("/views/main.fxml"));
-            primaryStage.setTitle("Dev-tools");
+            primaryStage.setTitle("Development tools");
             primaryStage.getIcons().add(new Image("/images/icons8-toolbox-64.png"));
             Scene scene = new Scene(root, 900, 500);
             scene.getStylesheets().addAll("/css/main.css", "/css/json-highlighting.css");
