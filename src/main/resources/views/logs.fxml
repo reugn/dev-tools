@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.reugn.devtools.controllers.LogsController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <top>
+        <Label styleClass="uc" text="Logs Generator"/>
+    </top>
+
+    <center>
+        <VBox>
+            <HBox>
+                <Label fx:id="delayLowerLabel" text="Delay lower (millis):"/>
+                <TextField maxWidth="80" fx:id="delayLowerField" text="100"/>
+                <Label fx:id="delayUpperLabel" text="Delay upper (millis):"/>
+                <TextField maxWidth="80" fx:id="delayUpperField" text="1000"/>
+            </HBox>
+            <HBox>
+                <Label fx:id="limitLabel" text="Entries Limit (0 for no limit):"/>
+                <TextField maxWidth="80" fx:id="limitField" text="0"/>
+                <Label fx:id="logTypeLabel" text="Log Type:"/>
+                <ComboBox fx:id="logTypeComboBox"/>
+            </HBox>
+            <HBox>
+                <Label fx:id="outputFileLabel" text="Output file:"/>
+                <Button fx:id="browseButton" onAction="#handleBrowse">Browse</Button>
+                <TextField prefWidth="400" fx:id="outputFileField"/>
+                <Button fx:id="logGenerateButton" onAction="#handleGenerate">Generate</Button>
+                <Button fx:id="logStopButton" onAction="#handleStop">Stop</Button>
+                <Button fx:id="logClearButton" onAction="#handleClear">Clear</Button>
+                <Label fx:id="logMessage"/>
+            </HBox>
+            <Separator/>
+            <VBox>
+                <Label styleClass="info" text="Log Output"/>
+                <TextArea fx:id="logsResult">
+                </TextArea>
+            </VBox>
+        </VBox>
+    </center>
+
+</BorderPane>
