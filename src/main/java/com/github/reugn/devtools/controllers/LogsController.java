@@ -2,6 +2,7 @@ package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.services.LogsService;
 import com.github.reugn.devtools.utils.Elements;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import org.apache.commons.lang3.StringUtils;
 
@@ -16,7 +18,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
 
 public class LogsController implements Initializable {
 
@@ -37,6 +41,8 @@ public class LogsController implements Initializable {
     @FXML
     private ComboBox<String> logTypeComboBox;
     @FXML
+    private CheckBox printConsoleCheckBox;
+    @FXML
     private Label outputFileLabel;
     @FXML
     private Button browseButton;
@@ -54,6 +60,7 @@ public class LogsController implements Initializable {
     private TextArea logsResult;
 
     private PrintWriter writer;
+    private boolean running = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -66,6 +73,7 @@ public class LogsController implements Initializable {
         HBox.setMargin(limitField, new Insets(10, 5, 5, 0));
         HBox.setMargin(logTypeLabel, new Insets(15, 5, 5, 0));
         HBox.setMargin(logTypeComboBox, new Insets(10, 5, 5, 0));
+        HBox.setMargin(printConsoleCheckBox, new Insets(15, 5, 5, 10));
 
         HBox.setMargin(outputFileLabel, new Insets(15, 5, 5, 0));
         HBox.setMargin(browseButton, new Insets(10, 0, 5, 0));
@@ -73,41 +81,78 @@ public class LogsController implements Initializable {
         HBox.setMargin(logGenerateButton, new Insets(10, 5, 5, 0));
         HBox.setMargin(logStopButton, new Insets(10, 5, 5, 0));
         HBox.setMargin(logClearButton, new Insets(10, 5, 5, 0));
-        HBox.setMargin(logMessage, new Insets(10, 5, 5, 0));
+        HBox.setMargin(logMessage, new Insets(15, 5, 5, 0));
 
         logsResult.setPrefRowCount(128);
         logStopButton.setDisable(true);
         logTypeComboBox.getItems().setAll("Apache Common", "Log4j Default", "RFC3164", "RFC5424");
         logTypeComboBox.setValue("Apache Common");
+        logMessage.setTextFill(Color.RED);
     }
 
     @FXML
     private void handleGenerate(ActionEvent actionEvent) {
-        resetBorders();
+        reset();
         if (!validate()) return;
-        logGenerateButton.setDisable(true);
-        logStopButton.setDisable(false);
-        LogsService.startLog(
-                logTypeComboBox.getValue(),
-                Integer.parseInt(delayLowerField.getText()),
-                Integer.parseInt(delayUpperField.getText()),
-                writer,
-                Integer.parseInt(limitField.getText()),
-                logsResult
-        );
+        setRunning(true);
+        CompletableFuture.supplyAsync(() -> {
+            Iterator<String> iter = LogsService.logStream(
+                    logTypeComboBox.getValue(),
+                    Integer.parseInt(delayLowerField.getText()),
+                    Integer.parseInt(delayUpperField.getText()),
+                    Integer.parseInt(limitField.getText())).iterator();
+            while (iter.hasNext()) {
+                write(iter.next());
+                if (!running) break;
+            }
+            return null;
+        }).thenAccept(r -> {
+            setRunning(false);
+        }).exceptionally(e -> {
+            Platform.runLater(() -> {
+                setRunning(false);
+                logMessage.setText(e.getMessage());
+            });
+            return null;
+        }).whenComplete((i, t) -> closeFile());
+    }
+
+    private void write(String line) {
+        if (printConsoleCheckBox.isSelected()) {
+            Platform.runLater(() -> {
+                logsResult.appendText(line);
+                logsResult.appendText("\n");
+            });
+        }
+        if (writer != null) {
+            writer.println(line);
+            writer.flush();
+        }
+    }
+
+    private void closeFile() {
+        if (writer != null) {
+            writer.flush();
+            writer.close();
+        }
+    }
+
+    private void setRunning(boolean b) {
+        logGenerateButton.setDisable(b);
+        logStopButton.setDisable(!b);
+        running = b;
     }
 
     @FXML
     private void handleClear(ActionEvent actionEvent) {
-        resetBorders();
+        reset();
         logsResult.setText("");
     }
 
     @FXML
     private void handleStop(ActionEvent actionEvent) {
-        logGenerateButton.setDisable(false);
         logStopButton.setDisable(true);
-        LogsService.stopLog();
+        running = false;
     }
 
     @FXML
@@ -142,15 +187,15 @@ public class LogsController implements Initializable {
         return true;
     }
 
-    private void resetBorders() {
+    private void reset() {
         delayLowerField.setBorder(Border.EMPTY);
         delayUpperField.setBorder(Border.EMPTY);
         limitField.setBorder(Border.EMPTY);
         outputFileField.setBorder(Border.EMPTY);
+        logMessage.setText("");
     }
 
     private boolean isNumericPositive(String s) {
         return StringUtils.isNumeric(s) && Integer.parseInt(s) >= 0;
     }
-
 }

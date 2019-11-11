@@ -100,7 +100,7 @@ public class LogFaker {
     }
 
     public int randInt(int from, int to) {
-        if (from >= to) throw new IllegalArgumentException("from > to");
+        if (from >= to) throw new IllegalArgumentException("from >= to");
         return rand.nextInt((to - from) + 1) + from;
     }
 

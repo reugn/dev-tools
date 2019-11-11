@@ -1,22 +1,19 @@
 package com.github.reugn.devtools.services;
 
 import com.github.reugn.devtools.utils.LogFaker;
-import javafx.application.Platform;
-import javafx.scene.control.TextArea;
 
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public final class LogsService {
 
     private LogsService() {
     }
 
-    private static boolean running = false;
     private static LogFaker faker = new LogFaker();
 
     private static final String apacheFormat = "%s - %s [%s] \"%s %s %s\" %d %d \"%s\" \"%s\"";
@@ -24,40 +21,22 @@ public final class LogsService {
     private static final String RFC3164Format = "<%d>%s %s %s[%d]: %s";
     private static final String RFC5424Format = "<%d>%d %s %s %s %d ID%d %s %s";
 
-    public static void startLog(String type,
-                                int delayBottom,
-                                int delayTop,
-                                PrintWriter writer,
-                                int limit,
-                                TextArea out) {
-        if (running) return;
-        running = true;
-        new Thread(() -> {
-            int i = 0;
-            Supplier<String> func = getFormatByName(type);
-            while (running && i <= limit) {
-                long sleepTime = faker.randInt(delayBottom, delayTop);
-                try {
-                    Thread.sleep(sleepTime);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                String line = func.get();
-                Platform.runLater(() -> {
-                    out.appendText(line);
-                    out.appendText("\n");
+    public static Stream<String> logStream(String type,
+                                           int delayBottom,
+                                           int delayTop,
+                                           int limit) {
+        Supplier<String> func = getFormatByName(type);
+        return Stream.iterate(0, i -> i + 1)
+                .limit(limit > 0 ? limit : Integer.MAX_VALUE)
+                .map(i -> {
+                    long sleepTime = faker.randInt(delayBottom, delayTop);
+                    try {
+                        Thread.sleep(sleepTime);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return func.get();
                 });
-                if (writer != null) {
-                    writer.println(line);
-                    writer.flush();
-                }
-                if (limit > 0) i++;
-            }
-            if (writer != null) {
-                writer.flush();
-                writer.close();
-            }
-        }).start();
     }
 
     private static String ApacheLog() {
@@ -99,7 +78,6 @@ public final class LogsService {
         );
     }
 
-
     private static String RFC5424Log() {
         return String.format(
                 RFC5424Format,
@@ -133,9 +111,5 @@ public final class LogsService {
                 return LogsService::RFC5424Log;
         }
         return LogsService::ApacheLog;
-    }
-
-    public static void stopLog() {
-        running = false;
     }
 }
