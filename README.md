@@ -6,6 +6,8 @@ Common development tools in one app.
 * [Epoch Converter](#epoch_converter)
 * [Regular Expression Tester](#regex)
 * [Rest API Tester](#rest_api)
+* [ASCII Graphics](#ascii)
+* [Logs Generator](#logs)
 
 ## Installation
 This is a Maven JavaFX application.  
@@ -68,6 +70,22 @@ or download the latest release.
 * Rest API Testing Client
 
 ![](./images/rest_api.png)
+
+<a name="ascii"/>
+
+### ASCII Graphics
+* Convert text to ASCII
+
+![](./images/ascii.png)
+
+<a name="logs"/>
+
+### Logs Generator
+* Generate log using given format and fake data
+* Write to console
+* Write to file
+
+![](./images/logs.png)
 
 ## Contributing
 If you find this project useful and want to contribute, please open an issue or create a PR.

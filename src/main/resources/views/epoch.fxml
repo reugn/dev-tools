@@ -25,6 +25,7 @@
             <HBox>
                 <TextField fx:id="tsToHumanField"/>
                 <Button fx:id="tsToHumanButton" onAction="#handleTsToHumanEpoch">Timestamp to Human date</Button>
+                <Button fx:id="millisToTimeButton" onAction="#handleMillisToTime">Millis to Time</Button>
             </HBox>
             <TextArea fx:id="tsToHumanResult"/>
             <GridPane>
