@@ -1,6 +1,7 @@
 package com.github.reugn.devtools.utils;
 
 import java.security.SecureRandom;
+import java.util.Locale;
 import java.util.Random;
 
 public class PasswordGenerator {
@@ -8,7 +9,7 @@ public class PasswordGenerator {
 
     private static String lowerCharsString = "abcdefghijklmnopqrstuvwxyz";
     private static String digitsString = "0123456789";
-    private static String upperCharsString = lowerCharsString.toUpperCase();
+    private static String upperCharsString = lowerCharsString.toUpperCase(Locale.ENGLISH);
     private static String symbolsString = "!@#$%^&*?";
 
     private PasswordGenerator(PasswordGeneratorBuilder builder) {
