@@ -1,5 +1,6 @@
 package com.github.reugn.devtools.utils;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 public class PasswordGenerator {
@@ -30,7 +31,7 @@ public class PasswordGenerator {
     public String generate(int length) {
         if (dictionary.isEmpty()) return "";
         StringBuilder password = new StringBuilder(length);
-        Random random = new Random(System.nanoTime());
+        Random random = new SecureRandom();
         for (int i = 0; i < length; i++) {
             password.append(dictionary.charAt(random.nextInt(dictionary.length())));
         }
