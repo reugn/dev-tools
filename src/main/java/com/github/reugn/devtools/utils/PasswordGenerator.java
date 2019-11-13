@@ -1,5 +1,7 @@
 package com.github.reugn.devtools.utils;
 
+import java.security.SecureRandom;
+import java.util.Locale;
 import java.util.Random;
 
 public class PasswordGenerator {
@@ -7,7 +9,7 @@ public class PasswordGenerator {
 
     private static String lowerCharsString = "abcdefghijklmnopqrstuvwxyz";
     private static String digitsString = "0123456789";
-    private static String upperCharsString = lowerCharsString.toUpperCase();
+    private static String upperCharsString = lowerCharsString.toUpperCase(Locale.ENGLISH);
     private static String symbolsString = "!@#$%^&*?";
 
     private PasswordGenerator(PasswordGeneratorBuilder builder) {
@@ -30,7 +32,7 @@ public class PasswordGenerator {
     public String generate(int length) {
         if (dictionary.isEmpty()) return "";
         StringBuilder password = new StringBuilder(length);
-        Random random = new Random(System.nanoTime());
+        Random random = new SecureRandom();
         for (int i = 0; i < length; i++) {
             password.append(dictionary.charAt(random.nextInt(dictionary.length())));
         }
