@@ -2,7 +2,6 @@ package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.services.EpochService;
 import com.github.reugn.devtools.utils.Elements;
-import com.github.reugn.devtools.utils.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,7 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
-public class EpochController implements Initializable, Logger {
+public class EpochController implements Initializable {
 
     @FXML
     private Label currentEpochLabel;

@@ -3,7 +3,6 @@ package com.github.reugn.devtools.controllers;
 import com.github.reugn.devtools.models.RegexResult;
 import com.github.reugn.devtools.services.RegexService;
 import com.github.reugn.devtools.utils.Elements;
-import com.github.reugn.devtools.utils.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,7 +24,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class RegexController implements Initializable, Logger {
+public class RegexController implements Initializable {
 
     @FXML
     private TextField regexExpression;

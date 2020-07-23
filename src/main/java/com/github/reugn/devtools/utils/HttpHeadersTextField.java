@@ -6,6 +6,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import org.apache.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
@@ -15,9 +16,12 @@ import java.util.TreeSet;
 
 public class HttpHeadersTextField extends TextField {
 
+    private static final Logger log = Logger.getLogger(HttpHeadersTextField.class);
+
     private static final SortedSet<String> entries;
-    private ContextMenu entriesPopup;
-    private final int maxEntries = 10;
+    private static final int maxEntries = 10;
+
+    private final ContextMenu entriesPopup;
 
     static {
         entries = new TreeSet<>();
@@ -27,6 +31,7 @@ public class HttpHeadersTextField extends TextField {
                 try {
                     entries.add((String) field.get(null));
                 } catch (Exception e) {
+                    log.warn(e.getMessage(), e);
                 }
             }
         }

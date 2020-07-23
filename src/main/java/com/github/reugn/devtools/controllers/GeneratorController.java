@@ -1,7 +1,6 @@
 package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.utils.Elements;
-import com.github.reugn.devtools.utils.Logger;
 import com.github.reugn.devtools.utils.PasswordGenerator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +15,7 @@ import java.security.InvalidParameterException;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class GeneratorController implements Initializable, Logger {
+public class GeneratorController implements Initializable {
 
     @FXML
     private ComboBox<Integer> uuidAmount;
