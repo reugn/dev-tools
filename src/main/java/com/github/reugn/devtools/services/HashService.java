@@ -16,12 +16,14 @@ public class HashService {
     private HashService() {
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     public static String calculateHash(String data, String algo) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance(algo);
         byte[] enc = digest.digest(data.getBytes(StandardCharsets.UTF_8));
         return HashCode.fromBytes(enc).toString();
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     public static String murmur3_128(String data) {
         return Hashing.murmur3_128().hashBytes(data.getBytes()).toString();
     }
@@ -34,11 +36,11 @@ public class HashService {
         return URLDecoder.decode(value, StandardCharsets.UTF_8.toString());
     }
 
-    public static String base64Encode(String value) throws UnsupportedEncodingException {
+    public static String base64Encode(String value) {
         return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
     }
 
-    public static String base64Decode(String value) throws UnsupportedEncodingException {
+    public static String base64Decode(String value) {
         return new String(Base64.getDecoder().decode(value.getBytes(StandardCharsets.UTF_8)));
     }
 }
