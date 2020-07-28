@@ -16,7 +16,7 @@ public class RestService {
     private RestService() {
     }
 
-    private static int defaultConnectTimeout = 60000;
+    private static final int defaultConnectTimeout = 60000;
 
     public static RestResponse request(String requestMethod, String uri, Map<String, String> headers,
                                        String body) throws Exception {

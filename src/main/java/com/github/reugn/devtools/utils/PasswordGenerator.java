@@ -5,12 +5,12 @@ import java.util.Locale;
 import java.util.Random;
 
 public class PasswordGenerator {
-    private String dictionary;
+    private final String dictionary;
 
-    private static String lowerCharsString = "abcdefghijklmnopqrstuvwxyz";
-    private static String digitsString = "0123456789";
-    private static String upperCharsString = lowerCharsString.toUpperCase(Locale.ENGLISH);
-    private static String symbolsString = "!@#$%^&*?";
+    private static final String lowerCharsString = "abcdefghijklmnopqrstuvwxyz";
+    private static final String digitsString = "0123456789";
+    private static final String upperCharsString = lowerCharsString.toUpperCase(Locale.ENGLISH);
+    private static final String symbolsString = "!@#$%^&*?";
 
     private PasswordGenerator(PasswordGeneratorBuilder builder) {
         StringBuilder buff = new StringBuilder();
