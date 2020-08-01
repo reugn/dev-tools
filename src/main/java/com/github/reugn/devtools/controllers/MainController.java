@@ -1,6 +1,5 @@
 package com.github.reugn.devtools.controllers;
 
-import com.github.reugn.devtools.utils.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,12 +9,15 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.jar.Manifest;
 
-public class MainController implements Initializable, Logger {
+public class MainController implements Initializable {
+
+    private static final Logger log = Logger.getLogger(MainController.class);
 
     @FXML
     private MenuBar menuBar;
@@ -30,7 +32,7 @@ public class MainController implements Initializable, Logger {
         if (event instanceof KeyEvent) {
             final KeyEvent keyEvent = (KeyEvent) event;
             if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.A) {
-                debug("handleKeyInput");
+                log.debug("At handleKeyInput");
             }
         }
     }
@@ -60,7 +62,7 @@ public class MainController implements Initializable, Logger {
     private String getVersion() {
         String version;
         try {
-            Class clazz = this.getClass();
+            Class<?> clazz = this.getClass();
             String classPath = clazz.getResource(clazz.getSimpleName() + ".class").toString();
             String manifestPath = classPath.substring(0, classPath.lastIndexOf("!") + 1) +
                     "/META-INF/MANIFEST.MF";

@@ -49,11 +49,12 @@ public class LogFaker {
             "org",
     };
 
-    private PasswordGenerator generator = new PasswordGenerator.PasswordGeneratorBuilder()
+    private final PasswordGenerator generator = new PasswordGenerator.PasswordGeneratorBuilder()
             .withLowerChars(true).build();
 
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
+    @SuppressWarnings("UnstableApiUsage")
     public String IPv4Address() {
         return InetAddresses.fromInteger(rand.nextInt()).getHostAddress();
     }

@@ -5,10 +5,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.IOException;
 
-public class JsonService {
+public final class JsonService {
 
     private JsonService() {
-
     }
 
     public static String clearSpaces(String json) throws IOException {

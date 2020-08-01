@@ -2,7 +2,6 @@ package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.services.JsonService;
 import com.github.reugn.devtools.utils.JsonSearchState;
-import com.github.reugn.devtools.utils.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,7 +26,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class JsonTabController implements Initializable, Logger {
+public class JsonTabController implements Initializable {
 
     @FXML
     private Button clearSpacesButton;
@@ -89,7 +88,7 @@ public class JsonTabController implements Initializable, Logger {
         }
     }
 
-    private static int tabTitleLength = 12;
+    private static final int tabTitleLength = 12;
 
     private String tabTitle(String json) {
         return json.length() > tabTitleLength ? json.substring(0, tabTitleLength) : json;

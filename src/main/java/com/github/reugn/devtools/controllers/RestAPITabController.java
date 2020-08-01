@@ -3,7 +3,6 @@ package com.github.reugn.devtools.controllers;
 import com.github.reugn.devtools.models.RestResponse;
 import com.github.reugn.devtools.services.RestService;
 import com.github.reugn.devtools.utils.Elements;
-import com.github.reugn.devtools.utils.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +14,7 @@ import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.util.List;
@@ -22,7 +22,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class RestAPITabController implements Initializable, Logger {
+public class RestAPITabController implements Initializable {
+
+    private static final Logger log = Logger.getLogger(RestAPITabController.class);
 
     @FXML
     private ComboBox<String> methodComboBox;
@@ -93,7 +95,7 @@ public class RestAPITabController implements Initializable, Logger {
         return true;
     }
 
-    private static int tabTitleLength = 12;
+    private static final int tabTitleLength = 12;
 
     private String tabTitle() {
         String pUrl = uriTextField.getText().length() > tabTitleLength
@@ -112,6 +114,7 @@ public class RestAPITabController implements Initializable, Logger {
             Node n = FXMLLoader.load(this.getClass().getResource("/views/rest_api_header.fxml"));
             requestHeadersVBox.getChildren().add(n);
         } catch (Exception e) {
+            log.warn(e.getMessage(), e);
         }
     }
 

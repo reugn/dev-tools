@@ -1,7 +1,6 @@
 package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.services.HashService;
-import com.github.reugn.devtools.utils.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +15,7 @@ import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HashController implements Initializable, Logger {
+public class HashController implements Initializable {
 
     @FXML
     private TextArea hashInput;
@@ -25,7 +24,7 @@ public class HashController implements Initializable, Logger {
     private TextArea hashOutput;
 
     @FXML
-    private ComboBox hashAlgoSelector;
+    private ComboBox<String> hashAlgoSelector;
 
     @FXML
     private Button hashCalculateButton;
@@ -52,7 +51,7 @@ public class HashController implements Initializable, Logger {
         try {
             String enc;
             String data = hashInput.getText();
-            switch (hashAlgoSelector.getSelectionModel().getSelectedItem().toString()) {
+            switch (hashAlgoSelector.getSelectionModel().getSelectedItem()) {
                 case "md5":
                     enc = HashService.calculateHash(data, "MD5");
                     break;
@@ -96,7 +95,6 @@ public class HashController implements Initializable, Logger {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void initialize(URL location, ResourceBundle resources) {
         hashAlgoSelector.getItems().setAll("md5", "sha1", "sha256", "murmur3_128",
                 "Url encode", "Url decode",

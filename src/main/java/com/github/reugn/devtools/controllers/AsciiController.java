@@ -2,7 +2,6 @@ package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.services.AsciiService;
 import com.github.reugn.devtools.utils.Elements;
-import com.github.reugn.devtools.utils.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AsciiController implements Initializable, Logger {
+public class AsciiController implements Initializable {
 
     @FXML
     private Label asciiLabel;

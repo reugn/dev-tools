@@ -14,7 +14,7 @@ public final class LogsService {
     private LogsService() {
     }
 
-    private static LogFaker faker = new LogFaker();
+    private static final LogFaker faker = new LogFaker();
 
     private static final String apacheFormat = "%s - %s [%s] \"%s %s %s\" %d %d \"%s\" \"%s\"";
     private static final String log4jFormat = "%s [%s] %s %s - %s";
