@@ -11,9 +11,13 @@ Common development tools in one app.
 
 ## Installation
 This is a Maven JavaFX application.  
-Build it from source:
-```java
-mvn assembly:assembly
+Build an executable jar from the source:
+```
+mvn package
+```
+Build native application using [Gluon Client plugin](https://github.com/gluonhq/client-maven-plugin):
+```
+mvn clean client:build
 ```
 or download the latest release.
 
