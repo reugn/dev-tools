@@ -50,7 +50,7 @@ Button.refresh {
 }
 
 .regexField {
-    -fx-text-fill: #001a4d;
+    -fx-text-fill: lightblue;
     -fx-font-weight: bold;
 }
 
