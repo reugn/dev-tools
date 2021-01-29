@@ -21,7 +21,7 @@ public class Main {
             primaryStage.setTitle("Development tools");
             primaryStage.getIcons().add(new Image("/images/icons8-toolbox-64.png"));
             Scene scene = new Scene(root, 900, 500);
-            scene.getStylesheets().addAll("/css/main.css", "/css/json-highlighting.css");
+            scene.getStylesheets().addAll("/css/main-dark.css", "/css/json-highlighting-dark.css");
             primaryStage.setScene(scene);
             primaryStage.show();
         }

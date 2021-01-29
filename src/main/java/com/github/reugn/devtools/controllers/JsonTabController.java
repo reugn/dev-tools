@@ -59,7 +59,8 @@ public class JsonTabController implements Initializable {
             "\\[(?<JSONARRAY>.*)\\]|" +
             "(?<JSONNUMBER>\\d+.?\\d*)|" +
             "(?<JSONBOOL>true|false)|" +
-            "(?<JSONNULL>null)");
+            "(?<JSONNULL>null)" +
+            "(?<TEXT>.*)");
 
     @FXML
     private void handlePrettyPrint(final ActionEvent event) {
@@ -107,6 +108,7 @@ public class JsonTabController implements Initializable {
                     : matcher.group("JSONNULL") != null ? "json_null"
                     : matcher.group("JSONNUMBER") != null ? "json_number"
                     : matcher.group("JSONVALUE") != null ? "json_value"
+                    : matcher.group("TEXT") != null ? "text"
                     : null;
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
             spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());

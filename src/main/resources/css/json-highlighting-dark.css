@@ -1,3 +1,7 @@
+.text {
+    -fx-fill: white;
+}
+
 .json_curly {
     -fx-fill: white;
 }
