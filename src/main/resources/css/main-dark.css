@@ -1,0 +1,235 @@
+.root { 
+    -fx-accent: #1a6ee4;
+    -fx-focus-color: -fx-accent;
+    -fx-base: #111;
+    -fx-control-inner-background: derive(-fx-base,30%);
+    -fx-control-inner-background-alt: derive(-fx-control-inner-background, 30%);
+    -fx-faint-focus-color: transparent;
+    /*-fx-font-size: 13pt;
+	-fx-selection-bar-non-focused: derive(-fx-accent,30%);*/
+	-fx-selection-bar-non-focused: derive(-fx-base,90%);
+}
+
+Label.uc {
+    -fx-font-size: 18px;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+    -fx-text-fill: grey;
+}
+
+Button.refresh {
+    -fx-graphic: url('/images/icons8-refresh-16.png');
+}
+
+.searchBoxLabel {
+    -fx-graphic: url('/images/icons8-search-16.png');
+}
+
+.buttonSearchUp {
+    -fx-graphic: url('/images/icons8-collapse-arrow-16.png');
+}
+
+.buttonSearchDown {
+    -fx-graphic: url('/images/icons8-expand-arrow-16.png');
+}
+
+.buttonSearchClose {
+    -fx-graphic: url('/images/icons8-close-window-16.png');
+    -fx-padding: 0;
+    -fx-border-style: none;
+    -fx-border-width: 0;
+    -fx-border-insets: 0;
+}
+
+.buttonMoveUp {
+    -fx-graphic: url('/images/icons8-scroll-up-16.png');
+}
+
+.row {
+    -fx-padding: 5 5 5 5;
+}
+
+.regexField {
+    -fx-text-fill: #001a4d;
+    -fx-font-weight: bold;
+}
+
+
+.vbox {
+	-fx-background-color: transparent;
+}
+
+.hbox {
+	-fx-background-color: transparent;
+}
+
+.scroll-pane {
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+}
+
+
+.tab-pane {
+	-fx-tab-min-width: 2.0em;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+	-fx-background-color: transparent;
+}
+
+.tab {
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+}
+
+
+.tab .tab-label {
+	-fx-alignment: CENTER;
+}
+
+.tab:selected .tab-label {
+	-fx-alignment: CENTER;
+}
+
+.tab-content-area {
+	-fx-padding: 4.0;
+	-fx-background-color: transparent;
+}
+
+.scroll-pane {
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+}
+
+
+.split-pane {
+	-fx-border-color: transparent;
+	-fx-background-color: transparent;
+}
+
+.split-pane:horizontal>.split-pane-divider {
+	-fx-padding: 1.0;
+}
+
+.split-pane:vertical>.split-pane-divider {
+	-fx-padding: 1.0;
+}
+
+
+.combo-table-view{/*optional */
+    /*i only use this style when a table-view has to emulate a combo-box or auto-complete look, by making the non focused color same as the focused one*/
+    -fx-selection-bar: -fx-accent;
+}
+
+
+.tree-view {
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+	-fx-background-color: transparent, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 1;
+}
+
+.list-view {
+    -fx-background-color: transparent, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 1;
+    -fx-focus-color: black;
+	-fx-faint-focus-color: transparent;
+}
+
+.list-view .list-cell:even {
+-fx-control-inner-background: derive(-fx-base, 23%);
+}
+
+.list-view .list-cell:odd {
+-fx-control-inner-background: derive(-fx-base, 0%);
+}
+
+.table-view {
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+	-fx-background-color: transparent, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 1;
+}
+
+.table-view .column-header .label{
+    -fx-font-weight: none;
+}
+
+.table-row-cell:even{
+    -fx-control-inner-background: derive(-fx-base, 23%);
+}
+
+.table-row-cell:odd{
+    -fx-control-inner-background: derive(-fx-base, 0%);
+}
+
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+}
+
+CodeArea {
+  	-fx-background-color: derive(-fx-base, 27%);
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+    -fx-padding: 5;
+}
+
+CodeArea:focused {
+    -fx-background-color: -fx-focus-color, -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: -1.4, 0, 1;
+    -fx-background-radius: 1.4, 0, 0;
+}
+.lineno {
+ -fx-background-color: derive(-fx-base, 27%);
+}
+
+
+.caret {
+   -fx-stroke: #f8f8f2;
+}
+
+.popover  {
+	-fx-background-color: derive(-fx-base,40%);
+}
+
+.popover > .border {
+	-fx-stroke: linear-gradient(to bottom, rgba(0,0,0, .3), rgba(0, 0, 0, .7)) ;
+	-fx-stroke-width: 0.5;
+	-fx-fill: rgba(255.0,255.0,255.0, .95);
+	-fx-effect: dropshadow(gaussian, rgba(0,0,0,.2), 10.0, 0.5, 2.0, 2.0);
+}
+
+.popover > .content {
+		-fx-background-color: derive(-fx-base,26%);
+		-fx-padding: 10.0;
+}
+
+.popover > .detached {
+}
+
+.popover > .content > .title > .text  {
+	-fx-padding: 6.0 6.0 0.0 6.0;
+	-fx-text-fill: rgba(120, 120, 120, .8);
+	-fx-font-weight: bold;
+}
+
+.popover > .content > .title > .icon {
+	-fx-padding: 6.0 0.0 0.0 10.0;
+}
+
+.popover > .content > .title > .icon > .graphics > .circle {
+	-fx-fill: transparent ;
+	-fx-effect: innershadow(gaussian, rgba(0,0,0,.2), 3, 0.5, 1.0, 1.0);
+}
+
+.popover > .content > .title > .icon > .graphics > .line {
+	-fx-stroke: white ;
+	-fx-stroke-width: 2;
+}
+
+.context-menu {
+    -fx-min-width: 150px;
+}
