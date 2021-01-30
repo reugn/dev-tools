@@ -111,7 +111,7 @@ Button.refresh {
 	-fx-padding: 1.0;
 }
 
-.combo-table-view{/*optional */
+.combo-table-view {/*optional*/
     /*i only use this style when a table-view has to emulate a combo-box or auto-complete look, by making the non focused color same as the focused one*/
     -fx-selection-bar: -fx-accent;
 }
@@ -148,15 +148,15 @@ Button.refresh {
     -fx-padding: 1;
 }
 
-.table-view .column-header .label{
+.table-view .column-header .label {
     -fx-font-weight: none;
 }
 
-.table-row-cell:even{
+.table-row-cell:even {
     -fx-control-inner-background: derive(-fx-base, 23%);
 }
 
-.table-row-cell:odd{
+.table-row-cell:odd {
     -fx-control-inner-background: derive(-fx-base, 0%);
 }
 
@@ -164,17 +164,35 @@ Button.refresh {
     -fx-background-color: transparent;
 }
 
+TextArea {
+    -fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+        linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 3, 2;
+}
+
+TextArea:focused {
+    -fx-background-color: -fx-focus-color, -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: -1.4, 0, 1;
+    -fx-background-radius: 1.4, 0, 0;
+}
+
 CodeArea {
-  	-fx-background-color: derive(-fx-base, 27%);
-    -fx-background-radius: 3px;
-    -fx-border-radius: 3px;
-    -fx-padding: 5;
+  	-fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+            linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 3, 2;
+    -fx-padding: 8;
 }
 
 CodeArea:focused {
     -fx-background-color: -fx-focus-color, -fx-box-border, -fx-control-inner-background;
     -fx-background-insets: -1.4, 0, 1;
     -fx-background-radius: 1.4, 0, 0;
+}
+
+Label.info {
+    -fx-padding: 5 5 5 5;
 }
 
 .lineno {
@@ -225,5 +243,5 @@ CodeArea:focused {
 }
 
 .context-menu {
-    -fx-min-width: 150px;
+    -fx-min-width: 120px;
 }
