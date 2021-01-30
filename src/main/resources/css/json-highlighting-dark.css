@@ -1,0 +1,34 @@
+.text {
+    -fx-fill: white;
+}
+
+.json_curly {
+    -fx-fill: white;
+}
+
+.json_property {
+    -fx-fill: orange;
+    -fx-font-weight: bold;
+}
+
+.json_value {
+    -fx-fill: white;
+}
+
+.json_array {
+    -fx-fill: white;
+}
+
+.json_null {
+    -fx-fill: red;
+    -fx-font-weight: bold;
+}
+
+.json_bool {
+    -fx-fill: green;
+    -fx-font-weight: bold;
+}
+
+.json_number {
+    -fx-fill: green;
+}
