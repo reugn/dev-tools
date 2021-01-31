@@ -1,4 +1,4 @@
-# dev-tools
+# dev-tools ![Build](https://github.com/reugn/dev-tools/workflows/Build/badge.svg)
 
 The most popular software developer tools in one app.
 * [Json Editor](#json_editor)
