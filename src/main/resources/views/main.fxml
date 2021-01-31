@@ -1,31 +1,37 @@
 <?import javafx.scene.control.*?>
-<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.VBox?>
 <VBox fx:controller="com.github.reugn.devtools.controllers.MainController"
       xmlns:fx="http://javafx.com/fxml" alignment="TOP_CENTER">
 
-    <MenuBar fx:id="menuBar" onKeyPressed="#handleKeyInput">
+    <MenuBar fx:id="menuBar">
         <menus>
             <Menu text="File">
                 <items>
                     <MenuItem text="Open" disable="true"/>
                     <SeparatorMenuItem/>
-                    <MenuItem text="Exit" onAction="#handleExitAction">
-                        <accelerator>
-                            <KeyCodeCombination alt="DOWN" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
-                        </accelerator>
-                    </MenuItem>
+                    <MenuItem text="Exit" onAction="#handleExitAction" accelerator="Ctrl+Shift+E"/>
+                </items>
+            </Menu>
+            <Menu text="View">
+                <items>
+                    <fx:define>
+                        <ToggleGroup fx:id="themeToggleGroup"/>
+                    </fx:define>
+                    <Menu text="Theme">
+                        <items>
+                            <RadioMenuItem text="Dark" selected="true" toggleGroup="$themeToggleGroup"
+                                           onAction="#handleDarkThemeAction" accelerator="Ctrl+Shift+D"/>
+                            <RadioMenuItem text="Light" toggleGroup="$themeToggleGroup"
+                                           onAction="#handleLightThemeAction" accelerator="Ctrl+Shift+L"/>
+                        </items>
+                    </Menu>
                 </items>
             </Menu>
             <Menu text="Help">
                 <items>
                     <MenuItem text="Search" disable="true"/>
                     <SeparatorMenuItem/>
-                    <MenuItem text="About" onAction="#handleAboutAction">
-                        <accelerator>
-                            <KeyCodeCombination alt="DOWN" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
-                        </accelerator>
-                    </MenuItem>
+                    <MenuItem text="About" onAction="#handleAboutAction" accelerator="Ctrl+A"/>
                 </items>
             </Menu>
         </menus>

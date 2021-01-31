@@ -4,10 +4,8 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.InputEvent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import org.apache.log4j.Logger;
 
@@ -27,19 +25,27 @@ public class MainController implements Initializable {
 
     private Alert about;
 
-    @FXML
-    private void handleKeyInput(final InputEvent event) {
-        if (event instanceof KeyEvent) {
-            final KeyEvent keyEvent = (KeyEvent) event;
-            if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.A) {
-                log.debug("At handleKeyInput");
-            }
-        }
+    private Scene scene;
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
 
     @FXML
     private void handleExitAction(final ActionEvent event) {
         Platform.exit();
+    }
+
+    @FXML
+    private void handleDarkThemeAction(final ActionEvent event) {
+        scene.getStylesheets().clear();
+        scene.getStylesheets().addAll("/css/main-dark.css", "/css/json-highlighting-dark.css");
+    }
+
+    @FXML
+    private void handleLightThemeAction(final ActionEvent event) {
+        scene.getStylesheets().clear();
+        scene.getStylesheets().addAll("/css/main.css", "/css/json-highlighting.css");
     }
 
     @FXML
@@ -53,9 +59,9 @@ public class MainController implements Initializable {
         about.setTitle("About");
         about.setHeaderText("Development tools");
         VBox vbox = new VBox();
-        Label l = new Label(" version: " + getVersion());
+        Label versionLabel = new Label(" version: " + getVersion());
         Hyperlink link = new Hyperlink("https://github.com/reugn/dev-tools");
-        vbox.getChildren().addAll(l, link);
+        vbox.getChildren().addAll(versionLabel, link);
         about.getDialogPane().setContent(vbox);
     }
 
