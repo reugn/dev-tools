@@ -2,12 +2,12 @@
     -fx-accent: #1a6ee4;
     -fx-focus-color: -fx-accent;
     -fx-base: #111;
-    -fx-control-inner-background: derive(-fx-base,30%);
+    -fx-control-inner-background: derive(-fx-base, 30%);
     -fx-control-inner-background-alt: derive(-fx-control-inner-background, 30%);
     -fx-faint-focus-color: transparent;
     /*-fx-font-size: 13pt;
-	-fx-selection-bar-non-focused: derive(-fx-accent,30%);*/
-	-fx-selection-bar-non-focused: derive(-fx-base,90%);
+	-fx-selection-bar-non-focused: derive(-fx-accent, 30%);*/
+	-fx-selection-bar-non-focused: derive(-fx-base, 90%);
 }
 
 Label.uc {
@@ -54,7 +54,6 @@ Button.refresh {
     -fx-font-weight: bold;
 }
 
-
 .vbox {
 	-fx-background-color: transparent;
 }
@@ -68,7 +67,6 @@ Button.refresh {
 	-fx-border-color: transparent;
 }
 
-
 .tab-pane {
 	-fx-tab-min-width: 2.0em;
 }
@@ -81,7 +79,6 @@ Button.refresh {
 	-fx-focus-color: transparent;
 	-fx-faint-focus-color: transparent;
 }
-
 
 .tab .tab-label {
 	-fx-alignment: CENTER;
@@ -101,7 +98,6 @@ Button.refresh {
 	-fx-border-color: transparent;
 }
 
-
 .split-pane {
 	-fx-border-color: transparent;
 	-fx-background-color: transparent;
@@ -115,12 +111,10 @@ Button.refresh {
 	-fx-padding: 1.0;
 }
 
-
-.combo-table-view{/*optional */
+.combo-table-view {/*optional*/
     /*i only use this style when a table-view has to emulate a combo-box or auto-complete look, by making the non focused color same as the focused one*/
     -fx-selection-bar: -fx-accent;
 }
-
 
 .tree-view {
 	-fx-focus-color: transparent;
@@ -139,11 +133,11 @@ Button.refresh {
 }
 
 .list-view .list-cell:even {
--fx-control-inner-background: derive(-fx-base, 23%);
+    -fx-control-inner-background: derive(-fx-base, 23%);
 }
 
 .list-view .list-cell:odd {
--fx-control-inner-background: derive(-fx-base, 0%);
+    -fx-control-inner-background: derive(-fx-base, 0%);
 }
 
 .table-view {
@@ -154,15 +148,15 @@ Button.refresh {
     -fx-padding: 1;
 }
 
-.table-view .column-header .label{
+.table-view .column-header .label {
     -fx-font-weight: none;
 }
 
-.table-row-cell:even{
+.table-row-cell:even {
     -fx-control-inner-background: derive(-fx-base, 23%);
 }
 
-.table-row-cell:odd{
+.table-row-cell:odd {
     -fx-control-inner-background: derive(-fx-base, 0%);
 }
 
@@ -170,11 +164,25 @@ Button.refresh {
     -fx-background-color: transparent;
 }
 
+TextArea {
+    -fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+        linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 3, 2;
+}
+
+TextArea:focused {
+    -fx-background-color: -fx-focus-color, -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: -1.4, 0, 1;
+    -fx-background-radius: 1.4, 0, 0;
+}
+
 CodeArea {
-  	-fx-background-color: derive(-fx-base, 27%);
-    -fx-background-radius: 3px;
-    -fx-border-radius: 3px;
-    -fx-padding: 5;
+  	-fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+            linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 3, 2;
+    -fx-padding: 8;
 }
 
 CodeArea:focused {
@@ -182,29 +190,33 @@ CodeArea:focused {
     -fx-background-insets: -1.4, 0, 1;
     -fx-background-radius: 1.4, 0, 0;
 }
-.lineno {
- -fx-background-color: derive(-fx-base, 27%);
+
+Label.info {
+    -fx-padding: 5 5 5 5;
 }
 
+.lineno {
+    -fx-background-color: derive(-fx-base, 27%);
+}
 
 .caret {
-   -fx-stroke: #f8f8f2;
+    -fx-stroke: #f8f8f2;
 }
 
 .popover  {
-	-fx-background-color: derive(-fx-base,40%);
+    -fx-background-color: derive(-fx-base, 40%);
 }
 
 .popover > .border {
-	-fx-stroke: linear-gradient(to bottom, rgba(0,0,0, .3), rgba(0, 0, 0, .7)) ;
+	-fx-stroke: linear-gradient(to bottom, rgba(0, 0, 0, .3), rgba(0, 0, 0, .7));
 	-fx-stroke-width: 0.5;
-	-fx-fill: rgba(255.0,255.0,255.0, .95);
-	-fx-effect: dropshadow(gaussian, rgba(0,0,0,.2), 10.0, 0.5, 2.0, 2.0);
+	-fx-fill: rgba(255.0, 255.0, 255.0, .95);
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, .2), 10.0, 0.5, 2.0, 2.0);
 }
 
 .popover > .content {
-		-fx-background-color: derive(-fx-base,26%);
-		-fx-padding: 10.0;
+    -fx-background-color: derive(-fx-base, 26%);
+    -fx-padding: 10.0;
 }
 
 .popover > .detached {
@@ -221,15 +233,15 @@ CodeArea:focused {
 }
 
 .popover > .content > .title > .icon > .graphics > .circle {
-	-fx-fill: transparent ;
-	-fx-effect: innershadow(gaussian, rgba(0,0,0,.2), 3, 0.5, 1.0, 1.0);
+	-fx-fill: transparent;
+	-fx-effect: innershadow(gaussian, rgba(0, 0, 0, .2), 3, 0.5, 1.0, 1.0);
 }
 
 .popover > .content > .title > .icon > .graphics > .line {
-	-fx-stroke: white ;
+	-fx-stroke: white;
 	-fx-stroke-width: 2;
 }
 
 .context-menu {
-    -fx-min-width: 150px;
+    -fx-min-width: 120px;
 }

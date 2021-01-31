@@ -109,7 +109,7 @@ public class RegexController implements Initializable {
 
     private void resetBorders() {
         regexExpression.setBorder(Border.EMPTY);
-        regexTarget.setBorder(Elements.codeAreaBorder);
+        regexTarget.setBorder(Border.EMPTY);
     }
 
     @FXML

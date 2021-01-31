@@ -18,12 +18,25 @@ Label.uc {
     -fx-font-weight: bold;
 }
 
+TextArea {
+    -fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+        linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 3, 2;
+}
+
+TextArea:focused {
+    -fx-background-color: -fx-focus-color, -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: -1.4, 0, 1;
+    -fx-background-radius: 1.4, 0, 0;
+}
+
 CodeArea {
-    -fx-border-color: #b8b8b8;
-    -fx-background-color: white;
-    -fx-background-radius: 3px;
-    -fx-border-radius: 3px;
-    -fx-padding: 5;
+    -fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+                linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 3, 2;
+    -fx-padding: 8;
 }
 
 CodeArea:focused {
@@ -74,4 +87,8 @@ Button.refresh {
 
 .buttonMoveUp {
     -fx-graphic: url('/images/icons8-scroll-up-16.png');
+}
+
+.context-menu {
+    -fx-min-width: 120px;
 }

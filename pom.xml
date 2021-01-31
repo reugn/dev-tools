@@ -6,11 +6,23 @@
 
     <groupId>com.github.reugn</groupId>
     <artifactId>devtools</artifactId>
-    <version>0.3.1</version>
+    <version>0.4.0</version>
 
     <organization>
         <name>com.github.reugn</name>
     </organization>
+
+    <properties>
+        <java.version>11</java.version>
+
+        <jackson.version>2.12.1</jackson.version>
+        <javafx.version>11.0.2</javafx.version>
+        <controlsfx.version>11.0.3</controlsfx.version>
+        <richtextfx.version>0.10.5</richtextfx.version>
+        <log4j.version>1.2.17</log4j.version>
+        <guava.version>30.1-jre</guava.version>
+        <commons-lang3.version>3.11</commons-lang3.version>
+    </properties>
 
     <build>
         <plugins>
@@ -19,8 +31,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -68,49 +80,49 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-model</artifactId>
-            <version>3.3.9</version>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.10.0</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.10.0</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>28.1-jre</version>
+            <version>${guava.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fxmisc.richtext</groupId>
             <artifactId>richtextfx</artifactId>
-            <version>0.10.2</version>
+            <version>${richtextfx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>
-            <version>11.0.0</version>
+            <version>${controlsfx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>12.0.2</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>12.0.2</version>
+            <version>${javafx.version}</version>
         </dependency>
     </dependencies>
 </project>
