@@ -46,7 +46,7 @@
             <plugin>
                 <groupId>com.gluonhq</groupId>
                 <artifactId>client-maven-plugin</artifactId>
-                <version>0.1.27</version>
+                <version>0.1.36</version>
                 <configuration>
                     <mainClass>com.github.reugn.devtools.Main</mainClass>
                 </configuration>
