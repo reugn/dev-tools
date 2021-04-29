@@ -1,12 +1,15 @@
 package com.github.reugn.devtools.controllers;
 
-import javafx.event.Event;
+import org.apache.log4j.Logger;
+
+import com.github.reugn.devtools.services.Request;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import org.apache.log4j.Logger;
 
 abstract public class TabPaneController implements Initializable {
 
@@ -20,7 +23,7 @@ abstract public class TabPaneController implements Initializable {
     protected abstract String getInnerResource();
 
     @FXML
-    protected void handleNewTab(Event event) {
+    protected void handleNewTab() {
         if (addNewTab.isSelected()) {
             int selected = innerTabPane.getSelectionModel().getSelectedIndex();
             int n = innerTabPane.getTabs().size();
@@ -35,4 +38,22 @@ abstract public class TabPaneController implements Initializable {
             innerTabPane.getSelectionModel().select(selected);
         }
     }
+    
+	public void handleNewTabwithData(Request request) {
+		try {
+			int n = innerTabPane.getTabs().size();
+			Tab plus = innerTabPane.getTabs().remove(n - 1);
+			FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(getInnerResource()));
+			Node node = fxmlLoader.load();
+			RestAPITabController controller = fxmlLoader.getController();
+			controller.loadRequest(request);
+			Tab newTab = new Tab(controller.tabTitle());
+			newTab.setContent(node);
+			innerTabPane.getTabs().addAll(newTab, plus);
+			innerTabPane.getSelectionModel().select(newTab);
+
+		} catch (Exception e) {
+			log.warn(e.getMessage(), e);
+		}
+	}
 }
