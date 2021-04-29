@@ -14,8 +14,6 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.github.reugn.devtools.services.Request;
@@ -26,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -44,6 +43,8 @@ public class RestAPIController extends TabPaneController {
     ListView<String> historyListView;
     @FXML
     TabPane innerTabPane;
+    @FXML
+    private SplitPane splitPane;
     
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -91,7 +92,7 @@ public class RestAPIController extends TabPaneController {
     		if (selectedFile == null) return;
     		try {
     			String json = new ObjectMapper().writeValueAsString(RestService.REQ_HISTORY_MAP.values());
-    			json = json.replaceAll("\\\\t","").replaceAll("\\\\n","")
+    			json = json.replaceAll("\\\\n","")
     					   .replaceAll("\\\\","").replaceAll("\"\\{", "{").replaceAll("}\"", "}");
     			Files.write(Paths.get(selectedFile.getPath()), json.getBytes(), StandardOpenOption.CREATE);
     		} catch (IOException e) {
@@ -138,6 +139,8 @@ public class RestAPIController extends TabPaneController {
         		}
         	}
         });
+        
+        splitPane.setDividerPositions(0.3f, 0.7f);
         RestService.registerController(this);
     }
 
