@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 
+import com.github.reugn.devtools.models.Request;
 import com.github.reugn.devtools.models.RestResponse;
 import com.github.reugn.devtools.services.JsonService;
-import com.github.reugn.devtools.services.Request;
 import com.github.reugn.devtools.services.RestService;
 import com.github.reugn.devtools.utils.Elements;
 import com.github.reugn.devtools.utils.HttpHeadersTextField;

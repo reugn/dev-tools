@@ -1,13 +1,15 @@
-package com.github.reugn.devtools.services;
+package com.github.reugn.devtools.models;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class Request {
 
+	private String uniqueKey;
 	private Map<String, String> headers;
 	private String method;
 	private String url;
@@ -28,6 +30,8 @@ public class Request {
 		
 		this.body = !json.get("body").toString().equals("\"\"") ? json.get("body").toPrettyString() : "";
 		this.datetime = json.get("datetime").asText();
+		
+		this.uniqueKey = UUID.randomUUID().toString();
 	}
 	
 	public Request(String url, String method, Map<String, String> headers, String body) {
@@ -78,6 +82,20 @@ public class Request {
 		this.datetime = datetime;
 	}
 
+	
+	public String getUniqueKey() {
+		return uniqueKey;
+	}
+
+	
+	public void setUniqueKey(String uniqueKey) {
+		this.uniqueKey = uniqueKey;
+	}
+
+	@Override
+	public String toString() {
+		return method + " - " + url;
+	}
 	
 	
 }

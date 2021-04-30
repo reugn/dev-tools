@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -22,6 +21,7 @@ import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 
 import com.github.reugn.devtools.controllers.RestAPIController;
+import com.github.reugn.devtools.models.Request;
 import com.github.reugn.devtools.models.RestResponse;
 
 import javafx.application.Platform;
@@ -39,7 +39,7 @@ public class RestService {
 
     public static void fillReqMapFromList(List<Request> reqs) {
     	for (Request req : reqs)
-    		REQ_HISTORY_MAP.put(UUID.randomUUID().toString(), req);
+    		REQ_HISTORY_MAP.put(req.getUniqueKey(), req);
     }
     
 	private static RestResponse request(String requestMethod, String uri, Map<String, String> headers, String body) throws Exception {
@@ -70,10 +70,10 @@ public class RestService {
 		String responseHeaders = getResponseHeaders(conn.getHeaderFields());
 		conn.disconnect();
 
-		String key = UUID.randomUUID().toString();
-		REQ_HISTORY_MAP.put(key, new Request(uri, requestMethod, headers, body));
+		Request req = new Request(uri, requestMethod, headers, body);
+		REQ_HISTORY_MAP.put(req.getUniqueKey(), req);
 		Platform.runLater(
-				() -> CONTROLLER.getHistoryListView().getItems().add(requestMethod + " - " + uri + " - " + key));
+				() -> CONTROLLER.getHistoryListView().getItems().add(req));
 		return new RestResponse(status, responseBody, responseHeaders, t2);
 
 	}
@@ -92,12 +92,8 @@ public class RestService {
 		});
 	}
     
-    public static final List<String> getReqHistory() {
-    	List<String> l = new ArrayList<>();
-    	for (String key : REQ_HISTORY_MAP.keySet()) {
-    		l.add(REQ_HISTORY_MAP.get(key).getMethod() + " - " + REQ_HISTORY_MAP.get(key).getUrl() + " - " + key);
-    	}
-    	return l;
+    public static final List<Request> getReqHistory() {
+    	return new ArrayList<Request>(REQ_HISTORY_MAP.values());
     }
 
     public static void registerController(RestAPIController controller) {

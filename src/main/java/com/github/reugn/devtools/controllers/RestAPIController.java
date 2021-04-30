@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.github.reugn.devtools.services.Request;
+import com.github.reugn.devtools.models.Request;
 import com.github.reugn.devtools.services.RestService;
 
 import javafx.collections.FXCollections;
@@ -40,7 +40,7 @@ public class RestAPIController extends TabPaneController {
     @FXML
     private TextField searchField;
     @FXML
-    ListView<String> historyListView;
+    ListView<Request> historyListView;
     @FXML
     TabPane innerTabPane;
     @FXML
@@ -52,16 +52,7 @@ public class RestAPIController extends TabPaneController {
         
         historyListView.setOnMouseClicked(event -> {
         	if (event.getClickCount() == 2) {
-		    	if (historyListView.getSelectionModel().isEmpty())
-		    		return;
-		    	
-		    	try {
-		    		String[] split = historyListView.getSelectionModel().getSelectedItem().split(" - ");
-		    		this.handleNewTabwithData(RestService.REQ_HISTORY_MAP.get(split[2]));
-		    	} catch (Exception e) {
-		        	Logger.getLogger(getClass()).error(e.getMessage(), e);
-				}
-		    	
+		    	openRequestWithData();
 		    	event.consume();
         	}
         });
@@ -74,15 +65,7 @@ public class RestAPIController extends TabPaneController {
         
         MenuItem openRequestItem = new MenuItem("Open request");
         openRequestItem.setOnAction(event -> {
-        	if (historyListView.getSelectionModel().isEmpty())
-        		return;
-        	
-        	try {
-	    		String[] split = historyListView.getSelectionModel().getSelectedItem().split(" - ");
-	    		this.handleNewTabwithData(RestService.REQ_HISTORY_MAP.get(split[2]));
-	    	} catch (Exception e) {
-	        	Logger.getLogger(getClass()).error(e.getMessage(), e);
-			}
+        	openRequestWithData();
         });
         MenuItem exportItem = new MenuItem("Export to JSON");
         exportItem.setOnAction(event -> {
@@ -131,7 +114,7 @@ public class RestAPIController extends TabPaneController {
         searchField.setOnKeyPressed(event -> {
         	if (event.getCode() == KeyCode.ENTER) {
         		if (!searchField.getText().isEmpty()) {
-	        		List<String> filtered = RestService.getReqHistory().stream().filter(x -> x.contains(searchField.getText())).collect(Collectors.toList());
+	        		List<Request> filtered = RestService.getReqHistory().stream().filter(x -> x.toString().contains(searchField.getText())).collect(Collectors.toList());
 	        		historyListView.setItems(FXCollections.observableArrayList(filtered));
         		}
         		else {
@@ -144,6 +127,18 @@ public class RestAPIController extends TabPaneController {
         RestService.registerController(this);
     }
 
+	private void openRequestWithData() {
+		if (historyListView.getSelectionModel().isEmpty())
+			return;
+		
+		try {
+			Request req = historyListView.getSelectionModel().getSelectedItem();
+			this.handleNewTabwithData(RestService.REQ_HISTORY_MAP.get(req.getUniqueKey()));
+		} catch (Exception e) {
+			Logger.getLogger(getClass()).error(e.getMessage(), e);
+		}
+	}
+
     static RestAPIController instance() {
         return self;
     }
@@ -153,7 +148,7 @@ public class RestAPIController extends TabPaneController {
         return "/views/rest_api_tab.fxml";
     }
 
-	public ListView<String> getHistoryListView() {
+	public ListView<Request> getHistoryListView() {
 		return historyListView;
 	}
     

@@ -2,7 +2,7 @@ package com.github.reugn.devtools.controllers;
 
 import org.apache.log4j.Logger;
 
-import com.github.reugn.devtools.services.Request;
+import com.github.reugn.devtools.models.Request;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
