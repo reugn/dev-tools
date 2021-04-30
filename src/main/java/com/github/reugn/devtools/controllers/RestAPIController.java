@@ -60,7 +60,7 @@ public class RestAPIController extends TabPaneController {
         MenuItem clearHistoryItem = new MenuItem("Clear History");
         clearHistoryItem.setOnAction(event -> {
         	historyListView.getItems().clear();
-        	RestService.REQ_HISTORY_MAP.clear();
+        	RestService.REQ_HISTORY_LIST.clear();
         });
         
         MenuItem openRequestItem = new MenuItem("Open request");
@@ -74,12 +74,12 @@ public class RestAPIController extends TabPaneController {
     		
     		if (selectedFile == null) return;
     		try {
-    			String json = new ObjectMapper().writeValueAsString(RestService.REQ_HISTORY_MAP.values());
+    			String json = new ObjectMapper().writeValueAsString(historyListView.getItems());
     			json = json.replaceAll("\\\\n","")
     					   .replaceAll("\\\\","").replaceAll("\"\\{", "{").replaceAll("}\"", "}");
     			Files.write(Paths.get(selectedFile.getPath()), json.getBytes(), StandardOpenOption.CREATE);
     		} catch (IOException e) {
-    			e.printStackTrace();
+    			Logger.getLogger(getClass()).error(e.getMessage(), e);
     		}
     		Logger.getLogger(getClass()).info("File saved at " + new Date().toString());
         });
@@ -100,10 +100,10 @@ public class RestAPIController extends TabPaneController {
     				Request req = new Request(arrayNode.get(i));
     				reqs.add(req);
     			}
-    			RestService.fillReqMapFromList(reqs);
+    			RestService.addToHistoryReqList(reqs);
         		historyListView.setItems(FXCollections.observableArrayList(RestService.getReqHistory()));
     		} catch (IOException e) {
-    			e.printStackTrace();
+    			Logger.getLogger(getClass()).error(e.getMessage(), e);
     		}
     		Logger.getLogger(getClass()).info("File loaded at " + new Date().toString());
         });
@@ -133,7 +133,7 @@ public class RestAPIController extends TabPaneController {
 		
 		try {
 			Request req = historyListView.getSelectionModel().getSelectedItem();
-			this.handleNewTabwithData(RestService.REQ_HISTORY_MAP.get(req.getUniqueKey()));
+			this.handleNewTabwithData(req);
 		} catch (Exception e) {
 			Logger.getLogger(getClass()).error(e.getMessage(), e);
 		}

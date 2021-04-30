@@ -11,7 +11,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -29,7 +28,7 @@ import javafx.application.Platform;
 public class RestService {
 
 	private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
-	public static final Map<String, Request> REQ_HISTORY_MAP = new HashMap<>();
+	public static final List<Request> REQ_HISTORY_LIST = new ArrayList<>();
 	private static RestAPIController CONTROLLER;
 	
     private RestService() {
@@ -37,9 +36,8 @@ public class RestService {
 
     private static final int defaultConnectTimeout = 60000;
 
-    public static void fillReqMapFromList(List<Request> reqs) {
-    	for (Request req : reqs)
-    		REQ_HISTORY_MAP.put(req.getUniqueKey(), req);
+    public static void addToHistoryReqList(List<Request> reqs) {
+    	REQ_HISTORY_LIST.addAll(reqs);
     }
     
 	private static RestResponse request(String requestMethod, String uri, Map<String, String> headers, String body) throws Exception {
@@ -71,7 +69,7 @@ public class RestService {
 		conn.disconnect();
 
 		Request req = new Request(uri, requestMethod, headers, body);
-		REQ_HISTORY_MAP.put(req.getUniqueKey(), req);
+		REQ_HISTORY_LIST.add(req);
 		Platform.runLater(
 				() -> CONTROLLER.getHistoryListView().getItems().add(req));
 		return new RestResponse(status, responseBody, responseHeaders, t2);
@@ -93,7 +91,7 @@ public class RestService {
 	}
     
     public static final List<Request> getReqHistory() {
-    	return new ArrayList<Request>(REQ_HISTORY_MAP.values());
+    	return REQ_HISTORY_LIST;
     }
 
     public static void registerController(RestAPIController controller) {
