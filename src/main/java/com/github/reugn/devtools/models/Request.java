@@ -40,6 +40,7 @@ public class Request {
 		this.headers = headers;
 		this.body = body;
 		this.datetime = new Date().toString();
+		this.uniqueKey = UUID.randomUUID().toString();
 	}
 
 	public Map<String, String> getHeaders() {
