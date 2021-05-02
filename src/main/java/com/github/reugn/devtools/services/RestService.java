@@ -69,9 +69,10 @@ public class RestService {
 		conn.disconnect();
 
 		Request req = new Request(uri, requestMethod, headers, body);
-		REQ_HISTORY_LIST.add(req);
-		Platform.runLater(
-				() -> CONTROLLER.getHistoryListView().getItems().add(req));
+		if (REQ_HISTORY_LIST.stream().filter(x -> x.equals(req)).findFirst().orElse(null) == null) {
+			REQ_HISTORY_LIST.add(req);
+			Platform.runLater(() -> CONTROLLER.getHistoryListView().getItems().add(req));
+		}
 		return new RestResponse(status, responseBody, responseHeaders, t2);
 
 	}

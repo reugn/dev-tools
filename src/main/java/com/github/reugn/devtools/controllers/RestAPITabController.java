@@ -187,16 +187,19 @@ public class RestAPITabController implements Initializable {
 		uriTextField.setText(req.getUrl());
 		requestBodyTextArea.setText(req.getBody());
 		try {
-			for (String key : req.getHeaders().keySet()) {
-				HBox n = FXMLLoader.load(this.getClass().getResource("/views/rest_api_header.fxml"));
-				HttpHeadersTextField htf = (HttpHeadersTextField) n.getChildren().get(0);
-				htf.setText(key);
-				TextField tf = (TextField) n.getChildren().get(1);
-				tf.setText(req.getHeaders().get(key));
-
-				requestHeadersVBox.getChildren()
-						.add(n);
+			boolean first = true;
+			for (Map.Entry<String, String> entry : req.getHeaders().entrySet()) {
+			    if (first) {
+			        HBox hBox = (HBox) requestHeadersVBox.getChildren().get(0);
+			        setHeader(hBox, entry.getKey(), entry.getValue());
+			        first = false;
+			    } else {
+			        HBox hBox = FXMLLoader.load(getClass().getResource("/views/rest_api_header.fxml"));
+			        setHeader(hBox, entry.getKey(), entry.getValue());
+			        requestHeadersVBox.getChildren().add(hBox);
+			    }
 			}
+			
 			methodComboBox.getItems().forEach(x -> {
 				if (x.equals(req.getMethod()))
 					methodComboBox.getSelectionModel().select(x);
@@ -204,5 +207,12 @@ public class RestAPITabController implements Initializable {
 		} catch (IOException e) {
 			log.warn(e.getMessage(), e);
 		}
+	}
+	
+	private void setHeader(HBox hBox, String key, String value) {
+	    HttpHeadersTextField htf = (HttpHeadersTextField) hBox.getChildren().get(0);
+	    htf.setText(key);
+	    TextField tf = (TextField) hBox.getChildren().get(1);
+	    tf.setText(value);
 	}
 }

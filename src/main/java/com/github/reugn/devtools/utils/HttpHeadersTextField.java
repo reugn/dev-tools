@@ -52,7 +52,11 @@ public class HttpHeadersTextField extends TextField {
                 if (entries.size() > 0) {
                     populatePopup(searchResult);
                     if (!entriesPopup.isShowing()) {
-                        entriesPopup.show(HttpHeadersTextField.this, Side.BOTTOM, 0, 0);
+                    	 try {
+                             entriesPopup.show(HttpHeadersTextField.this, Side.BOTTOM, 0, 0);
+                 	    } catch (Throwable e) {
+                 			Logger.getLogger(getClass()).debug("Exception ignored : " + e.getMessage());
+                 		}
                     }
                 } else {
                     entriesPopup.hide();

@@ -83,5 +83,17 @@ public class Request {
 		return method + " - " + url;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		Request req = (Request) obj;
+		
+		boolean areNotEqual = (req == null) ||
+						   (url != null 	&& !url.equals(req.getUrl()))	    ||
+						   (method != null 	&& !method.equals(req.getMethod())) ||
+						   (body != null 	&& !body.equals(req.getBody()))		||
+						   (headers != null && !headers.equals(req.getHeaders()));
+		
+		return !areNotEqual;
+	}
 	
 }
