@@ -31,12 +31,12 @@
             </Tab>
         </TabPane>
     </VBox>
-    <VBox>
+    <VBox fx:id="responseVbox">
         <HBox>
             <Label styleClass="info" text="Response"/>
             <Label styleClass="info" fx:id="responseStatusLabel"/>
         </HBox>
-        <TabPane>
+        <TabPane fx:id="responseTabPane">
             <Tab text="Response" closable="false">
                 <TextArea fx:id="responseBodyTextArea"/>
             </Tab>
