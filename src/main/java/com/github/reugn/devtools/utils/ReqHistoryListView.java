@@ -111,9 +111,11 @@ public class ReqHistoryListView extends ListView<Request> {
 			return;
 		
 		try {
+			if (parentController == null)
+				throw new Exception("Parent RestAPIController has not been set !");
+			
 			Request req = this.getSelectionModel().getSelectedItem();
-			if (parentController != null)
-				parentController.handleNewTabwithData(req);
+			parentController.handleNewTabwithData(req);
 		} catch (Exception e) {
 			Logger.getLogger(getClass()).error(e.getMessage(), e);
 		}
