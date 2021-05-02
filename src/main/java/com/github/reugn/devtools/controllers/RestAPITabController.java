@@ -1,21 +1,11 @@
 package com.github.reugn.devtools.controllers;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-
-import org.apache.log4j.Logger;
-
 import com.github.reugn.devtools.models.Request;
 import com.github.reugn.devtools.models.RestResponse;
 import com.github.reugn.devtools.services.JsonService;
 import com.github.reugn.devtools.services.RestService;
 import com.github.reugn.devtools.utils.Elements;
 import com.github.reugn.devtools.utils.HttpHeadersTextField;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +24,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class RestAPITabController implements Initializable {
 
@@ -75,7 +73,6 @@ public class RestAPITabController implements Initializable {
 
         requestHeadersVBox.setPadding(new Insets(10));
         addHeader();
-        
     }
 
     private void prettyPrint() {
@@ -113,7 +110,6 @@ public class RestAPITabController implements Initializable {
         sendButton.setDisable(true);
         Request req = new Request(uriTextField.getText(), methodComboBox.getValue(), headers, requestBodyTextArea.getText());
 		RestService.requestAsync(req,this::requestCompleted, this::requestFailed);
-        
     }
 
     private void requestFailed(Exception e) {
@@ -131,7 +127,6 @@ public class RestAPITabController implements Initializable {
             responseStatusLabel.setText("STATUS: " + res.getStatus() + ", TIME: " + res.getTime() + "ms");
             sendButton.setDisable(false);
     	});
-
     }
     
     private void clear() {

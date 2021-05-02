@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.github.reugn.devtools.utils.ReqHistoryListView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.SplitPane?>
-<?import com.github.reugn.devtools.utils.ReqHistoryListView?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
-
+<?import javafx.scene.layout.VBox?>
 <BorderPane xmlns="http://javafx.com/javafx"
-	xmlns:fx="http://javafx.com/fxml"
-	fx:controller="com.github.reugn.devtools.controllers.RestAPIController">
-	<padding>
-		<Insets top="10" right="10" bottom="10" left="10" />
-	</padding>
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.reugn.devtools.controllers.RestAPIController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
 
-	<top>
-		<Label styleClass="uc" text="Rest API Tester" />
-	</top>
+    <top>
+        <Label styleClass="uc" text="Rest API Tester"/>
+    </top>
 
-	<center>
-		<SplitPane fx:id="splitPane">
-		<VBox>
-		<padding><Insets top="7"/></padding>
-		<TextField fx:id="searchField" promptText="Search History..."></TextField>
-		<ReqHistoryListView fx:id="historyListView"
-			BorderPane.alignment="CENTER" />
-		</VBox>
-		<TabPane fx:id="innerTabPane" styleClass="inner">
-			<tabs>
-				<Tab text="New" closable="false">
-					<fx:include source="rest_api_tab.fxml" />
-				</Tab>
-				<Tab fx:id="addNewTab" text="+" closable="false"
-					onSelectionChanged="#handleNewTab" />
-			</tabs>
-		</TabPane>
-		</SplitPane>
-	</center>
-	<left>
-		
-	</left>
+    <center>
+        <SplitPane fx:id="splitPane">
+            <VBox>
+                <padding>
+                    <Insets top="7"/>
+                </padding>
+                <TextField fx:id="searchField" promptText="Search History..."></TextField>
+                <ReqHistoryListView fx:id="historyListView"
+                                    BorderPane.alignment="CENTER"/>
+            </VBox>
+            <TabPane fx:id="innerTabPane" styleClass="inner">
+                <tabs>
+                    <Tab text="New" closable="false">
+                        <fx:include source="rest_api_tab.fxml"/>
+                    </Tab>
+                    <Tab fx:id="addNewTab" text="+" closable="false"
+                         onSelectionChanged="#handleNewTab"/>
+                </tabs>
+            </TabPane>
+        </SplitPane>
+    </center>
+    <left>
+
+    </left>
 
 </BorderPane>

@@ -1,20 +1,18 @@
 package com.github.reugn.devtools.utils;
 
-import java.lang.reflect.Field;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import org.apache.log4j.Logger;
-
 import com.google.common.net.HttpHeaders;
-
 import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import org.apache.log4j.Logger;
+
+import java.lang.reflect.Field;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class HttpHeadersTextField extends TextField {
 
@@ -39,7 +37,6 @@ public class HttpHeadersTextField extends TextField {
         }
     }
 
-    
     public HttpHeadersTextField() {
         super();
         entriesPopup = new ContextMenu();
@@ -52,11 +49,11 @@ public class HttpHeadersTextField extends TextField {
                 if (entries.size() > 0) {
                     populatePopup(searchResult);
                     if (!entriesPopup.isShowing()) {
-                    	 try {
-                             entriesPopup.show(HttpHeadersTextField.this, Side.BOTTOM, 0, 0);
-                 	    } catch (Throwable e) {
-                 			Logger.getLogger(getClass()).debug("Exception ignored : " + e.getMessage());
-                 		}
+                        try {
+                            entriesPopup.show(HttpHeadersTextField.this, Side.BOTTOM, 0, 0);
+                        } catch (Throwable e) {
+                            Logger.getLogger(getClass()).debug("Exception ignored : " + e.getMessage());
+                        }
                     }
                 } else {
                     entriesPopup.hide();
