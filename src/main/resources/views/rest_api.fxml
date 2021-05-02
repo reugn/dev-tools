@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.ListView?>
+<?import com.github.reugn.devtools.utils.ReqHistoryListView?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -26,7 +26,7 @@
 		<VBox>
 		<padding><Insets top="7"/></padding>
 		<TextField fx:id="searchField" promptText="Search History..."></TextField>
-		<ListView fx:id="historyListView"
+		<ReqHistoryListView fx:id="historyListView"
 			BorderPane.alignment="CENTER" />
 		</VBox>
 		<TabPane fx:id="innerTabPane" styleClass="inner">
