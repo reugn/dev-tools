@@ -124,6 +124,7 @@ public class ReqHistoryListView extends ListView<Request> {
 
         Request req = this.getSelectionModel().getSelectedItem();
         this.getItems().remove(req);
+        RestService.REQ_HISTORY_LIST.remove(req);
     }
 
     public void setParentController(RestAPIController controller) {

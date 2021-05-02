@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class RestService {
 
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
-    public static final List<Request> REQ_HISTORY_LIST = new ArrayList<>();
+    public static final List<Request> REQ_HISTORY_LIST = new LinkedList<>();
     private static RestAPIController CONTROLLER;
 
     private RestService() {
