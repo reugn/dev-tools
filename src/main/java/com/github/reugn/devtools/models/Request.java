@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Request {
 
@@ -84,16 +85,23 @@ public class Request {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(url, method, body, headers);
+    }
+
+    @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
         Request req = (Request) obj;
-
-        boolean areNotEqual = (req == null) ||
-                (url != null && !url.equals(req.getUrl())) ||
-                (method != null && !method.equals(req.getMethod())) ||
-                (body != null && !body.equals(req.getBody())) ||
-                (headers != null && !headers.equals(req.getHeaders()));
-
-        return !areNotEqual;
+        return Objects.equals(url, req.url) &&
+                Objects.equals(method, req.method) &&
+                Objects.equals(body, req.body) &&
+                Objects.equals(headers, req.headers);
     }
 
 }
