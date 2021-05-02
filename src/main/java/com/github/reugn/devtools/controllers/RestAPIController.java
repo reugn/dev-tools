@@ -11,8 +11,11 @@ import com.github.reugn.devtools.utils.ReqHistoryListView;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -55,9 +58,31 @@ public class RestAPIController extends TabPaneController {
         
         splitPane.setDividerPositions(0.3f, 0.7f);
         
+        initInnerTabPaneContextMenu();
         RestService.registerController(this);
     }
 
+    private void initInnerTabPaneContextMenu() {
+    	MenuItem closeCurrentItem = new MenuItem("Close Current Tab");
+    	closeCurrentItem.setOnAction(event -> {
+    		Tab currentTab = innerTabPane.getSelectionModel().getSelectedItem();
+    		if (currentTab != null && currentTab.isClosable())
+    			innerTabPane.getTabs().remove(currentTab);
+    	});
+    	MenuItem closeAllItem = new MenuItem("Close All Tabs");
+    	closeAllItem.setOnAction(event -> 
+    		innerTabPane.getTabs()
+    					.setAll(
+    							FXCollections.observableArrayList(
+    									innerTabPane.getTabs()
+    												.stream()
+    												.filter(tab -> !tab.isClosable())
+    												.collect(Collectors.toList()))
+    							)
+    					);
+    	innerTabPane.setContextMenu(new ContextMenu(closeCurrentItem, closeAllItem));
+    }
+    
     static RestAPIController instance() {
         return self;
     }
