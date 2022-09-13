@@ -24,7 +24,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,9 +34,12 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.requireNonNull;
+
 public class RestAPITabController implements Initializable {
 
-    private static final Logger log = Logger.getLogger(RestAPITabController.class);
+    private static final Logger log = LogManager.getLogger(RestAPITabController.class);
+    private static final int tabTitleLength = 12;
 
     @FXML
     private ComboBox<String> methodComboBox;
@@ -75,76 +79,69 @@ public class RestAPITabController implements Initializable {
         addHeader();
     }
 
-    private void prettyPrint() {
-        String data = responseBodyTextArea.getText();
-        
-        if (data.startsWith("[") || data.startsWith("{")) {
-	        try {
-	            String pretty = JsonService.format(data);
-	            responseBodyTextArea.setText(pretty);
-	        } catch (Exception e) {
-	            log.warn("Could not pretty print");
-	            responseBodyTextArea.setText(data);
-	        }
-        }
-    }
-    
     @FXML
-    private void handleSend(ActionEvent actionEvent) {
+    private void handleSend(@SuppressWarnings("unused") ActionEvent actionEvent) {
         clear();
-        
         if (!validateInput()) return;
+
         RestAPIController.instance().innerTabPane.getSelectionModel().getSelectedItem().setText(tabTitle());
-    	
-        if (!uriTextField.getText().startsWith("http://") && !uriTextField.getText().startsWith("https://")) {
-        	this.requestFailed(new Exception("Not valid url !"));
-        	return;
-        }
-    	
-        Map<String, String> headers = requestHeadersVBox.getChildren().stream().map(n -> {
-            List<Node> h = ((HBox) n).getChildren();
-            return new Pair<>(((TextField) h.get(0)).getText(), ((TextField) h.get(1)).getText());
-        }).filter(p -> !p.getKey().isEmpty() && !p.getValue().isEmpty())
+        Map<String, String> headers = requestHeadersVBox.getChildren().stream()
+                .map(n -> {
+                    List<Node> h = ((HBox) n).getChildren();
+                    return new Pair<>(((TextField) h.get(0)).getText(), ((TextField) h.get(1)).getText());
+                })
+                .filter(p -> !p.getKey().isEmpty() && !p.getValue().isEmpty())
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
-        
+
         sendButton.setDisable(true);
-        Request req = new Request(uriTextField.getText(), methodComboBox.getValue(), headers, requestBodyTextArea.getText());
-		RestService.requestAsync(req,this::requestCompleted, this::requestFailed);
+        Request request = new Request(uriTextField.getText(),
+                methodComboBox.getValue(),
+                headers,
+                requestBodyTextArea.getText());
+        RestService.requestAsync(request, this::requestCompleted, this::requestFailed);
     }
 
     private void requestFailed(Exception e) {
-    	Platform.runLater(() -> {
-    		sendButton.setDisable(false);
-            responseStatusLabel.setText(e.getClass().getName() + ": " + e.getMessage());
-    	});
-    }
-    
-    private void requestCompleted(RestResponse res) {
-    	Platform.runLater(() -> {
-    		responseBodyTextArea.setText(res.getBody());
-            this.prettyPrint();
-            responseHeadersTextArea.setText(res.getHeaders());
-            responseStatusLabel.setText("STATUS: " + res.getStatus() + ", TIME: " + res.getTime() + "ms");
+        Platform.runLater(() -> {
             sendButton.setDisable(false);
-    	});
+            responseStatusLabel.setText(e.getClass().getName() + ": " + e.getMessage());
+        });
     }
-    
+
+    private void requestCompleted(RestResponse res) {
+        Platform.runLater(() -> {
+            responseBodyTextArea.setText(tryPrettyPrint(res.getBody()));
+            responseHeadersTextArea.setText(res.getHeaders());
+            responseStatusLabel.setText(String.format("STATUS: %d, TIME: %dms", res.getStatus(), res.getTime()));
+            sendButton.setDisable(false);
+        });
+    }
+
+    private String tryPrettyPrint(String response) {
+        if (response.startsWith("[") || response.startsWith("{")) {
+            try {
+                return JsonService.format(response);
+            } catch (IOException e) {
+                log.debug("Could not pretty print: {}", response);
+            }
+        }
+        return response;
+    }
+
     private void clear() {
+        uriTextField.setBorder(Border.EMPTY);
         responseStatusLabel.setText("");
         responseBodyTextArea.setText("");
         responseHeadersTextArea.setText("");
     }
 
     private boolean validateInput() {
-        uriTextField.setBorder(Border.EMPTY);
         if (uriTextField.getText().isEmpty()) {
             uriTextField.setBorder(Elements.alertBorder);
             return false;
         }
         return true;
     }
-
-    private static final int tabTitleLength = 12;
 
     String tabTitle() {
         String pUrl = uriTextField.getText().length() > tabTitleLength
@@ -154,60 +151,67 @@ public class RestAPITabController implements Initializable {
     }
 
     @FXML
-    private void handleAddHeader(ActionEvent actionEvent) {
+    private void handleAddHeader(@SuppressWarnings("unused") ActionEvent actionEvent) {
         addHeader();
     }
 
     private void addHeader() {
         try {
-            Node n = FXMLLoader.load(this.getClass().getResource("/views/rest_api_header.fxml"));
-            requestHeadersVBox.getChildren().add(n);
+            Node header = loadHeaderNode();
+            requestHeadersVBox.getChildren().add(header);
         } catch (Exception e) {
-            log.warn(e.getMessage(), e);
+            log.warn("Failed to add header", e);
         }
     }
 
     @FXML
-    private int handleRemoveHeader(ActionEvent actionEvent) {
-        int hsize = requestHeadersVBox.getChildren().size();
-        if (hsize > 1)
-            requestHeadersVBox.getChildren().remove(hsize - 1);
-        
+    private int handleRemoveHeader(@SuppressWarnings("unused") ActionEvent actionEvent) {
+        int headerSize = requestHeadersVBox.getChildren().size();
+        if (headerSize > 1)
+            requestHeadersVBox.getChildren().remove(headerSize - 1);
+
         return requestHeadersVBox.getChildren().size();
     }
-    
-	public void loadRequest(Request req) {
-		while (handleRemoveHeader(new ActionEvent()) > 1) {}
-		
-		uriTextField.setText(req.getUrl());
-		requestBodyTextArea.setText(req.getBody());
-		try {
-			boolean first = true;
-			for (Map.Entry<String, String> entry : req.getHeaders().entrySet()) {
-			    if (first) {
-			        HBox hBox = (HBox) requestHeadersVBox.getChildren().get(0);
-			        setHeader(hBox, entry.getKey(), entry.getValue());
-			        first = false;
-			    } else {
-			        HBox hBox = FXMLLoader.load(getClass().getResource("/views/rest_api_header.fxml"));
-			        setHeader(hBox, entry.getKey(), entry.getValue());
-			        requestHeadersVBox.getChildren().add(hBox);
-			    }
-			}
-			
-			methodComboBox.getItems().forEach(x -> {
-				if (x.equals(req.getMethod()))
-					methodComboBox.getSelectionModel().select(x);
-			});
-		} catch (IOException e) {
-			log.warn(e.getMessage(), e);
-		}
-	}
-	
-	private void setHeader(HBox hBox, String key, String value) {
-	    HttpHeadersTextField htf = (HttpHeadersTextField) hBox.getChildren().get(0);
-	    htf.setText(key);
-	    TextField tf = (TextField) hBox.getChildren().get(1);
-	    tf.setText(value);
-	}
+
+    public void loadRequest(Request req) {
+        while (handleRemoveHeader(new ActionEvent()) > 1) {
+        }
+
+        uriTextField.setText(req.getUrl());
+        requestBodyTextArea.setText(req.getBody());
+        try {
+            boolean first = true;
+            for (Map.Entry<String, String> entry : req.getHeaders().entrySet()) {
+                if (first) {
+                    HBox header = (HBox) requestHeadersVBox.getChildren().get(0);
+                    setHeader(header, entry.getKey(), entry.getValue());
+                    first = false;
+                } else {
+                    HBox header = (HBox) loadHeaderNode();
+                    setHeader(header, entry.getKey(), entry.getValue());
+                    requestHeadersVBox.getChildren().add(header);
+                }
+            }
+
+            methodComboBox.getItems().forEach(httpMethod -> {
+                if (httpMethod.equals(req.getMethod()))
+                    methodComboBox.getSelectionModel().select(httpMethod);
+            });
+        } catch (IOException e) {
+            log.warn("Error in loadRequest", e);
+        }
+    }
+
+    private void setHeader(HBox header, String key, String value) {
+        HttpHeadersTextField htf = (HttpHeadersTextField) header.getChildren().get(0);
+        htf.setText(key);
+        TextField tf = (TextField) header.getChildren().get(1);
+        tf.setText(value);
+    }
+
+    private Node loadHeaderNode() throws IOException {
+        return FXMLLoader.load(
+                requireNonNull(getClass().getResource("/views/rest_api_header.fxml"))
+        );
+    }
 }

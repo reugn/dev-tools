@@ -5,17 +5,25 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.jar.Manifest;
 
+import static java.util.Objects.requireNonNull;
+
+@SuppressWarnings("unused")
 public class MainController implements Initializable {
 
-    private static final Logger log = Logger.getLogger(MainController.class);
+    private static final Logger log = LogManager.getLogger(MainController.class);
 
     @FXML
     private MenuBar menuBar;
@@ -69,7 +77,7 @@ public class MainController implements Initializable {
         String version;
         try {
             Class<?> clazz = this.getClass();
-            String classPath = clazz.getResource(clazz.getSimpleName() + ".class").toString();
+            String classPath = requireNonNull(clazz.getResource(clazz.getSimpleName() + ".class")).toString();
             String manifestPath = classPath.substring(0, classPath.lastIndexOf("!") + 1) +
                     "/META-INF/MANIFEST.MF";
             Manifest manifest = new Manifest(new URL(manifestPath).openStream());

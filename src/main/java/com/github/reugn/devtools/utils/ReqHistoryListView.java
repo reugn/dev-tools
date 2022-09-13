@@ -10,7 +10,8 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +25,9 @@ import java.util.stream.Collectors;
 
 public class ReqHistoryListView extends ListView<Request> {
 
+    private static final Logger log = LogManager.getLogger(ReqHistoryListView.class);
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     private RestAPIController parentController;
 
     public ReqHistoryListView() {
@@ -33,9 +37,9 @@ public class ReqHistoryListView extends ListView<Request> {
     public ReqHistoryListView(RestAPIController controller) {
         super();
         this.parentController = controller;
-        this.initContextMenu();
+        initContextMenu();
 
-        this.setOnMouseClicked(event -> {
+        setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 openRequestWithData();
                 event.consume();
@@ -46,7 +50,7 @@ public class ReqHistoryListView extends ListView<Request> {
     private void initContextMenu() {
         MenuItem clearHistoryItem = new MenuItem("Clear History");
         clearHistoryItem.setOnAction(event -> {
-            this.getItems().clear();
+            getItems().clear();
             RestService.REQ_HISTORY_LIST.clear();
         });
 
@@ -63,16 +67,16 @@ public class ReqHistoryListView extends ListView<Request> {
 
             if (selectedFile == null) return;
             try {
-                String json = new ObjectMapper().writeValueAsString(this.getItems());
-                json = json.replaceAll("\\\\n", "")
+                String json = mapper.writeValueAsString(getItems())
+                        .replaceAll("\\\\n", "")
                         .replaceAll("\\\\", "")
                         .replaceAll("\"\\{", "{")
                         .replaceAll("}\"", "}");
                 Files.write(Paths.get(selectedFile.getPath()), json.getBytes(), StandardOpenOption.CREATE);
             } catch (IOException e) {
-                Logger.getLogger(getClass()).error(e.getMessage(), e);
+                log.error("Error in initContextMenu", e);
             }
-            Logger.getLogger(getClass()).info("File saved at " + new Date().toString());
+            log.info("File saved at {}", new Date());
         });
 
         MenuItem importItem = new MenuItem("Import from JSON");
@@ -86,49 +90,49 @@ public class ReqHistoryListView extends ListView<Request> {
                 content = Files.lines(Paths.get(selectedFile.getPath()))
                         .collect(Collectors.joining(System.lineSeparator()));
 
-                ArrayNode arrayNode = new ObjectMapper().readValue(content, ArrayNode.class);
-                List<Request> reqs = new ArrayList<>();
+                ArrayNode arrayNode = mapper.readValue(content, ArrayNode.class);
+                List<Request> requestList = new ArrayList<>();
                 for (int i = 0; i < arrayNode.size(); i++) {
-                    Request req = new Request(arrayNode.get(i));
-                    reqs.add(req);
+                    Request request = new Request(arrayNode.get(i));
+                    requestList.add(request);
                 }
-                RestService.addToHistoryReqList(reqs);
-                this.setItems(FXCollections.observableArrayList(RestService.getReqHistory()));
+                RestService.addToHistoryReqList(requestList);
+                setItems(FXCollections.observableArrayList(RestService.getReqHistory()));
             } catch (IOException e) {
-                Logger.getLogger(getClass()).error(e.getMessage(), e);
+                log.error(e.getMessage(), e);
             }
-            Logger.getLogger(getClass()).info("File loaded at " + new Date().toString());
+            log.info("File loaded at {}", new Date());
         });
 
-        this.setContextMenu(new ContextMenu(openRequestItem, deleteRequestItem, importItem, exportItem, clearHistoryItem));
+        setContextMenu(new ContextMenu(openRequestItem,
+                deleteRequestItem,
+                importItem,
+                exportItem,
+                clearHistoryItem));
     }
 
     private void openRequestWithData() {
-        if (this.getSelectionModel().isEmpty())
+        if (getSelectionModel().isEmpty())
             return;
 
-        try {
-            if (parentController == null)
-                throw new Exception("Parent RestAPIController has not been set!");
-
-            Request req = this.getSelectionModel().getSelectedItem();
-            parentController.handleNewTabwithData(req);
-        } catch (Exception e) {
-            Logger.getLogger(getClass()).error(e.getMessage(), e);
+        if (parentController != null) {
+            Request request = getSelectionModel().getSelectedItem();
+            parentController.handleNewTabWithData(request);
+        } else {
+            log.error("Parent RestAPIController has not been set.");
         }
     }
 
     private void deleteRequest() {
-        if (this.getSelectionModel().isEmpty())
+        if (getSelectionModel().isEmpty())
             return;
 
-        Request req = this.getSelectionModel().getSelectedItem();
-        this.getItems().remove(req);
-        RestService.REQ_HISTORY_LIST.remove(req);
+        Request request = getSelectionModel().getSelectedItem();
+        getItems().remove(request);
+        RestService.REQ_HISTORY_LIST.remove(request);
     }
 
     public void setParentController(RestAPIController controller) {
         this.parentController = controller;
     }
-
 }

@@ -54,20 +54,19 @@ public class LogFaker {
 
     private final Random rand = new Random();
 
-    @SuppressWarnings("UnstableApiUsage")
-    public String IPv4Address() {
+    public String iPv4Address() {
         return InetAddresses.fromInteger(rand.nextInt()).getHostAddress();
     }
 
-    public String HTTPMethod() {
+    public String httpMethod() {
         return getRandom(httpMethods);
     }
 
-    public String HTTPVersion() {
+    public String httpVersion() {
         return getRandom(httpVersions);
     }
 
-    public int StatusCode() {
+    public int statusCode() {
         int result = 200;
         int r = rand.nextInt(10);
         if (r > 5 && r <= 7) {
@@ -78,21 +77,21 @@ public class LogFaker {
         return result;
     }
 
-    public String Domain() {
+    public String domain() {
         int subDomainLength = rand.nextInt(12);
         int domainLength = rand.nextInt(12);
-        StringBuilder buff = new StringBuilder();
-        if (subDomainLength > 0) buff.append(generator.generate(subDomainLength)).append(".");
-        if (domainLength > 0) buff.append(generator.generate(domainLength)).append(".");
-        buff.append(getRandom(domainExtensions));
-        return buff.toString();
+        StringBuilder builder = new StringBuilder();
+        if (subDomainLength > 0) builder.append(generator.generate(subDomainLength)).append(".");
+        if (domainLength > 0) builder.append(generator.generate(domainLength)).append(".");
+        builder.append(getRandom(domainExtensions));
+        return builder.toString();
     }
 
-    public String Message(int len) {
+    public String message(int len) {
         return generator.generate(rand.nextInt(len));
     }
 
-    public String ThreadName() {
+    public String threadName() {
         int next = rand.nextInt(12);
         if (next < 8) {
             return "Thread-" + next;
@@ -105,19 +104,19 @@ public class LogFaker {
         return rand.nextInt((to - from) + 1) + from;
     }
 
-    public String URL() {
+    public String url() {
         return getRandom(urls);
     }
 
-    public String UserAgent() {
+    public String userAgent() {
         return getRandom(UserAgents);
     }
 
-    public String Username() {
+    public String username() {
         return getRandom(usernames);
     }
 
-    public String LogLevel() {
+    public String logLevel() {
         return getRandom(logLevels);
     }
 

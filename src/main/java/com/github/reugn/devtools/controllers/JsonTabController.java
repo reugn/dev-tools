@@ -26,7 +26,19 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("unused")
 public class JsonTabController implements Initializable {
+
+    private static final Pattern JSON_REGEX = Pattern.compile("(?<JSONCURLY>\\{|\\})|" +
+            "(?<JSONPROPERTY>\\\".*\\\")\\s*:\\s*|" +
+            "(?<JSONVALUE>\\\".*\\\")|" +
+            "\\[(?<JSONARRAY>.*)\\]|" +
+            "(?<JSONNUMBER>\\d+.?\\d*)|" +
+            "(?<JSONBOOL>true|false)|" +
+            "(?<JSONNULL>null)" +
+            "(?<TEXT>.*)");
+
+    private static final int tabTitleLength = 12;
 
     @FXML
     private Button clearSpacesButton;
@@ -50,17 +62,7 @@ public class JsonTabController implements Initializable {
     private Label jsonMessage;
     @FXML
     private CodeArea jsonArea;
-
     private JsonSearchState searchState;
-
-    private static final Pattern JSON_REGEX = Pattern.compile("(?<JSONCURLY>\\{|\\})|" +
-            "(?<JSONPROPERTY>\\\".*\\\")\\s*:\\s*|" +
-            "(?<JSONVALUE>\\\".*\\\")|" +
-            "\\[(?<JSONARRAY>.*)\\]|" +
-            "(?<JSONNUMBER>\\d+.?\\d*)|" +
-            "(?<JSONBOOL>true|false)|" +
-            "(?<JSONNULL>null)" +
-            "(?<TEXT>.*)");
 
     @FXML
     private void handlePrettyPrint(final ActionEvent event) {
@@ -89,9 +91,8 @@ public class JsonTabController implements Initializable {
         }
     }
 
-    private static final int tabTitleLength = 12;
-
     private String tabTitle(String json) {
+        if (json.isEmpty()) return "New";
         return json.length() > tabTitleLength ? json.substring(0, tabTitleLength) : json;
     }
 

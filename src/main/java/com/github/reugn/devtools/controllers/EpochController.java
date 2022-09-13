@@ -6,7 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
@@ -55,12 +59,12 @@ public class EpochController implements Initializable {
     private int timeZoneComboBoxIndex;
 
     @FXML
-    private void handleRefreshEpoch(final ActionEvent event) {
+    private void handleRefreshEpoch(@SuppressWarnings("unused") final ActionEvent event) {
         currentEpoch.setText(Long.toString(System.currentTimeMillis()));
     }
 
     @FXML
-    private void handleTsToHumanEpoch(final ActionEvent event) {
+    private void handleTsToHumanEpoch(@SuppressWarnings("unused") final ActionEvent event) {
         tsToHumanField.setBorder(Border.EMPTY);
         try {
             LocalDateTime dt = EpochService.tsToLocalDateTime(tsToHumanField.getText());
@@ -73,7 +77,7 @@ public class EpochController implements Initializable {
     }
 
     @FXML
-    private void handleMillisToTime(final ActionEvent actionEvent) {
+    private void handleMillisToTime(@SuppressWarnings("unused") final ActionEvent actionEvent) {
         tsToHumanField.setBorder(Border.EMPTY);
         try {
             long millis = Long.parseLong(tsToHumanField.getText());
@@ -86,7 +90,7 @@ public class EpochController implements Initializable {
     }
 
     @FXML
-    private void handleHumanToTsEpoch(final ActionEvent event) {
+    private void handleHumanToTsEpoch(@SuppressWarnings("unused") final ActionEvent event) {
         resetBorders();
         try {
             int year = EpochService.validate(epochYear, 1970, Integer.MAX_VALUE);

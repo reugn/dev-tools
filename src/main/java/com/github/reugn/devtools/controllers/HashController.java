@@ -18,20 +18,15 @@ import java.util.ResourceBundle;
 public class HashController implements Initializable {
 
     @FXML
+    public Button hashMoveUpButton;
+    @FXML
     private TextArea hashInput;
-
     @FXML
     private TextArea hashOutput;
-
     @FXML
     private ComboBox<String> hashAlgoSelector;
-
     @FXML
     private Button hashCalculateButton;
-
-    @FXML
-    public Button hashMoveUpButton;
-
     @FXML
     private Button hashClearButton;
 
@@ -39,14 +34,14 @@ public class HashController implements Initializable {
     private Label hashMessage;
 
     @FXML
-    private void handleClear(final ActionEvent event) {
+    private void handleClear(@SuppressWarnings("unused") final ActionEvent event) {
         hashInput.setText("");
         hashOutput.setText("");
         hashMessage.setText("");
     }
 
     @FXML
-    private void handleCalculate(final ActionEvent event) {
+    private void handleCalculate(@SuppressWarnings("unused") final ActionEvent event) {
         hashMessage.setText("");
         try {
             String enc;
@@ -87,7 +82,7 @@ public class HashController implements Initializable {
     }
 
     @FXML
-    private void handleMoveUp(final ActionEvent event) {
+    private void handleMoveUp(@SuppressWarnings("unused") final ActionEvent event) {
         if (!hashOutput.getText().isEmpty()) {
             hashInput.setText(hashOutput.getText());
             hashOutput.setText("");

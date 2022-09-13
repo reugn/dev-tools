@@ -69,7 +69,7 @@ public class RegexController implements Initializable {
     }
 
     @FXML
-    public void handleMatch(ActionEvent actionEvent) {
+    public void handleMatch(@SuppressWarnings("unused") ActionEvent actionEvent) {
         doMatch();
     }
 
@@ -113,7 +113,7 @@ public class RegexController implements Initializable {
     }
 
     @FXML
-    public void handleClear(ActionEvent actionEvent) {
+    public void handleClear(@SuppressWarnings("unused") ActionEvent actionEvent) {
         resetBorders();
         regexExpression.setText("");
         regexTarget.replaceText("");

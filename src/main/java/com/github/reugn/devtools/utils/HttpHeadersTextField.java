@@ -6,22 +6,22 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class HttpHeadersTextField extends TextField {
 
-    private static final Logger log = Logger.getLogger(HttpHeadersTextField.class);
+    private static final Logger log = LogManager.getLogger(HttpHeadersTextField.class);
 
     private static final SortedSet<String> entries;
     private static final int maxEntries = 10;
-
-    private final ContextMenu entriesPopup;
 
     static {
         entries = new TreeSet<>();
@@ -37,6 +37,8 @@ public class HttpHeadersTextField extends TextField {
         }
     }
 
+    private final ContextMenu entriesPopup;
+
     public HttpHeadersTextField() {
         super();
         entriesPopup = new ContextMenu();
@@ -44,15 +46,15 @@ public class HttpHeadersTextField extends TextField {
             if (getText().length() == 0) {
                 entriesPopup.hide();
             } else {
-                LinkedList<String> searchResult = new LinkedList<>(entries.subSet(getText(),
+                List<String> searchResult = new LinkedList<>(entries.subSet(getText(),
                         getText() + Character.MAX_VALUE));
-                if (entries.size() > 0) {
+                if (!entries.isEmpty()) {
                     populatePopup(searchResult);
                     if (!entriesPopup.isShowing()) {
                         try {
                             entriesPopup.show(HttpHeadersTextField.this, Side.BOTTOM, 0, 0);
-                        } catch (Throwable e) {
-                            Logger.getLogger(getClass()).debug("Exception ignored : " + e.getMessage());
+                        } catch (Exception e) {
+                            log.debug("Exception ignored: {}", e.getMessage());
                         }
                     }
                 } else {
@@ -63,7 +65,7 @@ public class HttpHeadersTextField extends TextField {
         focusedProperty().addListener((observableValue, aBoolean, aBoolean2) -> entriesPopup.hide());
     }
 
-    public SortedSet<String> getEntries() {
+    public Set<String> getEntries() {
         return entries;
     }
 

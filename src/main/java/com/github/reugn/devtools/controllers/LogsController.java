@@ -7,7 +7,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -91,7 +96,7 @@ public class LogsController implements Initializable {
     }
 
     @FXML
-    private void handleGenerate(ActionEvent actionEvent) {
+    private void handleGenerate(@SuppressWarnings("unused") ActionEvent actionEvent) {
         reset();
         if (!validate()) return;
         setRunning(true);
@@ -106,9 +111,7 @@ public class LogsController implements Initializable {
                 if (!running) break;
             }
             return null;
-        }).thenAccept(r -> {
-            setRunning(false);
-        }).exceptionally(e -> {
+        }).thenAccept(r -> setRunning(false)).exceptionally(e -> {
             Platform.runLater(() -> {
                 setRunning(false);
                 logMessage.setText(e.getMessage());
@@ -144,19 +147,19 @@ public class LogsController implements Initializable {
     }
 
     @FXML
-    private void handleClear(ActionEvent actionEvent) {
+    private void handleClear(@SuppressWarnings("unused") ActionEvent actionEvent) {
         reset();
         logsResult.setText("");
     }
 
     @FXML
-    private void handleStop(ActionEvent actionEvent) {
+    private void handleStop(@SuppressWarnings("unused") ActionEvent actionEvent) {
         logStopButton.setDisable(true);
         running = false;
     }
 
     @FXML
-    private void handleBrowse(ActionEvent actionEvent) {
+    private void handleBrowse(@SuppressWarnings("unused") ActionEvent actionEvent) {
         DirectoryChooser chooser = new DirectoryChooser();
         File f = chooser.showDialog(null);
         if (f != null)

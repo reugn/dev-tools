@@ -16,9 +16,10 @@ public class RegexService {
     public static RegexResult match(String regex, String target, List<String> flagList) {
         Pattern pattern = Pattern.compile(regex, calculateFlags(flagList));
         Matcher matcher = pattern.matcher(target);
-        StringBuilder builder = new StringBuilder();
+
         boolean isGlobal = flagList.contains("global");
-        ArrayList<Pair<Integer, Integer>> fullMatch = new ArrayList<>();
+        List<Pair<Integer, Integer>> fullMatch = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
         while (matcher.find()) {
             for (int i = 0; i <= matcher.groupCount(); i++) {
                 builder.append(i)

@@ -3,8 +3,11 @@ package com.github.reugn.devtools.services;
 import com.github.reugn.devtools.utils.Elements;
 import javafx.scene.control.TextField;
 
-import java.security.InvalidParameterException;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.TimeZone;
@@ -21,7 +24,7 @@ public class EpochService {
         } else if (ts.length() == 13) {
             return LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(ts)), ZoneId.systemDefault());
         }
-        throw new InvalidParameterException("Invalid timestamp format: " + ts);
+        throw new IllegalArgumentException("Invalid timestamp format: " + ts);
     }
 
     public static String toHumanEpoch(LocalDateTime dt) {
@@ -40,8 +43,7 @@ public class EpochService {
         buff.append("Epoch timestamp: ");
         buff.append(dt.toInstant(offset).getEpochSecond()).append("\n");
         buff.append("Timestamp in milliseconds: ");
-        buff.append(dt.toInstant(offset).toEpochMilli());
-        buff.append("\n");
+        buff.append(dt.toInstant(offset).toEpochMilli()).append("\n");
         buff.append("Time Zone: ").append(displayTimeZone(TimeZone.getTimeZone(timeZone)));
         return buff.toString();
     }
@@ -53,15 +55,15 @@ public class EpochService {
                 : String.format("(GMT%d:%02d) %s", hours, minutes, tz.getID());
     }
 
-    public static int validate(TextField f, int min, int max) {
+    public static int validate(TextField textField, int min, int max) {
         int intVal;
         try {
-            intVal = Integer.parseInt(f.getText());
+            intVal = Integer.parseInt(textField.getText());
             if (intVal < min || intVal > max) {
-                throw new InvalidParameterException("Invalid input: " + f.getText());
+                throw new IllegalArgumentException("Invalid input: " + textField.getText());
             }
         } catch (Exception e) {
-            f.setBorder(Elements.alertBorder);
+            textField.setBorder(Elements.alertBorder);
             throw e;
         }
         return intVal;

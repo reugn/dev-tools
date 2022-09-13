@@ -4,7 +4,8 @@ import com.github.reugn.devtools.controllers.RestAPIController;
 import com.github.reugn.devtools.models.Request;
 import com.github.reugn.devtools.models.RestResponse;
 import javafx.application.Platform;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -25,35 +28,34 @@ import java.util.stream.Collectors;
 
 public class RestService {
 
-    private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
     public static final List<Request> REQ_HISTORY_LIST = new LinkedList<>();
+    private static final Logger log = LogManager.getLogger(RestService.class);
+    private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
+    private static final int defaultConnectTimeout = 60000;
     private static RestAPIController CONTROLLER;
 
     private RestService() {
     }
 
-    private static final int defaultConnectTimeout = 60000;
-
     public static void addToHistoryReqList(List<Request> reqs) {
         REQ_HISTORY_LIST.addAll(reqs);
     }
 
-    private static RestResponse request(String requestMethod, String uri, Map<String, String> headers,
-                                        String body) throws Exception {
-        HttpURLConnection conn = (HttpURLConnection) buildURL(uri).openConnection();
-        conn.setRequestMethod(requestMethod);
-        for (Map.Entry<String, String> h : headers.entrySet()) {
-            conn.setRequestProperty(h.getKey(), h.getValue());
+    private static RestResponse request(Request request) throws IOException {
+        HttpURLConnection conn = (HttpURLConnection) buildURL(request.getUrl()).openConnection();
+        conn.setRequestMethod(request.getMethod());
+        for (Map.Entry<String, String> header : request.getHeaders().entrySet()) {
+            conn.setRequestProperty(header.getKey(), header.getValue());
         }
         conn.setConnectTimeout(defaultConnectTimeout);
         conn.setInstanceFollowRedirects(false);
 
         String responseBody;
         int status;
-        long t1 = System.currentTimeMillis();
-        if (!body.isEmpty()) {
+        Instant start = Instant.now();
+        if (!request.getBody().isEmpty()) {
             conn.setDoOutput(true);
-            setRequestBody(conn.getOutputStream(), body);
+            setRequestBody(conn.getOutputStream(), request.getBody());
         }
         try {
             status = conn.getResponseCode();
@@ -62,29 +64,31 @@ public class RestService {
             status = conn.getResponseCode();
             responseBody = getResponseBody(conn.getErrorStream());
         }
-        long t2 = System.currentTimeMillis() - t1;
+        Instant finish = Instant.now();
+        long time = Duration.between(start, finish).toMillis();
 
         String responseHeaders = getResponseHeaders(conn.getHeaderFields());
         conn.disconnect();
 
-        Request req = new Request(uri, requestMethod, headers, body);
-        if (REQ_HISTORY_LIST.stream().filter(x -> x.equals(req)).findFirst().orElse(null) == null) {
-            REQ_HISTORY_LIST.add(req);
-            Platform.runLater(() -> CONTROLLER.getHistoryListView().getItems().add(req));
-        }
-        return new RestResponse(status, responseBody, responseHeaders, t2);
+        addToHistory(request);
+        return new RestResponse(status, responseBody, responseHeaders, time);
+    }
 
+    private static void addToHistory(Request request) {
+        if (REQ_HISTORY_LIST.stream().filter(r -> r.equals(request)).findFirst().isEmpty()) {
+            REQ_HISTORY_LIST.add(request);
+            Platform.runLater(() -> CONTROLLER.getHistoryListView().getItems().add(request));
+        }
     }
 
     public static void requestAsync(Request request, ResponseRunnable onComplete, ExceptionRunnable onError) {
         EXECUTOR.execute(() -> {
             try {
-                RestResponse response = RestService.request(request.getMethod(),
-                        request.getUrl(), request.getHeaders(), request.getBody());
+                RestResponse response = RestService.request(request);
                 if (onComplete != null)
                     onComplete.run(response);
             } catch (Exception e) {
-                Logger.getLogger(RestService.class).error(e.getMessage(), e);
+                log.error("HTTP request failed", e);
                 if (onError != null)
                     onError.run(e);
             }
@@ -110,21 +114,21 @@ public class RestService {
     private static String getResponseBody(InputStream is) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(is));
         String line;
-        StringBuilder buff = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         while ((line = in.readLine()) != null) {
-            buff.append(line);
+            builder.append(line);
         }
         in.close();
-        return buff.toString();
+        return builder.toString();
     }
 
     private static String getResponseHeaders(Map<String, List<String>> fields) {
         return fields.entrySet().stream()
                 .map(e -> {
-                    if (e.getKey() == null)
+                    if (e.getKey() == null) {
                         return String.join(", ", e.getValue());
-                    else
-                        return e.getKey() + ": " + String.join(", ", e.getValue());
+                    }
+                    return e.getKey() + ": " + String.join(", ", e.getValue());
                 })
                 .collect(Collectors.joining("\n"));
     }

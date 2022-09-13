@@ -6,14 +6,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
-import java.security.InvalidParameterException;
 import java.util.ResourceBundle;
 import java.util.UUID;
+
+import static com.google.common.base.Preconditions.checkState;
 
 public class GeneratorController implements Initializable {
 
@@ -43,7 +49,7 @@ public class GeneratorController implements Initializable {
     private Button clearButton;
 
     @FXML
-    private void handleGenerateUUIDAction(final ActionEvent event) {
+    private void handleGenerateUUIDAction(@SuppressWarnings("unused") final ActionEvent event) {
         StringBuilder buff = new StringBuilder();
         Integer amount = uuidAmount.getValue();
         for (int i = 0; i < amount; i++) {
@@ -60,7 +66,7 @@ public class GeneratorController implements Initializable {
     }
 
     @FXML
-    private void handleGeneratePasswordAction(final ActionEvent actionEvent) {
+    private void handleGeneratePasswordAction(@SuppressWarnings("unused") final ActionEvent actionEvent) {
         int length;
         try {
             pwdLength.setBorder(Border.EMPTY);
@@ -78,14 +84,14 @@ public class GeneratorController implements Initializable {
         generatorResult.setText(generator.generate(length));
     }
 
-    private int validatePasswordLength() throws Exception {
+    private int validatePasswordLength() {
         int length = Integer.parseInt(pwdLength.getText());
-        if (length < 1) throw new InvalidParameterException("Invalid password length");
+        checkState(length > 0, "Invalid password length");
         return length;
     }
 
     @FXML
-    private void handleClearResult(final ActionEvent actionEvent) {
+    private void handleClearResult(@SuppressWarnings("unused") final ActionEvent actionEvent) {
         generatorResult.setText("");
     }
 

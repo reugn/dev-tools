@@ -7,9 +7,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class JsonSearchState {
-    private String searchText;
-    private String target;
-    private List<SearchSpan> found;
+
+    private final String searchText;
+    private final String target;
+    private final List<SearchSpan> found;
     private int current;
     private int total;
 
@@ -53,8 +54,8 @@ public class JsonSearchState {
     }
 
     public static class SearchSpan {
-        private int from;
-        private int to;
+        private final int from;
+        private final int to;
 
         SearchSpan(int from, int to) {
             this.from = from;

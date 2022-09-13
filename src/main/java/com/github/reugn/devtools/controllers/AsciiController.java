@@ -6,7 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
@@ -78,12 +82,12 @@ public class AsciiController implements Initializable {
     }
 
     @FXML
-    private void handleKeyMatch(final KeyEvent keyEvent) {
+    private void handleKeyMatch(@SuppressWarnings("unused") final KeyEvent keyEvent) {
         doConvert();
     }
 
     @FXML
-    private void handleConvert(final ActionEvent actionEvent) {
+    private void handleConvert(@SuppressWarnings("unused") final ActionEvent actionEvent) {
         doConvert();
     }
 
@@ -100,7 +104,7 @@ public class AsciiController implements Initializable {
     }
 
     @FXML
-    private void handleClear(final ActionEvent actionEvent) {
+    private void handleClear(@SuppressWarnings("unused") final ActionEvent actionEvent) {
         asciiField.setText("");
         asciiResult.setText("");
     }
@@ -113,7 +117,8 @@ public class AsciiController implements Initializable {
                 Integer.parseInt(fontSizeField.getText()) > 128) {
             fontSizeField.setBorder(Elements.alertBorder);
             return false;
-        } else return !asciiField.getText().isEmpty();
+        }
+        return !asciiField.getText().isEmpty();
     }
 
     private void resetBorders() {

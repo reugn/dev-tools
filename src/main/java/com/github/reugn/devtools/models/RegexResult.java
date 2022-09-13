@@ -5,8 +5,9 @@ import javafx.util.Pair;
 import java.util.List;
 
 public class RegexResult {
-    private String matchSummary;
-    private List<Pair<Integer, Integer>> fullMatchIndexes;
+
+    private final String matchSummary;
+    private final List<Pair<Integer, Integer>> fullMatchIndexes;
 
     public RegexResult(String matchSummary, List<Pair<Integer, Integer>> fullMatchIndexes) {
         this.matchSummary = matchSummary;

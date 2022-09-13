@@ -1,10 +1,11 @@
 package com.github.reugn.devtools.models;
 
 public class RestResponse {
-    private int status;
-    private String body;
-    private String headers;
-    private long time;
+
+    private final int status;
+    private final String body;
+    private final String headers;
+    private final long time;
 
     public RestResponse(int status, String body, String headers, long time) {
         this.status = status;

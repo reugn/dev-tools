@@ -5,12 +5,12 @@ import java.util.Locale;
 import java.util.Random;
 
 public class PasswordGenerator {
-    private final String dictionary;
 
     private static final String lowerCharsString = "abcdefghijklmnopqrstuvwxyz";
     private static final String digitsString = "0123456789";
     private static final String upperCharsString = lowerCharsString.toUpperCase(Locale.ENGLISH);
     private static final String symbolsString = "!@#$%^&*?";
+    private final String dictionary;
 
     private PasswordGenerator(PasswordGeneratorBuilder builder) {
         StringBuilder buff = new StringBuilder();
@@ -44,13 +44,6 @@ public class PasswordGenerator {
         private boolean useUpper;
         private boolean useDigits;
         private boolean useSymbols;
-
-        public PasswordGeneratorBuilder() {
-            this.useLower = false;
-            this.useUpper = false;
-            this.useDigits = false;
-            this.useSymbols = false;
-        }
 
         public PasswordGeneratorBuilder withLowerChars(boolean useLower) {
             this.useLower = useLower;
