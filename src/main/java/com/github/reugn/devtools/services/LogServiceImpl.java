@@ -26,8 +26,7 @@ public final class LogServiceImpl implements LogService {
                     long sleepTime = faker.randInt(delayBottom, delayTop);
                     try {
                         Thread.sleep(sleepTime);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    } catch (InterruptedException ignore) {
                     }
                     return func.get();
                 });
