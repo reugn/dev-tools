@@ -2,6 +2,7 @@ package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.services.EpochService;
 import com.github.reugn.devtools.utils.Elements;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,6 +25,7 @@ import java.util.TimeZone;
 
 public class EpochController implements Initializable {
 
+    private final EpochService epochService;
     @FXML
     private Label currentEpochLabel;
     @FXML
@@ -58,6 +60,11 @@ public class EpochController implements Initializable {
     private ComboBox<String> timeZoneComboBox;
     private int timeZoneComboBoxIndex;
 
+    @Inject
+    public EpochController(EpochService epochService) {
+        this.epochService = epochService;
+    }
+
     @FXML
     private void handleRefreshEpoch(@SuppressWarnings("unused") final ActionEvent event) {
         currentEpoch.setText(Long.toString(System.currentTimeMillis()));
@@ -67,8 +74,8 @@ public class EpochController implements Initializable {
     private void handleTsToHumanEpoch(@SuppressWarnings("unused") final ActionEvent event) {
         tsToHumanField.setBorder(Border.EMPTY);
         try {
-            LocalDateTime dt = EpochService.tsToLocalDateTime(tsToHumanField.getText());
-            String result = EpochService.toHumanEpoch(dt);
+            LocalDateTime localDateTime = epochService.tsToLocalDateTime(tsToHumanField.getText());
+            String result = epochService.toHumanEpoch(localDateTime);
             tsToHumanResult.setText(result);
         } catch (Exception e) {
             tsToHumanField.setBorder(Elements.alertBorder);
@@ -93,14 +100,14 @@ public class EpochController implements Initializable {
     private void handleHumanToTsEpoch(@SuppressWarnings("unused") final ActionEvent event) {
         resetBorders();
         try {
-            int year = EpochService.validate(epochYear, 1970, Integer.MAX_VALUE);
-            int month = EpochService.validate(epochMonth, 1, 12);
-            int day = EpochService.validate(epochDay, 1, 31);
-            int hour = EpochService.validate(epochHour, 0, 24);
-            int minute = EpochService.validate(epochMinute, 0, 59);
-            int second = EpochService.validate(epochSecond, 0, 59);
+            int year = epochService.validate(epochYear, 1970, Integer.MAX_VALUE);
+            int month = epochService.validate(epochMonth, 1, 12);
+            int day = epochService.validate(epochDay, 1, 31);
+            int hour = epochService.validate(epochHour, 0, 24);
+            int minute = epochService.validate(epochMinute, 0, 59);
+            int second = epochService.validate(epochSecond, 0, 59);
             String timeZone = timeZoneComboBox.getSelectionModel().getSelectedItem();
-            String result = EpochService.toTsEpoch(year, month, day, hour, minute, second, timeZone);
+            String result = epochService.toTsEpoch(year, month, day, hour, minute, second, timeZone);
             humanToTsResult.setText(result);
         } catch (Exception e) {
             humanToTsResult.setText("");

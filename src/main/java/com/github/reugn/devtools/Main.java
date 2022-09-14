@@ -1,6 +1,8 @@
 package com.github.reugn.devtools;
 
 import com.github.reugn.devtools.controllers.MainController;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,9 +24,11 @@ public class Main {
 
         @Override
         public void start(Stage primaryStage) throws Exception {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/main.fxml"));
-            Parent root = loader.load();
-            MainController mainController = loader.getController();
+            Injector injector = Guice.createInjector(new GuiceModule());
+            FXMLLoader fxmlLoader = injector.getInstance(FXMLLoader.class);
+            fxmlLoader.setLocation(getClass().getResource("/views/main.fxml"));
+            Parent root = fxmlLoader.load();
+            MainController mainController = fxmlLoader.getController();
             primaryStage.setTitle("Development tools");
             primaryStage.getIcons().add(new Image("/images/icons8-toolbox-64.png"));
             Scene scene = new Scene(root, 900, 500);

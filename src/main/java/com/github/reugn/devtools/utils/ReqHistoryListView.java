@@ -28,6 +28,7 @@ public class ReqHistoryListView extends ListView<Request> {
     private static final Logger log = LogManager.getLogger(ReqHistoryListView.class);
     private static final ObjectMapper mapper = new ObjectMapper();
 
+    private RestService restService;
     private RestAPIController parentController;
 
     public ReqHistoryListView() {
@@ -51,7 +52,7 @@ public class ReqHistoryListView extends ListView<Request> {
         MenuItem clearHistoryItem = new MenuItem("Clear History");
         clearHistoryItem.setOnAction(event -> {
             getItems().clear();
-            RestService.REQ_HISTORY_LIST.clear();
+            restService.clearRequestHistory();
         });
 
         MenuItem openRequestItem = new MenuItem("Open Request");
@@ -96,8 +97,8 @@ public class ReqHistoryListView extends ListView<Request> {
                     Request request = new Request(arrayNode.get(i));
                     requestList.add(request);
                 }
-                RestService.addToHistoryReqList(requestList);
-                setItems(FXCollections.observableArrayList(RestService.getReqHistory()));
+                restService.addToRequestHistory(requestList);
+                setItems(FXCollections.observableArrayList(restService.getRequestHistory()));
             } catch (IOException e) {
                 log.error(e.getMessage(), e);
             }
@@ -129,10 +130,11 @@ public class ReqHistoryListView extends ListView<Request> {
 
         Request request = getSelectionModel().getSelectedItem();
         getItems().remove(request);
-        RestService.REQ_HISTORY_LIST.remove(request);
+        restService.removeFromRequestHistory(request);
     }
 
     public void setParentController(RestAPIController controller) {
         this.parentController = controller;
+        this.restService = parentController.getRestService();
     }
 }

@@ -6,6 +6,7 @@ import com.github.reugn.devtools.services.JsonService;
 import com.github.reugn.devtools.services.RestService;
 import com.github.reugn.devtools.utils.Elements;
 import com.github.reugn.devtools.utils.HttpHeadersTextField;
+import com.google.inject.Inject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,6 +42,8 @@ public class RestAPITabController implements Initializable {
     private static final Logger log = LogManager.getLogger(RestAPITabController.class);
     private static final int tabTitleLength = 12;
 
+    private final RestService restService;
+    private final JsonService jsonService;
     @FXML
     private ComboBox<String> methodComboBox;
     @FXML
@@ -61,6 +64,12 @@ public class RestAPITabController implements Initializable {
     private TabPane responseTabPane;
     @FXML
     private VBox responseVbox;
+
+    @Inject
+    public RestAPITabController(RestService restService, JsonService jsonService) {
+        this.restService = restService;
+        this.jsonService = jsonService;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -98,7 +107,7 @@ public class RestAPITabController implements Initializable {
                 methodComboBox.getValue(),
                 headers,
                 requestBodyTextArea.getText());
-        RestService.requestAsync(request, this::requestCompleted, this::requestFailed);
+        restService.requestAsync(request, this::requestCompleted, this::requestFailed);
     }
 
     private void requestFailed(Exception e) {
@@ -120,7 +129,7 @@ public class RestAPITabController implements Initializable {
     private String tryPrettyPrint(String response) {
         if (response.startsWith("[") || response.startsWith("{")) {
             try {
-                return JsonService.format(response);
+                return jsonService.format(response);
             } catch (IOException e) {
                 log.debug("Could not pretty print: {}", response);
             }

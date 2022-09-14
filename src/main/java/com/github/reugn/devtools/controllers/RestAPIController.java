@@ -3,8 +3,11 @@ package com.github.reugn.devtools.controllers;
 import com.github.reugn.devtools.models.Request;
 import com.github.reugn.devtools.services.RestService;
 import com.github.reugn.devtools.utils.ReqHistoryListView;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -26,14 +29,29 @@ public class RestAPIController extends TabPaneController {
 
     @FXML
     private static RestAPIController self;
-    @FXML
-    private TextField searchField;
+    private final RestService restService;
     @FXML
     ReqHistoryListView historyListView;
     @FXML
     TabPane innerTabPane;
     @FXML
+    private TextField searchField;
+    @FXML
     private SplitPane splitPane;
+
+    @Inject
+    public RestAPIController(Provider<FXMLLoader> fxmlLoaderProvider, RestService restService) {
+        super(fxmlLoaderProvider);
+        this.restService = restService;
+    }
+
+    static RestAPIController instance() {
+        return self;
+    }
+
+    public RestService getRestService() {
+        return restService;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -46,11 +64,11 @@ public class RestAPIController extends TabPaneController {
         searchField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 if (!searchField.getText().isEmpty()) {
-                    List<Request> filtered = RestService.getReqHistory().stream()
+                    List<Request> filtered = restService.getRequestHistory().stream()
                             .filter(x -> x.toString().contains(searchField.getText())).collect(Collectors.toList());
                     historyListView.setItems(FXCollections.observableArrayList(filtered));
                 } else {
-                    historyListView.setItems(FXCollections.observableArrayList(RestService.getReqHistory()));
+                    historyListView.setItems(FXCollections.observableArrayList(restService.getRequestHistory()));
                 }
             }
         });
@@ -58,7 +76,7 @@ public class RestAPIController extends TabPaneController {
         splitPane.setDividerPositions(0.3f, 0.7f);
 
         initInnerTabPaneContextMenu();
-        RestService.registerController(this);
+        restService.registerController(this);
     }
 
     private void initInnerTabPaneContextMenu() {
@@ -82,10 +100,6 @@ public class RestAPIController extends TabPaneController {
         innerTabPane.setContextMenu(new ContextMenu(closeCurrentItem, closeAllItem));
     }
 
-    static RestAPIController instance() {
-        return self;
-    }
-
     @Override
     protected String getInnerResource() {
         return "/views/rest_api_tab.fxml";
@@ -94,5 +108,4 @@ public class RestAPIController extends TabPaneController {
     public ListView<Request> getHistoryListView() {
         return historyListView;
     }
-
 }

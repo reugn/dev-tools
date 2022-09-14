@@ -3,6 +3,7 @@ package com.github.reugn.devtools.controllers;
 import com.github.reugn.devtools.models.RegexResult;
 import com.github.reugn.devtools.services.RegexService;
 import com.github.reugn.devtools.utils.Elements;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,6 +27,7 @@ import java.util.ResourceBundle;
 
 public class RegexController implements Initializable {
 
+    private final RegexService regexService;
     @FXML
     private TextField regexExpression;
     @FXML
@@ -42,6 +44,11 @@ public class RegexController implements Initializable {
     private Label regexLabel;
     @FXML
     private CheckComboBox<String> regexFlagsComboBox;
+
+    @Inject
+    public RegexController(RegexService regexService) {
+        this.regexService = regexService;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -77,7 +84,7 @@ public class RegexController implements Initializable {
         regexMessage.setText("");
         if (validateInput()) {
             try {
-                RegexResult result = RegexService.match(regexExpression.getText(), regexTarget.getText(),
+                RegexResult result = regexService.match(regexExpression.getText(), regexTarget.getText(),
                         regexFlagsComboBox.getCheckModel().getCheckedItems());
                 regexResult.setText(result.getMatchSummary());
                 List<Pair<Integer, Integer>> l = result.getFullMatchIndexes();

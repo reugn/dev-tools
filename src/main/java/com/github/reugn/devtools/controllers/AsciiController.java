@@ -2,6 +2,7 @@ package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.services.AsciiService;
 import com.github.reugn.devtools.utils.Elements;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,6 +23,7 @@ import java.util.ResourceBundle;
 
 public class AsciiController implements Initializable {
 
+    private final AsciiService asciiService;
     @FXML
     private Label asciiLabel;
     @FXML
@@ -50,6 +52,11 @@ public class AsciiController implements Initializable {
     private Label asciiCharLabel;
     @FXML
     private Label fontStyleLabel;
+
+    @Inject
+    public AsciiController(AsciiService asciiService) {
+        this.asciiService = asciiService;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -96,8 +103,8 @@ public class AsciiController implements Initializable {
         asciiResult.setText("");
         if (validate()) {
             int height = Integer.parseInt(fontSizeField.getText());
-            int style = AsciiService.getStyleByName(fontStyleComboBox.getSelectionModel().getSelectedItem());
-            String converted = AsciiService.convert(asciiField.getText(), asciiCharField.getText(),
+            int style = asciiService.getStyleByName(fontStyleComboBox.getSelectionModel().getSelectedItem());
+            String converted = asciiService.convert(asciiField.getText(), asciiCharField.getText(),
                     height, style, fontNameComboBox.getSelectionModel().getSelectedItem());
             asciiResult.setText(converted);
         }

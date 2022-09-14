@@ -1,7 +1,8 @@
 package com.github.reugn.devtools.controllers;
 
-import com.github.reugn.devtools.services.LogsService;
+import com.github.reugn.devtools.services.LogService;
 import com.github.reugn.devtools.utils.Elements;
+import com.google.inject.Inject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,6 +30,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class LogsController implements Initializable {
 
+    private final LogService logService;
     @FXML
     private Label delayLowerLabel;
     @FXML
@@ -63,9 +65,13 @@ public class LogsController implements Initializable {
     private Label logMessage;
     @FXML
     private TextArea logsResult;
-
     private PrintWriter writer;
     private boolean running = false;
+
+    @Inject
+    public LogsController(LogService logService) {
+        this.logService = logService;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -101,13 +107,13 @@ public class LogsController implements Initializable {
         if (!validate()) return;
         setRunning(true);
         CompletableFuture.supplyAsync(() -> {
-            Iterator<String> iter = LogsService.logStream(
+            Iterator<String> logIterator = logService.logStream(
                     logTypeComboBox.getValue(),
                     Integer.parseInt(delayLowerField.getText()),
                     Integer.parseInt(delayUpperField.getText()),
                     Integer.parseInt(limitField.getText())).iterator();
-            while (iter.hasNext()) {
-                write(iter.next());
+            while (logIterator.hasNext()) {
+                write(logIterator.next());
                 if (!running) break;
             }
             return null;
@@ -161,9 +167,9 @@ public class LogsController implements Initializable {
     @FXML
     private void handleBrowse(@SuppressWarnings("unused") ActionEvent actionEvent) {
         DirectoryChooser chooser = new DirectoryChooser();
-        File f = chooser.showDialog(null);
-        if (f != null)
-            outputFileField.setText(f.getPath());
+        File file = chooser.showDialog(null);
+        if (file != null)
+            outputFileField.setText(file.getPath());
     }
 
     private boolean validate() {

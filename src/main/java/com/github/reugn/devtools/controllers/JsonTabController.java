@@ -2,6 +2,7 @@ package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.services.JsonService;
 import com.github.reugn.devtools.utils.JsonSearchState;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,7 +40,7 @@ public class JsonTabController implements Initializable {
             "(?<TEXT>.*)");
 
     private static final int tabTitleLength = 12;
-
+    private final JsonService jsonService;
     @FXML
     private Button clearSpacesButton;
     @FXML
@@ -64,13 +65,18 @@ public class JsonTabController implements Initializable {
     private CodeArea jsonArea;
     private JsonSearchState searchState;
 
+    @Inject
+    public JsonTabController(JsonService jsonService) {
+        this.jsonService = jsonService;
+    }
+
     @FXML
     private void handlePrettyPrint(final ActionEvent event) {
         String data = jsonArea.getText();
         try {
-            String pretty = JsonService.format(data);
+            String pretty = jsonService.format(data);
             JsonController.instance().innerTabPane.getSelectionModel().getSelectedItem()
-                    .setText(tabTitle(JsonService.clearSpaces(data)));
+                    .setText(tabTitle(jsonService.clearSpaces(data)));
             jsonArea.replaceText(pretty);
             jsonMessage.setText("");
         } catch (Exception e) {
@@ -82,7 +88,7 @@ public class JsonTabController implements Initializable {
     private void handleClearSpaces(final ActionEvent event) {
         String data = jsonArea.getText();
         try {
-            String cleared = JsonService.clearSpaces(data);
+            String cleared = jsonService.clearSpaces(data);
             JsonController.instance().innerTabPane.getSelectionModel().getSelectedItem().setText(tabTitle(cleared));
             jsonArea.replaceText(cleared);
             jsonMessage.setText("");
@@ -186,9 +192,8 @@ public class JsonTabController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         jsonArea.setPrefHeight(1024);
         jsonArea.setWrapText(true);
-        jsonArea.textProperty().addListener((obs, oldText, newText) -> {
-            jsonArea.setStyleSpans(0, computeHighlighting(newText));
-        });
+        jsonArea.textProperty().addListener((obs, oldText, newText) ->
+                jsonArea.setStyleSpans(0, computeHighlighting(newText)));
         jsonMessage.setPadding(new Insets(5));
         jsonMessage.setTextFill(Color.RED);
 
