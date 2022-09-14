@@ -107,10 +107,10 @@ public class RestAPITabController implements Initializable {
                 methodComboBox.getValue(),
                 headers,
                 requestBodyTextArea.getText());
-        restService.requestAsync(request, this::requestCompleted, this::requestFailed);
+        restService.request(request, this::requestCompleted, this::requestFailed);
     }
 
-    private void requestFailed(Exception e) {
+    private void requestFailed(Throwable e) {
         Platform.runLater(() -> {
             sendButton.setDisable(false);
             responseStatusLabel.setText(e.getClass().getName() + ": " + e.getMessage());

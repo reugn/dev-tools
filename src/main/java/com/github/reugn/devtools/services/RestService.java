@@ -17,7 +17,7 @@ public interface RestService {
 
     List<Request> getRequestHistory();
 
-    void requestAsync(Request request, ResponseRunnable onComplete, ExceptionRunnable onError);
+    void request(Request request, ResponseRunnable onComplete, ExceptionRunnable onError);
 
     void registerController(RestAPIController controller);
 }

@@ -1,7 +1,7 @@
 package com.github.reugn.devtools.utils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.github.reugn.devtools.controllers.RestAPIController;
 import com.github.reugn.devtools.models.Request;
 import com.github.reugn.devtools.services.RestService;
@@ -18,10 +18,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ReqHistoryListView extends ListView<Request> {
 
@@ -65,17 +65,12 @@ public class ReqHistoryListView extends ListView<Request> {
         exportItem.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showSaveDialog(null);
-
             if (selectedFile == null) return;
             try {
-                String json = mapper.writeValueAsString(getItems())
-                        .replaceAll("\\\\n", "")
-                        .replaceAll("\\\\", "")
-                        .replaceAll("\"\\{", "{")
-                        .replaceAll("}\"", "}");
+                String json = mapper.writeValueAsString(getItems());
                 Files.write(Paths.get(selectedFile.getPath()), json.getBytes(), StandardOpenOption.CREATE);
             } catch (IOException e) {
-                log.error("Error in initContextMenu", e);
+                log.error("Failed to export to file", e);
             }
             log.info("File saved at {}", new Date());
         });
@@ -84,23 +79,16 @@ public class ReqHistoryListView extends ListView<Request> {
         importItem.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(null);
-
             if (selectedFile == null) return;
-            String content;
-            try {
-                content = Files.lines(Paths.get(selectedFile.getPath()))
-                        .collect(Collectors.joining(System.lineSeparator()));
-
-                ArrayNode arrayNode = mapper.readValue(content, ArrayNode.class);
-                List<Request> requestList = new ArrayList<>();
-                for (int i = 0; i < arrayNode.size(); i++) {
-                    Request request = new Request(arrayNode.get(i));
-                    requestList.add(request);
-                }
+            try (Stream<String> stream = Files.lines(Paths.get(selectedFile.getPath()))) {
+                String history = stream.collect(Collectors.joining(System.lineSeparator()));
+                @SuppressWarnings("all")
+                List<Request> requestList = mapper.readValue(history, new TypeReference<List<Request>>() {
+                });
                 restService.addToRequestHistory(requestList);
                 setItems(FXCollections.observableArrayList(restService.getRequestHistory()));
             } catch (IOException e) {
-                log.error(e.getMessage(), e);
+                log.error("Failed to import from file", e);
             }
             log.info("File loaded at {}", new Date());
         });
