@@ -10,6 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.net.URL;
+
+import static java.util.Objects.requireNonNull;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -18,25 +23,39 @@ public class Main {
 
     public static class App extends Application {
 
+        private static final String title = "Development Tools";
+
         public static void main(String[] args) {
             launch(args);
         }
 
         @Override
         public void start(Stage primaryStage) throws Exception {
+            setTaskbarIcon();
             Injector injector = Guice.createInjector(new GuiceModule());
             FXMLLoader fxmlLoader = injector.getInstance(FXMLLoader.class);
             fxmlLoader.setLocation(getClass().getResource("/views/main.fxml"));
             Parent root = fxmlLoader.load();
             MainController mainController = fxmlLoader.getController();
-            primaryStage.setTitle("Development tools");
-            primaryStage.getIcons().add(new Image("/images/icons8-toolbox-64.png"));
+            primaryStage.setTitle(title);
+            primaryStage.getIcons().add(new Image(requireNonNull(
+                    getClass().getResourceAsStream("/images/icons8-toolbox-64.png"))));
             Scene scene = new Scene(root, 900, 500);
             scene.getStylesheets().addAll("/css/main-dark.css", "/css/json-highlighting-dark.css");
             scene.getRoot().setStyle("-fx-font-family: 'Arial'");
             primaryStage.setScene(scene);
             mainController.setScene(scene);
             primaryStage.show();
+        }
+
+        private void setTaskbarIcon() {
+            try {
+                URL imageResource = getClass().getResource("/images/icons8-toolbox-64.png");
+                java.awt.Image image = Toolkit.getDefaultToolkit().getImage(imageResource);
+                Taskbar taskbar = Taskbar.getTaskbar();
+                taskbar.setIconImage(image);
+            } catch (Exception ignore) {
+            }
         }
     }
 }
