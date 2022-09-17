@@ -1,13 +1,19 @@
 package com.github.reugn.devtools.controllers;
 
-import com.github.reugn.devtools.services.LogsService;
+import com.github.reugn.devtools.services.LogService;
 import com.github.reugn.devtools.utils.Elements;
+import com.google.inject.Inject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -24,6 +30,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class LogsController implements Initializable {
 
+    private final LogService logService;
     @FXML
     private Label delayLowerLabel;
     @FXML
@@ -58,9 +65,13 @@ public class LogsController implements Initializable {
     private Label logMessage;
     @FXML
     private TextArea logsResult;
-
     private PrintWriter writer;
     private boolean running = false;
+
+    @Inject
+    public LogsController(LogService logService) {
+        this.logService = logService;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -91,24 +102,22 @@ public class LogsController implements Initializable {
     }
 
     @FXML
-    private void handleGenerate(ActionEvent actionEvent) {
+    private void handleGenerate(@SuppressWarnings("unused") ActionEvent actionEvent) {
         reset();
         if (!validate()) return;
         setRunning(true);
         CompletableFuture.supplyAsync(() -> {
-            Iterator<String> iter = LogsService.logStream(
+            Iterator<String> logIterator = logService.logStream(
                     logTypeComboBox.getValue(),
                     Integer.parseInt(delayLowerField.getText()),
                     Integer.parseInt(delayUpperField.getText()),
                     Integer.parseInt(limitField.getText())).iterator();
-            while (iter.hasNext()) {
-                write(iter.next());
+            while (logIterator.hasNext()) {
+                write(logIterator.next());
                 if (!running) break;
             }
             return null;
-        }).thenAccept(r -> {
-            setRunning(false);
-        }).exceptionally(e -> {
+        }).thenAccept(r -> setRunning(false)).exceptionally(e -> {
             Platform.runLater(() -> {
                 setRunning(false);
                 logMessage.setText(e.getMessage());
@@ -144,23 +153,23 @@ public class LogsController implements Initializable {
     }
 
     @FXML
-    private void handleClear(ActionEvent actionEvent) {
+    private void handleClear(@SuppressWarnings("unused") ActionEvent actionEvent) {
         reset();
         logsResult.setText("");
     }
 
     @FXML
-    private void handleStop(ActionEvent actionEvent) {
+    private void handleStop(@SuppressWarnings("unused") ActionEvent actionEvent) {
         logStopButton.setDisable(true);
         running = false;
     }
 
     @FXML
-    private void handleBrowse(ActionEvent actionEvent) {
+    private void handleBrowse(@SuppressWarnings("unused") ActionEvent actionEvent) {
         DirectoryChooser chooser = new DirectoryChooser();
-        File f = chooser.showDialog(null);
-        if (f != null)
-            outputFileField.setText(f.getPath());
+        File file = chooser.showDialog(null);
+        if (file != null)
+            outputFileField.setText(file.getPath());
     }
 
     private boolean validate() {

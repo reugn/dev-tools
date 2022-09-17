@@ -6,7 +6,7 @@
 
     <groupId>com.github.reugn</groupId>
     <artifactId>devtools</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
 
     <organization>
         <name>com.github.reugn</name>
@@ -15,13 +15,14 @@
     <properties>
         <java.version>11</java.version>
 
-        <jackson.version>2.12.1</jackson.version>
+        <jackson.version>2.13.4</jackson.version>
         <javafx.version>11.0.2</javafx.version>
         <controlsfx.version>11.0.3</controlsfx.version>
-        <richtextfx.version>0.10.5</richtextfx.version>
-        <log4j.version>1.2.17</log4j.version>
-        <guava.version>30.1-jre</guava.version>
-        <commons-lang3.version>3.11</commons-lang3.version>
+        <richtextfx.version>0.10.9</richtextfx.version>
+        <log4j.version>2.18.0</log4j.version>
+        <guava.version>31.1-jre</guava.version>
+        <guice.version>5.1.0</guice.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
     </properties>
 
     <build>
@@ -38,15 +39,15 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.4</version>
+                <version>0.0.8</version>
                 <configuration>
                     <mainClass>com.github.reugn.devtools.Main</mainClass>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>com.gluonhq</groupId>
-                <artifactId>client-maven-plugin</artifactId>
-                <version>0.1.36</version>
+                <artifactId>gluonfx-maven-plugin</artifactId>
+                <version>1.0.15</version>
                 <configuration>
                     <mainClass>com.github.reugn.devtools.Main</mainClass>
                 </configuration>
@@ -95,13 +96,23 @@
             <version>${guava.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${guice.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
             <version>${log4j.version}</version>
         </dependency>
         <dependency>

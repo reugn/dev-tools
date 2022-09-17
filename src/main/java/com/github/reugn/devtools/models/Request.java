@@ -1,11 +1,13 @@
 package com.github.reugn.devtools.models;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpRequest;
+import java.time.Duration;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class Request {
 
@@ -15,20 +17,7 @@ public class Request {
     private String body;
     private String datetime;
 
-    public Request(JsonNode json) {
-        this.method = json.get("method").asText();
-        this.url = json.get("url").asText();
-
-        JsonNode headersNode = json.get("headers");
-        if (headersNode != null) {
-            this.headers = new HashMap<>();
-            headersNode.fields().forEachRemaining(key -> {
-                this.headers.put(key.getKey(), key.getValue().asText());
-            });
-        }
-
-        this.body = !json.get("body").toString().equals("\"\"") ? json.get("body").toPrettyString() : "";
-        this.datetime = json.get("datetime").asText();
+    private Request() {
     }
 
     public Request(String url, String method, Map<String, String> headers, String body) {
@@ -39,44 +28,46 @@ public class Request {
         this.datetime = new Date().toString();
     }
 
-    public Map<String, String> getHeaders() {
-        return headers;
+    public HttpRequest toHTTPRequest() {
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+                .uri(buildURI())
+                .method(method, HttpRequest.BodyPublishers.ofString(body))
+                .timeout(Duration.ofSeconds(30L));
+        if (headers.isEmpty()) {
+            return requestBuilder.build();
+        }
+        return requestBuilder
+                .headers(headers.entrySet().stream().flatMap(h ->
+                        Stream.of(h.getKey(), h.getValue())).toArray(String[]::new))
+                .build();
     }
 
-    public void setHeaders(Map<String, String> headers) {
-        this.headers = headers;
+    private URI buildURI() {
+        try {
+            return new URI(url.startsWith("http") ? url : "http://" + url);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public Map<String, String> getHeaders() {
+        return headers;
     }
 
     public String getMethod() {
         return method;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
-    }
-
     public String getBody() {
         return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getDatetime() {
         return datetime;
-    }
-
-    public void setDatetime(String datetime) {
-        this.datetime = datetime;
     }
 
     @Override
@@ -103,5 +94,4 @@ public class Request {
                 Objects.equals(body, req.body) &&
                 Objects.equals(headers, req.headers);
     }
-
 }

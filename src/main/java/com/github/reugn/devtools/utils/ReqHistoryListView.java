@@ -1,7 +1,7 @@
 package com.github.reugn.devtools.utils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.github.reugn.devtools.controllers.RestAPIController;
 import com.github.reugn.devtools.models.Request;
 import com.github.reugn.devtools.services.RestService;
@@ -10,20 +10,25 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ReqHistoryListView extends ListView<Request> {
 
+    private static final Logger log = LogManager.getLogger(ReqHistoryListView.class);
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    private RestService restService;
     private RestAPIController parentController;
 
     public ReqHistoryListView() {
@@ -33,9 +38,9 @@ public class ReqHistoryListView extends ListView<Request> {
     public ReqHistoryListView(RestAPIController controller) {
         super();
         this.parentController = controller;
-        this.initContextMenu();
+        initContextMenu();
 
-        this.setOnMouseClicked(event -> {
+        setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 openRequestWithData();
                 event.consume();
@@ -46,8 +51,8 @@ public class ReqHistoryListView extends ListView<Request> {
     private void initContextMenu() {
         MenuItem clearHistoryItem = new MenuItem("Clear History");
         clearHistoryItem.setOnAction(event -> {
-            this.getItems().clear();
-            RestService.REQ_HISTORY_LIST.clear();
+            getItems().clear();
+            restService.clearRequestHistory();
         });
 
         MenuItem openRequestItem = new MenuItem("Open Request");
@@ -60,75 +65,64 @@ public class ReqHistoryListView extends ListView<Request> {
         exportItem.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showSaveDialog(null);
-
             if (selectedFile == null) return;
             try {
-                String json = new ObjectMapper().writeValueAsString(this.getItems());
-                json = json.replaceAll("\\\\n", "")
-                        .replaceAll("\\\\", "")
-                        .replaceAll("\"\\{", "{")
-                        .replaceAll("}\"", "}");
+                String json = mapper.writeValueAsString(getItems());
                 Files.write(Paths.get(selectedFile.getPath()), json.getBytes(), StandardOpenOption.CREATE);
             } catch (IOException e) {
-                Logger.getLogger(getClass()).error(e.getMessage(), e);
+                log.error("Failed to export to file", e);
             }
-            Logger.getLogger(getClass()).info("File saved at " + new Date().toString());
+            log.info("File saved at {}", new Date());
         });
 
         MenuItem importItem = new MenuItem("Import from JSON");
         importItem.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(null);
-
             if (selectedFile == null) return;
-            String content;
-            try {
-                content = Files.lines(Paths.get(selectedFile.getPath()))
-                        .collect(Collectors.joining(System.lineSeparator()));
-
-                ArrayNode arrayNode = new ObjectMapper().readValue(content, ArrayNode.class);
-                List<Request> reqs = new ArrayList<>();
-                for (int i = 0; i < arrayNode.size(); i++) {
-                    Request req = new Request(arrayNode.get(i));
-                    reqs.add(req);
-                }
-                RestService.addToHistoryReqList(reqs);
-                this.setItems(FXCollections.observableArrayList(RestService.getReqHistory()));
+            try (Stream<String> stream = Files.lines(Paths.get(selectedFile.getPath()))) {
+                String history = stream.collect(Collectors.joining(System.lineSeparator()));
+                @SuppressWarnings("all")
+                List<Request> requestList = mapper.readValue(history, new TypeReference<List<Request>>() {
+                });
+                restService.addToRequestHistory(requestList);
+                setItems(FXCollections.observableArrayList(restService.getRequestHistory()));
             } catch (IOException e) {
-                Logger.getLogger(getClass()).error(e.getMessage(), e);
+                log.error("Failed to import from file", e);
             }
-            Logger.getLogger(getClass()).info("File loaded at " + new Date().toString());
+            log.info("File loaded at {}", new Date());
         });
 
-        this.setContextMenu(new ContextMenu(openRequestItem, deleteRequestItem, importItem, exportItem, clearHistoryItem));
+        setContextMenu(new ContextMenu(openRequestItem,
+                deleteRequestItem,
+                importItem,
+                exportItem,
+                clearHistoryItem));
     }
 
     private void openRequestWithData() {
-        if (this.getSelectionModel().isEmpty())
+        if (getSelectionModel().isEmpty())
             return;
 
-        try {
-            if (parentController == null)
-                throw new Exception("Parent RestAPIController has not been set!");
-
-            Request req = this.getSelectionModel().getSelectedItem();
-            parentController.handleNewTabwithData(req);
-        } catch (Exception e) {
-            Logger.getLogger(getClass()).error(e.getMessage(), e);
+        if (parentController != null) {
+            Request request = getSelectionModel().getSelectedItem();
+            parentController.handleNewTabWithData(request);
+        } else {
+            log.error("Parent RestAPIController has not been set.");
         }
     }
 
     private void deleteRequest() {
-        if (this.getSelectionModel().isEmpty())
+        if (getSelectionModel().isEmpty())
             return;
 
-        Request req = this.getSelectionModel().getSelectedItem();
-        this.getItems().remove(req);
-        RestService.REQ_HISTORY_LIST.remove(req);
+        Request request = getSelectionModel().getSelectedItem();
+        getItems().remove(request);
+        restService.removeFromRequestHistory(request);
     }
 
     public void setParentController(RestAPIController controller) {
         this.parentController = controller;
+        this.restService = parentController.getRestService();
     }
-
 }

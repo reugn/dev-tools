@@ -1,9 +1,9 @@
-package com.github.reugn.devtools.services;
+package com.github.reugn.devtools.async;
 
 import com.github.reugn.devtools.models.RestResponse;
 
 @FunctionalInterface
 public interface ResponseRunnable {
 
-    public void run(RestResponse response);
+    void run(RestResponse response);
 }

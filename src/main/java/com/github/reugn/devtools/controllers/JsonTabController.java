@@ -2,6 +2,7 @@ package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.services.JsonService;
 import com.github.reugn.devtools.utils.JsonSearchState;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,8 +27,20 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("unused")
 public class JsonTabController implements Initializable {
 
+    private static final Pattern JSON_REGEX = Pattern.compile("(?<JSONCURLY>\\{|\\})|" +
+            "(?<JSONPROPERTY>\\\".*\\\")\\s*:\\s*|" +
+            "(?<JSONVALUE>\\\".*\\\")|" +
+            "\\[(?<JSONARRAY>.*)\\]|" +
+            "(?<JSONNUMBER>\\d+.?\\d*)|" +
+            "(?<JSONBOOL>true|false)|" +
+            "(?<JSONNULL>null)" +
+            "(?<TEXT>.*)");
+
+    private static final int tabTitleLength = 12;
+    private final JsonService jsonService;
     @FXML
     private Button clearSpacesButton;
     @FXML
@@ -50,25 +63,20 @@ public class JsonTabController implements Initializable {
     private Label jsonMessage;
     @FXML
     private CodeArea jsonArea;
-
     private JsonSearchState searchState;
 
-    private static final Pattern JSON_REGEX = Pattern.compile("(?<JSONCURLY>\\{|\\})|" +
-            "(?<JSONPROPERTY>\\\".*\\\")\\s*:\\s*|" +
-            "(?<JSONVALUE>\\\".*\\\")|" +
-            "\\[(?<JSONARRAY>.*)\\]|" +
-            "(?<JSONNUMBER>\\d+.?\\d*)|" +
-            "(?<JSONBOOL>true|false)|" +
-            "(?<JSONNULL>null)" +
-            "(?<TEXT>.*)");
+    @Inject
+    public JsonTabController(JsonService jsonService) {
+        this.jsonService = jsonService;
+    }
 
     @FXML
     private void handlePrettyPrint(final ActionEvent event) {
         String data = jsonArea.getText();
         try {
-            String pretty = JsonService.format(data);
+            String pretty = jsonService.format(data);
             JsonController.instance().innerTabPane.getSelectionModel().getSelectedItem()
-                    .setText(tabTitle(JsonService.clearSpaces(data)));
+                    .setText(tabTitle(jsonService.clearSpaces(data)));
             jsonArea.replaceText(pretty);
             jsonMessage.setText("");
         } catch (Exception e) {
@@ -80,7 +88,7 @@ public class JsonTabController implements Initializable {
     private void handleClearSpaces(final ActionEvent event) {
         String data = jsonArea.getText();
         try {
-            String cleared = JsonService.clearSpaces(data);
+            String cleared = jsonService.clearSpaces(data);
             JsonController.instance().innerTabPane.getSelectionModel().getSelectedItem().setText(tabTitle(cleared));
             jsonArea.replaceText(cleared);
             jsonMessage.setText("");
@@ -89,9 +97,8 @@ public class JsonTabController implements Initializable {
         }
     }
 
-    private static final int tabTitleLength = 12;
-
     private String tabTitle(String json) {
+        if (json.isEmpty()) return "New";
         return json.length() > tabTitleLength ? json.substring(0, tabTitleLength) : json;
     }
 
@@ -185,9 +192,8 @@ public class JsonTabController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         jsonArea.setPrefHeight(1024);
         jsonArea.setWrapText(true);
-        jsonArea.textProperty().addListener((obs, oldText, newText) -> {
-            jsonArea.setStyleSpans(0, computeHighlighting(newText));
-        });
+        jsonArea.textProperty().addListener((obs, oldText, newText) ->
+                jsonArea.setStyleSpans(0, computeHighlighting(newText)));
         jsonMessage.setPadding(new Insets(5));
         jsonMessage.setTextFill(Color.RED);
 

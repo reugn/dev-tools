@@ -1,6 +1,6 @@
 # dev-tools ![Build](https://github.com/reugn/dev-tools/workflows/Build/badge.svg)
 
-The most popular software developer tools in one app.
+Widely used software developer tools in a single application.
 * [Json Editor](#json_editor)
 * [UUID/Password Generator](#generator)
 * [Hash Calculator](#hash_calculator)
@@ -11,18 +11,22 @@ The most popular software developer tools in one app.
 * [Logs Generator](#logs)
 
 ## Installation
-`dev-tools` is a Maven JavaFX application.  
-Build an executable jar from the source:
+* `dev-tools` is a [JavaFX](https://openjfx.io/) Maven application.
+Build an executable jar from the source.
 ```
 mvn clean package -U
 ```
-Build a native application using [Gluon Client plugin](https://github.com/gluonhq/client-maven-plugin):
-```
-mvn clean client:build
-```
-or download the latest release.
 
-***JavaFX is not a part of Java SDK as of JDK 11.***
+* Build a native application using the [GluonFX Maven plugin](https://github.com/gluonhq/gluonfx-maven-plugin).
+[GraalVM](https://www.graalvm.org/) installation is required.
+```
+mvn clean gluonfx:build
+```
+
+* Download a build from the [releases](https://github.com/reugn/dev-tools/releases).
+
+## Prerequisites
+* Java 11 (JavaFX is not a part of Java SDK as of JDK 11).
 
 ## Features
 * Dark/Light mode.
@@ -76,6 +80,7 @@ or download the latest release.
 
 ### Rest API Tester
 * Rest API testing client.
+* Export/import HTTP request history.
 
 ![](docs/images/rest_api.png)
 

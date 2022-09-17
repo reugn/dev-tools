@@ -2,11 +2,16 @@ package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.services.AsciiService;
 import com.github.reugn.devtools.utils.Elements;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
@@ -18,6 +23,7 @@ import java.util.ResourceBundle;
 
 public class AsciiController implements Initializable {
 
+    private final AsciiService asciiService;
     @FXML
     private Label asciiLabel;
     @FXML
@@ -46,6 +52,11 @@ public class AsciiController implements Initializable {
     private Label asciiCharLabel;
     @FXML
     private Label fontStyleLabel;
+
+    @Inject
+    public AsciiController(AsciiService asciiService) {
+        this.asciiService = asciiService;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -78,12 +89,12 @@ public class AsciiController implements Initializable {
     }
 
     @FXML
-    private void handleKeyMatch(final KeyEvent keyEvent) {
+    private void handleKeyMatch(@SuppressWarnings("unused") final KeyEvent keyEvent) {
         doConvert();
     }
 
     @FXML
-    private void handleConvert(final ActionEvent actionEvent) {
+    private void handleConvert(@SuppressWarnings("unused") final ActionEvent actionEvent) {
         doConvert();
     }
 
@@ -92,15 +103,15 @@ public class AsciiController implements Initializable {
         asciiResult.setText("");
         if (validate()) {
             int height = Integer.parseInt(fontSizeField.getText());
-            int style = AsciiService.getStyleByName(fontStyleComboBox.getSelectionModel().getSelectedItem());
-            String converted = AsciiService.convert(asciiField.getText(), asciiCharField.getText(),
+            int style = asciiService.getStyleByName(fontStyleComboBox.getSelectionModel().getSelectedItem());
+            String converted = asciiService.convert(asciiField.getText(), asciiCharField.getText(),
                     height, style, fontNameComboBox.getSelectionModel().getSelectedItem());
             asciiResult.setText(converted);
         }
     }
 
     @FXML
-    private void handleClear(final ActionEvent actionEvent) {
+    private void handleClear(@SuppressWarnings("unused") final ActionEvent actionEvent) {
         asciiField.setText("");
         asciiResult.setText("");
     }
@@ -113,7 +124,8 @@ public class AsciiController implements Initializable {
                 Integer.parseInt(fontSizeField.getText()) > 128) {
             fontSizeField.setBorder(Elements.alertBorder);
             return false;
-        } else return !asciiField.getText().isEmpty();
+        }
+        return !asciiField.getText().isEmpty();
     }
 
     private void resetBorders() {

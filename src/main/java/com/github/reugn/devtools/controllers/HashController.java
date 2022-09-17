@@ -1,6 +1,7 @@
 package com.github.reugn.devtools.controllers;
 
 import com.github.reugn.devtools.services.HashService;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,64 +18,64 @@ import java.util.ResourceBundle;
 
 public class HashController implements Initializable {
 
-    @FXML
-    private TextArea hashInput;
-
-    @FXML
-    private TextArea hashOutput;
-
-    @FXML
-    private ComboBox<String> hashAlgoSelector;
-
-    @FXML
-    private Button hashCalculateButton;
-
+    private final HashService hashService;
     @FXML
     public Button hashMoveUpButton;
-
+    @FXML
+    private TextArea hashInput;
+    @FXML
+    private TextArea hashOutput;
+    @FXML
+    private ComboBox<String> hashAlgoSelector;
+    @FXML
+    private Button hashCalculateButton;
     @FXML
     private Button hashClearButton;
-
     @FXML
     private Label hashMessage;
 
+    @Inject
+    public HashController(HashService hashService) {
+        this.hashService = hashService;
+    }
+
     @FXML
-    private void handleClear(final ActionEvent event) {
+    private void handleClear(@SuppressWarnings("unused") final ActionEvent event) {
         hashInput.setText("");
         hashOutput.setText("");
         hashMessage.setText("");
     }
 
     @FXML
-    private void handleCalculate(final ActionEvent event) {
+    private void handleCalculate(@SuppressWarnings("unused") final ActionEvent event) {
         hashMessage.setText("");
         try {
             String enc;
             String data = hashInput.getText();
             switch (hashAlgoSelector.getSelectionModel().getSelectedItem()) {
                 case "md5":
-                    enc = HashService.calculateHash(data, "MD5");
+                    enc = hashService.calculateHash(data, "MD5");
                     break;
                 case "sha1":
-                    enc = HashService.calculateHash(data, "SHA-1");
+                    enc = hashService.calculateHash(data, "SHA-1");
                     break;
                 case "sha256":
-                    enc = HashService.calculateHash(data, "SHA-256");
+                    enc = hashService.calculateHash(data, "SHA-256");
                     break;
                 case "murmur3_128":
-                    enc = HashService.murmur3_128(data);
+                    enc = hashService.murmur3_128(data);
                     break;
                 case "Url encode":
-                    enc = HashService.urlEncode(data);
+                    enc = hashService.urlEncode(data);
                     break;
                 case "Url decode":
-                    enc = HashService.urlDecode(data);
+                    enc = hashService.urlDecode(data);
                     break;
                 case "Base64 encode":
-                    enc = HashService.base64Encode(data);
+                    enc = hashService.base64Encode(data);
                     break;
                 case "Base64 decode":
-                    enc = HashService.base64Decode(data);
+                    enc = hashService.base64Decode(data);
                     break;
                 default:
                     enc = "NA";
@@ -87,7 +88,7 @@ public class HashController implements Initializable {
     }
 
     @FXML
-    private void handleMoveUp(final ActionEvent event) {
+    private void handleMoveUp(@SuppressWarnings("unused") final ActionEvent event) {
         if (!hashOutput.getText().isEmpty()) {
             hashInput.setText(hashOutput.getText());
             hashOutput.setText("");
