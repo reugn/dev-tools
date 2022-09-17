@@ -9,17 +9,17 @@ public class AsciiServiceImpl implements AsciiService {
     public String convert(String text, String asciiChar, int textHeight, int fontStyle, String fontName) {
         Font font = new Font(fontName, fontStyle, textHeight);
         int imageWidth = imageWidth(text, font);
-        BufferedImage image = new BufferedImage(imageWidth, textHeight, BufferedImage.TYPE_INT_RGB);
-        Graphics g = image.getGraphics();
-        g.setFont(font);
-        g.drawString(text, 0, bPos(g, font));
-        StringBuilder buff = new StringBuilder();
+        BufferedImage image = new BufferedImage(imageWidth, textHeight, BufferedImage.TYPE_BYTE_BINARY);
+        Graphics graphics = image.getGraphics();
+        graphics.setFont(font);
+        graphics.drawString(text, 0, bPos(graphics, font));
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < textHeight; i++) {
             for (int j = 0; j < imageWidth; j++)
-                buff.append(image.getRGB(j, i) == Color.WHITE.getRGB() ? asciiChar : " ");
-            buff.append("\n");
+                builder.append(image.getRGB(j, i) == Color.WHITE.getRGB() ? asciiChar : " ");
+            builder.append("\n");
         }
-        return buff.toString();
+        return builder.toString();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class AsciiServiceImpl implements AsciiService {
     }
 
     private int imageWidth(String text, Font font) {
-        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_BYTE_BINARY);
         Graphics graphics = image.getGraphics();
         graphics.setFont(font);
         return graphics.getFontMetrics().stringWidth(text);
