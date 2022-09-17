@@ -22,7 +22,7 @@ public class RestServiceImpl implements RestService {
     private static final Logger log = LogManager.getLogger(RestServiceImpl.class);
 
     private final List<Request> requestHistoryList = new LinkedList<>();
-    private final HttpClient httpClient = HttpClient.newBuilder().build();
+    private final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build();
     private RestAPIController restAPIController;
 
     @Override
