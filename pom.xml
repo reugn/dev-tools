@@ -15,7 +15,7 @@
     <properties>
         <java.version>11</java.version>
 
-        <jackson.version>2.13.4</jackson.version>
+        <jackson.version>2.13.4.2</jackson.version>
         <javafx.version>11.0.2</javafx.version>
         <controlsfx.version>11.0.3</controlsfx.version>
         <richtextfx.version>0.10.9</richtextfx.version>
