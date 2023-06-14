@@ -20,7 +20,7 @@
         <controlsfx.version>11.0.3</controlsfx.version>
         <richtextfx.version>0.10.9</richtextfx.version>
         <log4j.version>2.18.0</log4j.version>
-        <guava.version>31.1-jre</guava.version>
+        <guava.version>32.0.0-jre</guava.version>
         <guice.version>5.1.0</guice.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
     </properties>
