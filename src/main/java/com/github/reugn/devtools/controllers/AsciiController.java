@@ -60,7 +60,6 @@ public class AsciiController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         HBox.setMargin(fontSizeLabel, new Insets(15, 5, 10, 0));
         HBox.setMargin(fontNameLabel, new Insets(15, 5, 10, 0));
         HBox.setMargin(asciiCharField, new Insets(10, 5, 10, 0));
@@ -120,8 +119,8 @@ public class AsciiController implements Initializable {
         if (asciiCharField.getText().length() != 1) {
             asciiCharField.setBorder(Elements.alertBorder);
             return false;
-        } else if (!StringUtils.isNumeric(fontSizeField.getText()) ||
-                Integer.parseInt(fontSizeField.getText()) > 128) {
+        } else if (!StringUtils.isNumeric(fontSizeField.getText())
+                || Integer.parseInt(fontSizeField.getText()) > 128) {
             fontSizeField.setBorder(Elements.alertBorder);
             return false;
         }

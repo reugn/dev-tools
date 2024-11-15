@@ -78,10 +78,10 @@ public class LogFaker {
     }
 
     public String domain() {
-        int subDomainLength = rand.nextInt(12);
-        int domainLength = rand.nextInt(12);
         StringBuilder builder = new StringBuilder();
+        int subDomainLength = rand.nextInt(12);
         if (subDomainLength > 0) builder.append(generator.generate(subDomainLength)).append(".");
+        int domainLength = rand.nextInt(12);
         if (domainLength > 0) builder.append(generator.generate(domainLength)).append(".");
         builder.append(getRandom(domainExtensions));
         return builder.toString();

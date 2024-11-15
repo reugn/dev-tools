@@ -80,6 +80,7 @@ public class ReqHistoryListView extends ListView<Request> {
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(null);
             if (selectedFile == null) return;
+
             try (Stream<String> stream = Files.lines(Paths.get(selectedFile.getPath()))) {
                 String history = stream.collect(Collectors.joining(System.lineSeparator()));
                 @SuppressWarnings("all")
@@ -101,8 +102,9 @@ public class ReqHistoryListView extends ListView<Request> {
     }
 
     private void openRequestWithData() {
-        if (getSelectionModel().isEmpty())
+        if (getSelectionModel().isEmpty()) {
             return;
+        }
 
         if (parentController != null) {
             Request request = getSelectionModel().getSelectedItem();
@@ -113,8 +115,9 @@ public class ReqHistoryListView extends ListView<Request> {
     }
 
     private void deleteRequest() {
-        if (getSelectionModel().isEmpty())
+        if (getSelectionModel().isEmpty()) {
             return;
+        }
 
         Request request = getSelectionModel().getSelectedItem();
         getItems().remove(request);

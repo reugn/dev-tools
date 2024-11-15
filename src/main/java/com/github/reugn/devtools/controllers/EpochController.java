@@ -117,7 +117,7 @@ public class EpochController implements Initializable {
     @FXML
     private void handleTimeZoneSearch(KeyEvent keyEvent) {
         String key = keyEvent.getText();
-        if (key.length() == 0) return;
+        if (key.isEmpty()) return;
         int i = 0;
         for (String item : timeZoneComboBox.getItems()) {
             if (item.toLowerCase().startsWith(key) && i > timeZoneComboBoxIndex) {

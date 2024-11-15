@@ -3,7 +3,6 @@ package com.github.reugn.devtools.services;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -26,13 +25,13 @@ public class HashServiceImpl implements HashService {
     }
 
     @Override
-    public String urlEncode(String value) throws UnsupportedEncodingException {
-        return URLEncoder.encode(value, StandardCharsets.UTF_8.toString()).replace("+", "%20");
+    public String urlEncode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8).replace("+", "%20");
     }
 
     @Override
-    public String urlDecode(String value) throws UnsupportedEncodingException {
-        return URLDecoder.decode(value, StandardCharsets.UTF_8.toString());
+    public String urlDecode(String value) {
+        return URLDecoder.decode(value, StandardCharsets.UTF_8);
     }
 
     @Override

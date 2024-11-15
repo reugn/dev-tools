@@ -168,8 +168,9 @@ public class LogsController implements Initializable {
     private void handleBrowse(@SuppressWarnings("unused") ActionEvent actionEvent) {
         DirectoryChooser chooser = new DirectoryChooser();
         File file = chooser.showDialog(null);
-        if (file != null)
+        if (file != null) {
             outputFileField.setText(file.getPath());
+        }
     }
 
     private boolean validate() {

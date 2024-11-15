@@ -86,18 +86,21 @@ public class RestAPIController extends TabPaneController {
             if (currentTab != null && currentTab.isClosable())
                 innerTabPane.getTabs().remove(currentTab);
         });
+        MenuItem closeAllItem = createCloseAllMenuItem();
+        innerTabPane.setContextMenu(new ContextMenu(closeCurrentItem, closeAllItem));
+    }
+
+    private MenuItem createCloseAllMenuItem() {
         MenuItem closeAllItem = new MenuItem("Close All Tabs");
         closeAllItem.setOnAction(event ->
-                innerTabPane.getTabs()
-                        .setAll(
-                                FXCollections.observableArrayList(
-                                        innerTabPane.getTabs()
-                                                .stream()
-                                                .filter(tab -> !tab.isClosable())
-                                                .collect(Collectors.toList()))
-                        )
+                innerTabPane.getTabs().setAll(FXCollections.observableArrayList(
+                        innerTabPane.getTabs()
+                                .stream()
+                                .filter(tab -> !tab.isClosable())
+                                .collect(Collectors.toList()))
+                )
         );
-        innerTabPane.setContextMenu(new ContextMenu(closeCurrentItem, closeAllItem));
+        return closeAllItem;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.github.reugn.devtools.models;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.http.HttpRequest;
 import java.time.Duration;
 import java.util.Date;
@@ -33,9 +32,11 @@ public class Request {
                 .uri(buildURI())
                 .method(method, HttpRequest.BodyPublishers.ofString(body))
                 .timeout(Duration.ofSeconds(30L));
+
         if (headers.isEmpty()) {
             return requestBuilder.build();
         }
+
         return requestBuilder
                 .headers(headers.entrySet().stream().flatMap(h ->
                         Stream.of(h.getKey(), h.getValue())).toArray(String[]::new))
@@ -43,11 +44,7 @@ public class Request {
     }
 
     private URI buildURI() {
-        try {
-            return new URI(url.startsWith("http") ? url : "http://" + url);
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return URI.create(url.startsWith("http") ? url : "http://" + url);
     }
 
     public Map<String, String> getHeaders() {
@@ -89,9 +86,9 @@ public class Request {
             return false;
         }
         Request req = (Request) obj;
-        return Objects.equals(url, req.url) &&
-                Objects.equals(method, req.method) &&
-                Objects.equals(body, req.body) &&
-                Objects.equals(headers, req.headers);
+        return Objects.equals(url, req.url)
+                && Objects.equals(method, req.method)
+                && Objects.equals(body, req.body)
+                && Objects.equals(headers, req.headers);
     }
 }

@@ -12,6 +12,7 @@ public class RegexServiceImpl implements RegexService {
 
     @Override
     public RegexResult match(String regex, String target, List<String> flagList) {
+        @SuppressWarnings("MagicConstant")
         Pattern pattern = Pattern.compile(regex, calculateFlags(flagList));
         Matcher matcher = pattern.matcher(target);
 
