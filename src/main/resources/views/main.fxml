@@ -1,4 +1,5 @@
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <VBox fx:controller="com.github.reugn.devtools.controllers.MainController"
       xmlns:fx="http://javafx.com/fxml" alignment="TOP_CENTER">
@@ -12,6 +13,7 @@
                     <MenuItem text="Exit" onAction="#handleExitAction" accelerator="Ctrl+Shift+E"/>
                 </items>
             </Menu>
+
             <Menu text="View">
                 <items>
                     <fx:define>
@@ -27,6 +29,20 @@
                     </Menu>
                 </items>
             </Menu>
+
+            <Menu text="Tools" fx:id="toolsMenu">
+                <items>
+                    <MenuItem text="Json Editor" onAction="#handleMenuAction" userData="json.fxml" disable="true"/>
+                    <MenuItem text="Generator" onAction="#handleMenuAction" userData="generator.fxml"/>
+                    <MenuItem text="Hash Calculator" onAction="#handleMenuAction" userData="hash.fxml"/>
+                    <MenuItem text="Epoch Converter" onAction="#handleMenuAction" userData="epoch.fxml"/>
+                    <MenuItem text="Regex Tester" onAction="#handleMenuAction" userData="regex.fxml"/>
+                    <MenuItem text="Rest API" onAction="#handleMenuAction" userData="rest_api.fxml"/>
+                    <MenuItem text="ASCII Art" onAction="#handleMenuAction" userData="ascii.fxml"/>
+                    <MenuItem text="Log Generator" onAction="#handleMenuAction" userData="logs.fxml"/>
+                </items>
+            </Menu>
+
             <Menu text="Help">
                 <items>
                     <MenuItem text="Search" disable="true"/>
@@ -37,33 +53,5 @@
         </menus>
     </MenuBar>
 
-    <TabPane fx:id="tabPane" xmlns="http://javafx.com/javafx/8.0.40"
-             xmlns:fx="http://www.w3.org/2001/XInclude">
-        <tabs>
-            <Tab fx:id="jsonTab" text="Json Editor" closable="false">
-                <fx:include source="json.fxml"/>
-            </Tab>
-            <Tab fx:id="generatorTab" text="Generator" closable="false">
-                <fx:include source="generator.fxml"/>
-            </Tab>
-            <Tab fx:id="hashTab" text="Hash Calculator" closable="false">
-                <fx:include source="hash.fxml"/>
-            </Tab>
-            <Tab fx:id="urlTab" text="Epoch Converter" closable="false">
-                <fx:include source="epoch.fxml"/>
-            </Tab>
-            <Tab fx:id="regexTab" text="Regex" closable="false">
-                <fx:include source="regex.fxml"/>
-            </Tab>
-            <Tab fx:id="restApiTab" text="Rest API" closable="false">
-                <fx:include source="rest_api.fxml"/>
-            </Tab>
-            <Tab fx:id="asciiArtTab" text="ASCII Art" closable="false">
-                <fx:include source="ascii.fxml"/>
-            </Tab>
-            <Tab fx:id="logTab" text="LogGen" closable="false">
-                <fx:include source="logs.fxml"/>
-            </Tab>
-        </tabs>
-    </TabPane>
+    <BorderPane fx:id="mainPane"/>
 </VBox>

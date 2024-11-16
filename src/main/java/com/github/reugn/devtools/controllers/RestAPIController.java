@@ -8,6 +8,7 @@ import com.google.inject.Provider;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -23,7 +24,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
 
 public class RestAPIController extends TabPaneController {
 
@@ -65,7 +65,8 @@ public class RestAPIController extends TabPaneController {
             if (event.getCode() == KeyCode.ENTER) {
                 if (!searchField.getText().isEmpty()) {
                     List<Request> filtered = restService.getRequestHistory().stream()
-                            .filter(x -> x.toString().contains(searchField.getText())).collect(Collectors.toList());
+                            .filter(r -> r.toString().contains(searchField.getText()))
+                            .collect(Collectors.toList());
                     historyListView.setItems(FXCollections.observableArrayList(filtered));
                 } else {
                     historyListView.setItems(FXCollections.observableArrayList(restService.getRequestHistory()));
@@ -83,8 +84,9 @@ public class RestAPIController extends TabPaneController {
         MenuItem closeCurrentItem = new MenuItem("Close Current Tab");
         closeCurrentItem.setOnAction(event -> {
             Tab currentTab = innerTabPane.getSelectionModel().getSelectedItem();
-            if (currentTab != null && currentTab.isClosable())
+            if (currentTab != null && currentTab.isClosable()) {
                 innerTabPane.getTabs().remove(currentTab);
+            }
         });
         MenuItem closeAllItem = createCloseAllMenuItem();
         innerTabPane.setContextMenu(new ContextMenu(closeCurrentItem, closeAllItem));
@@ -101,6 +103,16 @@ public class RestAPIController extends TabPaneController {
                 )
         );
         return closeAllItem;
+    }
+
+    public void handleNewTabWithData(Request request) {
+        FXMLLoader loader = fxmlLoaderProvider.get();
+        Node node = loadFXML(loader, getInnerResource());
+        RestAPITabController controller = loader.getController();
+        controller.loadRequest(request);
+        Tab newTab = new Tab(controller.tabTitle());
+        newTab.setContent(node);
+        updateTabPane(newTab);
     }
 
     @Override

@@ -6,7 +6,9 @@ import com.github.reugn.devtools.services.JsonService;
 import com.github.reugn.devtools.services.RestService;
 import com.github.reugn.devtools.utils.Elements;
 import com.github.reugn.devtools.utils.HttpHeadersTextField;
+import com.github.reugn.devtools.utils.ResourceLoader;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,11 +37,10 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.requireNonNull;
-
-public class RestAPITabController implements Initializable {
+public class RestAPITabController extends ResourceLoader implements Initializable {
 
     private static final Logger log = LogManager.getLogger(RestAPITabController.class);
+    private static final String headerNodeResourcePath = "/views/rest_api_header.fxml";
     private static final int tabTitleLength = 12;
 
     private final RestService restService;
@@ -66,7 +67,9 @@ public class RestAPITabController implements Initializable {
     private VBox responseVbox;
 
     @Inject
-    public RestAPITabController(RestService restService, JsonService jsonService) {
+    public RestAPITabController(Provider<FXMLLoader> fxmlLoaderProvider,
+                                RestService restService, JsonService jsonService) {
+        super(fxmlLoaderProvider);
         this.restService = restService;
         this.jsonService = jsonService;
     }
@@ -165,12 +168,8 @@ public class RestAPITabController implements Initializable {
     }
 
     private void addHeader() {
-        try {
-            Node header = loadHeaderNode();
-            requestHeadersVBox.getChildren().add(header);
-        } catch (Exception e) {
-            log.warn("Failed to add header", e);
-        }
+        Node header = loadFXML(headerNodeResourcePath);
+        requestHeadersVBox.getChildren().add(header);
     }
 
     @FXML
@@ -188,27 +187,25 @@ public class RestAPITabController implements Initializable {
 
         uriTextField.setText(req.getUrl());
         requestBodyTextArea.setText(req.getBody());
-        try {
-            boolean first = true;
-            for (Map.Entry<String, String> entry : req.getHeaders().entrySet()) {
-                if (first) {
-                    HBox header = (HBox) requestHeadersVBox.getChildren().get(0);
-                    setHeader(header, entry.getKey(), entry.getValue());
-                    first = false;
-                } else {
-                    HBox header = (HBox) loadHeaderNode();
-                    setHeader(header, entry.getKey(), entry.getValue());
-                    requestHeadersVBox.getChildren().add(header);
-                }
-            }
 
-            methodComboBox.getItems().forEach(httpMethod -> {
-                if (httpMethod.equals(req.getMethod()))
-                    methodComboBox.getSelectionModel().select(httpMethod);
-            });
-        } catch (IOException e) {
-            log.warn("Error in loadRequest", e);
+        boolean first = true;
+        for (Map.Entry<String, String> entry : req.getHeaders().entrySet()) {
+            if (first) {
+                HBox header = (HBox) requestHeadersVBox.getChildren().get(0);
+                setHeader(header, entry.getKey(), entry.getValue());
+                first = false;
+            } else {
+                HBox header = (HBox) loadFXML(headerNodeResourcePath);
+                setHeader(header, entry.getKey(), entry.getValue());
+                requestHeadersVBox.getChildren().add(header);
+            }
         }
+
+        methodComboBox.getItems().forEach(httpMethod -> {
+            if (httpMethod.equals(req.getMethod())) {
+                methodComboBox.getSelectionModel().select(httpMethod);
+            }
+        });
     }
 
     private void setHeader(HBox header, String key, String value) {
@@ -216,11 +213,5 @@ public class RestAPITabController implements Initializable {
         htf.setText(key);
         TextField tf = (TextField) header.getChildren().get(1);
         tf.setText(value);
-    }
-
-    private Node loadHeaderNode() throws IOException {
-        return FXMLLoader.load(
-                requireNonNull(getClass().getResource("/views/rest_api_header.fxml"))
-        );
     }
 }
