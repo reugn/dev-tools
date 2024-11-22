@@ -13,6 +13,10 @@ Label.uc {
     -fx-padding: 5 5 5 5;
 }
 
+.vPad {
+    -fx-padding: 10 0 10 0;
+}
+
 .regexField {
     -fx-text-fill: #001a4d;
     -fx-font-weight: bold;

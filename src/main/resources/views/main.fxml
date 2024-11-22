@@ -40,6 +40,7 @@
                     <MenuItem text="Rest API" onAction="#handleMenuAction" userData="rest_api.fxml"/>
                     <MenuItem text="ASCII Art" onAction="#handleMenuAction" userData="ascii.fxml"/>
                     <MenuItem text="Log Generator" onAction="#handleMenuAction" userData="logs.fxml"/>
+                    <MenuItem text="Image Editor" onAction="#handleMenuAction" userData="image_editor.fxml"/>
                 </items>
             </Menu>
 
