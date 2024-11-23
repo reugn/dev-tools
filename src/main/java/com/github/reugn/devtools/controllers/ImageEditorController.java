@@ -213,6 +213,7 @@ public class ImageEditorController implements Initializable {
         log.info("handleUndoImage: {}", snapshotIndex);
         if (snapshotIndex == 0) {
             undoButton.setDisable(true);
+            canvasDimensionsButton.setDisable(false);
         }
         redoButton.setDisable(false);
         drawImage(image);
@@ -309,7 +310,10 @@ public class ImageEditorController implements Initializable {
         }
         canvas.setWidth(width);
         canvas.setHeight(height);
+        gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        canvas.requestFocus();
         addSnapshot();
     }
 
@@ -348,6 +352,7 @@ public class ImageEditorController implements Initializable {
         imageView.setRotate(degrees);
         Image rotatedImage = imageView.snapshot(snapshotParameters, null);
         drawImage(rotatedImage);
+        canvas.requestFocus();
         addSnapshot();
     }
 
@@ -368,6 +373,7 @@ public class ImageEditorController implements Initializable {
         }
 
         drawImage(invertedImage);
+        canvas.requestFocus();
         addSnapshot();
     }
 
@@ -379,6 +385,7 @@ public class ImageEditorController implements Initializable {
         selectedToolButton.setDisable(true);
         tool = Tool.valueOf(toolName);
         canvas.setCursor(tool.cursor);
+        canvas.requestFocus();
         log.info("Selected {}", tool);
 
         toolSettingsContainer.getChildren().clear();
