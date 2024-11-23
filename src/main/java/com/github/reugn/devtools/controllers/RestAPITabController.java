@@ -1,7 +1,7 @@
 package com.github.reugn.devtools.controllers;
 
-import com.github.reugn.devtools.models.Request;
-import com.github.reugn.devtools.models.RestResponse;
+import com.github.reugn.devtools.models.HttpRequest;
+import com.github.reugn.devtools.models.HttpResponse;
 import com.github.reugn.devtools.services.JsonService;
 import com.github.reugn.devtools.services.RestService;
 import com.github.reugn.devtools.utils.Elements;
@@ -45,6 +45,7 @@ public class RestAPITabController extends ResourceLoader implements Initializabl
 
     private final RestService restService;
     private final JsonService jsonService;
+
     @FXML
     private ComboBox<String> methodComboBox;
     @FXML
@@ -106,7 +107,7 @@ public class RestAPITabController extends ResourceLoader implements Initializabl
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
 
         sendButton.setDisable(true);
-        Request request = new Request(uriTextField.getText(),
+        HttpRequest request = new HttpRequest(uriTextField.getText(),
                 methodComboBox.getValue(),
                 headers,
                 requestBodyTextArea.getText());
@@ -120,7 +121,7 @@ public class RestAPITabController extends ResourceLoader implements Initializabl
         });
     }
 
-    private void requestCompleted(RestResponse res) {
+    private void requestCompleted(HttpResponse res) {
         Platform.runLater(() -> {
             responseBodyTextArea.setText(tryPrettyPrint(res.getBody()));
             responseHeadersTextArea.setText(res.getHeaders());
@@ -181,7 +182,7 @@ public class RestAPITabController extends ResourceLoader implements Initializabl
         return requestHeadersVBox.getChildren().size();
     }
 
-    public void loadRequest(Request req) {
+    public void loadRequest(HttpRequest req) {
         while (handleRemoveHeader(new ActionEvent()) > 1) {
         }
 

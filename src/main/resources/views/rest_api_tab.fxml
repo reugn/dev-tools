@@ -12,6 +12,7 @@
         <TextField fx:id="uriTextField"/>
         <Button fx:id="sendButton" onAction="#handleSend">Send</Button>
     </HBox>
+
     <VBox>
         <Label styleClass="info" text="Request"/>
         <TabPane>
@@ -32,6 +33,7 @@
             </Tab>
         </TabPane>
     </VBox>
+
     <VBox fx:id="responseVbox">
         <HBox>
             <Label styleClass="info" text="Response"/>

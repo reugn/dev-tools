@@ -26,23 +26,18 @@
                 <padding>
                     <Insets top="7"/>
                 </padding>
-                <TextField fx:id="searchField" promptText="Search History..."></TextField>
-                <ReqHistoryListView fx:id="historyListView"
-                                    BorderPane.alignment="CENTER"/>
+                <TextField fx:id="searchField" promptText="Search History..."/>
+                <ReqHistoryListView fx:id="historyListView" BorderPane.alignment="CENTER"/>
             </VBox>
             <TabPane fx:id="innerTabPane" styleClass="inner">
-                <tabs>
-                    <Tab text="New" closable="false">
-                        <fx:include source="rest_api_tab.fxml"/>
-                    </Tab>
-                    <Tab fx:id="addNewTab" text="+" closable="false"
-                         onSelectionChanged="#handleNewTab"/>
-                </tabs>
+                <Tab text="New" closable="false">
+                    <fx:include source="rest_api_tab.fxml"/>
+                </Tab>
+                <Tab fx:id="addNewTab" text="+" closable="false" onSelectionChanged="#handleNewTab"/>
             </TabPane>
         </SplitPane>
     </center>
+
     <left>
-
     </left>
-
 </BorderPane>

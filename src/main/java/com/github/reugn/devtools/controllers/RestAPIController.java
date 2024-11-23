@@ -1,6 +1,6 @@
 package com.github.reugn.devtools.controllers;
 
-import com.github.reugn.devtools.models.Request;
+import com.github.reugn.devtools.models.HttpRequest;
 import com.github.reugn.devtools.services.RestService;
 import com.github.reugn.devtools.utils.ReqHistoryListView;
 import com.google.inject.Inject;
@@ -27,9 +27,10 @@ import java.util.stream.Collectors;
 
 public class RestAPIController extends TabPaneController {
 
-    @FXML
     private static RestAPIController self;
+
     private final RestService restService;
+
     @FXML
     ReqHistoryListView historyListView;
     @FXML
@@ -64,7 +65,7 @@ public class RestAPIController extends TabPaneController {
         searchField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 if (!searchField.getText().isEmpty()) {
-                    List<Request> filtered = restService.getRequestHistory().stream()
+                    List<HttpRequest> filtered = restService.getRequestHistory().stream()
                             .filter(r -> r.toString().contains(searchField.getText()))
                             .collect(Collectors.toList());
                     historyListView.setItems(FXCollections.observableArrayList(filtered));
@@ -105,7 +106,7 @@ public class RestAPIController extends TabPaneController {
         return closeAllItem;
     }
 
-    public void handleNewTabWithData(Request request) {
+    public void handleNewTabWithData(HttpRequest request) {
         FXMLLoader loader = fxmlLoaderProvider.get();
         Node node = loadFXML(loader, getInnerResource());
         RestAPITabController controller = loader.getController();
@@ -120,7 +121,7 @@ public class RestAPIController extends TabPaneController {
         return "/views/rest_api_tab.fxml";
     }
 
-    public ListView<Request> getHistoryListView() {
+    public ListView<HttpRequest> getHistoryListView() {
         return historyListView;
     }
 }

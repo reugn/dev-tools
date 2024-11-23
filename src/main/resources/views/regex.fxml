@@ -2,7 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.CheckComboBox?>
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.CodeArea?>
@@ -21,25 +23,24 @@
         <VBox>
             <HBox>
                 <Label fx:id="regexLabel" text="Regex:"/>
-                <TextField styleClass="regexField" fx:id="regexExpression" onKeyPressed="#handleKeyMatch"/>
+                <TextField styleClass="regexField" fx:id="regexExpressionField" onKeyPressed="#handleKeyMatch"/>
                 <CheckComboBox fx:id="regexFlagsComboBox"/>
                 <Button fx:id="regexCalculateButton" onAction="#handleMatch">Match</Button>
                 <Button fx:id="regexClearButton" onAction="#handleClear">Clear</Button>
-                <Label fx:id="regexMessage"/>
+                <Label fx:id="regexMessageLabel"/>
             </HBox>
             <Separator/>
             <VBox>
                 <Label styleClass="info" text="Target String"/>
                 <VirtualizedScrollPane>
                     <content>
-                        <CodeArea fx:id="regexTarget" VBox.vgrow="ALWAYS"/>
+                        <CodeArea fx:id="regexTargetCodeArea" VBox.vgrow="ALWAYS"/>
                     </content>
                 </VirtualizedScrollPane>
             </VBox>
             <VBox>
                 <Label styleClass="info" text="Match Results"/>
-                <TextArea fx:id="regexResult">
-                </TextArea>
+                <TextArea fx:id="regexResultTextArea"/>
             </VBox>
         </VBox>
     </center>

@@ -105,7 +105,7 @@ public class MainController extends ResourceLoader implements Initializable {
         about.getDialogPane().setContent(vbox);
 
         // initialize the main pane
-        setMainPane("/views/json.fxml");
+        setMainPane("/views/json_editor.fxml");
     }
 
     @FXML

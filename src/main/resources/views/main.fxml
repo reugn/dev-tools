@@ -32,14 +32,15 @@
 
             <Menu text="Tools" fx:id="toolsMenu">
                 <items>
-                    <MenuItem text="Json Editor" onAction="#handleMenuAction" userData="json.fxml" disable="true"/>
+                    <MenuItem text="Json Editor" onAction="#handleMenuAction" userData="json_editor.fxml"
+                              disable="true"/>
                     <MenuItem text="Generator" onAction="#handleMenuAction" userData="generator.fxml"/>
-                    <MenuItem text="Hash Calculator" onAction="#handleMenuAction" userData="hash.fxml"/>
-                    <MenuItem text="Epoch Converter" onAction="#handleMenuAction" userData="epoch.fxml"/>
+                    <MenuItem text="Hash Calculator" onAction="#handleMenuAction" userData="hash_calculator.fxml"/>
+                    <MenuItem text="Epoch Converter" onAction="#handleMenuAction" userData="epoch_converter.fxml"/>
                     <MenuItem text="Regex Tester" onAction="#handleMenuAction" userData="regex.fxml"/>
                     <MenuItem text="Rest API" onAction="#handleMenuAction" userData="rest_api.fxml"/>
-                    <MenuItem text="ASCII Art" onAction="#handleMenuAction" userData="ascii.fxml"/>
-                    <MenuItem text="Log Generator" onAction="#handleMenuAction" userData="logs.fxml"/>
+                    <MenuItem text="ASCII Art" onAction="#handleMenuAction" userData="ascii_graphics.fxml"/>
+                    <MenuItem text="Log Generator" onAction="#handleMenuAction" userData="log_generator.fxml"/>
                     <MenuItem text="Image Editor" onAction="#handleMenuAction" userData="image_editor.fxml"/>
                 </items>
             </Menu>
