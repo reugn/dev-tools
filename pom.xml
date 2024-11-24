@@ -28,6 +28,7 @@
         <guava.version>33.3.1-jre</guava.version>
         <guice.version>5.1.0</guice.version>
         <commons-lang3.version>3.17.0</commons-lang3.version>
+        <java-jwt.version>4.4.0</java-jwt.version>
     </properties>
 
     <build>
@@ -145,6 +146,11 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${java-jwt.version}</version>
         </dependency>
     </dependencies>
 </project>

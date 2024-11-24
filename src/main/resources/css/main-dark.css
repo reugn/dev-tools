@@ -17,6 +17,13 @@ Label.uc {
     -fx-text-fill: grey;
 }
 
+Label.header2 {
+    -fx-font-size: 14px;
+    -fx-font-style: italic;
+    -fx-text-fill: grey;
+    -fx-padding: 7 0 7 0;
+}
+
 Button.refresh {
     -fx-graphic: url('/images/icons8-refresh-16.png');
 }

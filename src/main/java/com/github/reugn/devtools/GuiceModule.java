@@ -18,6 +18,7 @@ public class GuiceModule extends AbstractModule {
         bind(LogService.class).to(LogServiceImpl.class).in(Scopes.SINGLETON);
         bind(RegexService.class).to(RegexServiceImpl.class).in(Scopes.SINGLETON);
         bind(RestService.class).to(RestServiceImpl.class).in(Scopes.SINGLETON);
+        bind(JwtService.class).to(JwtServiceImpl.class).in(Scopes.SINGLETON);
     }
 
     @Provides
