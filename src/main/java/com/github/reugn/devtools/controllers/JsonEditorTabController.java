@@ -77,9 +77,11 @@ public class JsonEditorTabController implements Initializable {
         String data = jsonArea.getText();
         try {
             String pretty = jsonService.format(data);
-            JsonEditorController.instance().innerTabPane.getSelectionModel().getSelectedItem()
-                    .setText(tabTitle(jsonService.clearSpaces(data)));
-            jsonArea.replaceText(pretty);
+            if (!pretty.equals(jsonArea.getText())) {
+                JsonEditorController.instance().innerTabPane.getSelectionModel().getSelectedItem()
+                        .setText(tabTitle(jsonService.clearSpaces(data)));
+                jsonArea.replaceText(pretty);
+            }
             jsonMessageLabel.setText("");
         } catch (Exception e) {
             jsonMessageLabel.setText("Invalid JSON");
@@ -91,7 +93,8 @@ public class JsonEditorTabController implements Initializable {
         String data = jsonArea.getText();
         try {
             String cleared = jsonService.clearSpaces(data);
-            JsonEditorController.instance().innerTabPane.getSelectionModel().getSelectedItem().setText(tabTitle(cleared));
+            JsonEditorController.instance().innerTabPane.getSelectionModel().getSelectedItem()
+                    .setText(tabTitle(cleared));
             jsonArea.replaceText(cleared);
             jsonMessageLabel.setText("");
         } catch (Exception e) {
