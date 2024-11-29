@@ -19,6 +19,7 @@
         <javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
         <gluonfx-maven-plugin.version>1.0.24</gluonfx-maven-plugin.version>
         <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
+        <maven-wrapper-plugin.version>3.3.2</maven-wrapper-plugin.version>
 
         <jackson.version>2.18.1</jackson.version>
         <javafx.version>11.0.2</javafx.version>
@@ -82,6 +83,11 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-wrapper-plugin</artifactId>
+                <version>${maven-wrapper-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
