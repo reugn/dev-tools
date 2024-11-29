@@ -42,7 +42,7 @@
                 </VBox>
             </HBox>
             <Separator styleClass="row"/>
-            <TextArea fx:id="generatorResultTextArea"/>
+            <TextArea fx:id="generatorResultTextArea" prefHeight="1200"/>
             <Button fx:id="clearButton" styleClass="row" text="Clear" onAction="#handleClearResult"/>
         </VBox>
     </center>

@@ -30,17 +30,17 @@
                 <Label fx:id="regexMessageLabel"/>
             </HBox>
             <Separator/>
-            <VBox>
+            <VBox prefHeight="700">
                 <Label styleClass="info" text="Target String"/>
                 <VirtualizedScrollPane>
                     <content>
-                        <CodeArea fx:id="regexTargetCodeArea" VBox.vgrow="ALWAYS"/>
+                        <CodeArea fx:id="regexTargetCodeArea" prefHeight="700" VBox.vgrow="ALWAYS"/>
                     </content>
                 </VirtualizedScrollPane>
             </VBox>
-            <VBox>
+            <VBox prefHeight="700">
                 <Label styleClass="info" text="Match Results"/>
-                <TextArea fx:id="regexResultTextArea"/>
+                <TextArea fx:id="regexResultTextArea" prefHeight="700"/>
             </VBox>
         </VBox>
     </center>

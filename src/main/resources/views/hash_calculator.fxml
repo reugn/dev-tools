@@ -13,12 +13,12 @@
     </padding>
 
     <top>
-        <Label styleClass="uc" text="Hash Calculator"/>
+        <Label styleClass="uc" text="Hash Calculator" style="-fx-padding: 0 0 10 0"/>
     </top>
 
     <center>
         <VBox>
-            <TextArea fx:id="hashInputTextArea"/>
+            <TextArea fx:id="hashInputTextArea" prefHeight="700"/>
             <HBox>
                 <ComboBox fx:id="hashAlgoComboBox" promptText="Choose Action..."/>
                 <Button fx:id="hashCalculateButton" onAction="#handleCalculate">Calculate</Button>
@@ -26,7 +26,7 @@
                 <Button fx:id="hashClearButton" onAction="#handleClear">Clear</Button>
                 <Label fx:id="hashMessageLabel" id="hashMessage"/>
             </HBox>
-            <TextArea fx:id="hashOutputTextArea"/>
+            <TextArea fx:id="hashOutputTextArea" prefHeight="400"/>
         </VBox>
     </center>
 

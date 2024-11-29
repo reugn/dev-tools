@@ -13,7 +13,7 @@
     </padding>
 
     <top>
-        <Label styleClass="uc" text="Logs Generator"/>
+        <Label styleClass="uc" text="Log Generator"/>
     </top>
 
     <center>
@@ -47,5 +47,4 @@
             </VBox>
         </VBox>
     </center>
-
 </BorderPane>

@@ -21,7 +21,7 @@
     </top>
 
     <center>
-        <SplitPane fx:id="splitPane">
+        <SplitPane fx:id="splitPane" prefHeight="1200">
             <VBox>
                 <padding>
                     <Insets top="7"/>
@@ -37,7 +37,4 @@
             </TabPane>
         </SplitPane>
     </center>
-
-    <left>
-    </left>
 </BorderPane>

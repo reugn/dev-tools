@@ -18,19 +18,19 @@
         <HBox>
             <VBox>
                 <Label styleClass="header2" text="Encoded Token"/>
-                <TextArea fx:id="tokenTextArea" prefWidth="700" prefHeight="700"/>
+                <TextArea fx:id="tokenTextArea" prefWidth="900" prefHeight="1200"/>
             </VBox>
             <VBox style="-fx-padding: 0 0 0 10">
                 <Label styleClass="header2" text="Header"/>
-                <TextArea fx:id="headerTextArea" prefWidth="700" prefHeight="700"/>
+                <TextArea fx:id="headerTextArea" prefWidth="900" prefHeight="700"/>
                 <Label styleClass="header2" text="Payload"/>
-                <TextArea fx:id="payloadTextArea" prefWidth="700" prefHeight="700"/>
+                <TextArea fx:id="payloadTextArea" prefWidth="900" prefHeight="700"/>
                 <Label fx:id="secretLabel" styleClass="header2" text="Secret"/>
-                <TextArea fx:id="secretTextArea" prefWidth="700" prefHeight="300"/>
+                <TextArea fx:id="secretTextArea" prefWidth="900" prefHeight="300"/>
                 <Label fx:id="publicKeyLabel" styleClass="header2" text="Public Key"/>
-                <TextArea fx:id="publicKeyTextArea" prefWidth="700" prefHeight="300"/>
+                <TextArea fx:id="publicKeyTextArea" prefWidth="900" prefHeight="300"/>
                 <Label fx:id="privateKeyLabel" styleClass="header2" text="Private Key"/>
-                <TextArea fx:id="privateKeyTextArea" prefWidth="700" prefHeight="300"/>
+                <TextArea fx:id="privateKeyTextArea" prefWidth="900" prefHeight="300"/>
             </VBox>
         </HBox>
     </center>
