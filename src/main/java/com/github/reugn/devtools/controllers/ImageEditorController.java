@@ -45,8 +45,8 @@ import static java.util.stream.Collectors.toList;
 public class ImageEditorController implements Initializable {
 
     private static final Logger log = LogManager.getLogger(ImageEditorController.class);
-    private static final int DEFAULT_CANVAS_WIDTH = 720;
-    private static final int DEFAULT_CANVAS_HEIGHT = 480;
+    private static final int DEFAULT_CANVAS_WIDTH = 1920;
+    private static final int DEFAULT_CANVAS_HEIGHT = 1080;
 
     private final SnapshotParameters snapshotParameters = new SnapshotParameters();
     private final FileChooser fileChooser = new FileChooser();
