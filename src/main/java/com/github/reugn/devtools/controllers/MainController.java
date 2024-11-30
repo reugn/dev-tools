@@ -1,28 +1,37 @@
 package com.github.reugn.devtools.controllers;
 
+import com.github.reugn.devtools.utils.ResourceLoader;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.jar.Manifest;
 
 import static java.util.Objects.requireNonNull;
 
 @SuppressWarnings("unused")
-public class MainController implements Initializable {
+public class MainController extends ResourceLoader implements Initializable {
 
     private static final Logger log = LogManager.getLogger(MainController.class);
 
@@ -34,13 +43,22 @@ public class MainController implements Initializable {
             "/css/main-dark.css",
             "/css/json-highlighting-dark.css"
     };
+    private final Map<String, Node> nodeCache = new HashMap<>();
 
     @FXML
     private MenuBar menuBar;
     @FXML
-    private TabPane tabPane;
+    private Menu toolsMenu;
+    @FXML
+    private BorderPane mainPane;
+
     private Alert about;
     private Scene scene;
+
+    @Inject
+    public MainController(Provider<FXMLLoader> fxmlLoaderProvider) {
+        super(fxmlLoaderProvider);
+    }
 
     public void setScene(Scene scene) {
         this.scene = scene;
@@ -85,6 +103,29 @@ public class MainController implements Initializable {
         Hyperlink link = new Hyperlink("https://github.com/reugn/dev-tools");
         vbox.getChildren().addAll(versionLabel, link);
         about.getDialogPane().setContent(vbox);
+
+        // initialize the main pane
+        setMainPane("/views/json_editor.fxml");
+    }
+
+    @FXML
+    private void handleMenuAction(ActionEvent event) {
+        MenuItem menuItem = (MenuItem) event.getSource();
+        String fxmlFile = menuItem.getUserData().toString();
+        String resourcePath = String.format("/views/%s", fxmlFile);
+        Platform.runLater(() -> updateToolsMenuItems(menuItem.getText()));
+        setMainPane(resourcePath);
+    }
+
+    private void updateToolsMenuItems(String text) {
+        for (MenuItem item : toolsMenu.getItems()) {
+            item.setDisable(item.getText().equals(text));
+        }
+    }
+
+    private void setMainPane(String resourcePath) {
+        Node node = nodeCache.computeIfAbsent(resourcePath, this::loadFXML);
+        mainPane.setCenter(node);
     }
 
     private String getVersion() {

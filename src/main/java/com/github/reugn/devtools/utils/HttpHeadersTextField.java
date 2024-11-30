@@ -43,7 +43,7 @@ public class HttpHeadersTextField extends TextField {
         super();
         entriesPopup = new ContextMenu();
         textProperty().addListener((observableValue, s, s2) -> {
-            if (getText().length() == 0) {
+            if (getText().isEmpty()) {
                 entriesPopup.hide();
             } else {
                 List<String> searchResult = new LinkedList<>(entries.subSet(getText(),

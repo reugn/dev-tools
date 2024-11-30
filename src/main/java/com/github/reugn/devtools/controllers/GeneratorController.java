@@ -24,25 +24,25 @@ import static com.google.common.base.Preconditions.checkState;
 public class GeneratorController implements Initializable {
 
     @FXML
-    private ComboBox<Integer> uuidAmount;
+    private ComboBox<Integer> uuidAmountComboBox;
     @FXML
     private Label uuidAmountLabel;
     @FXML
-    private CheckBox uuidUpperCase;
+    private CheckBox uuidUpperCaseCheckBox;
     @FXML
-    private CheckBox uuidHyphens;
+    private CheckBox uuidHyphensCheckBox;
     @FXML
-    private TextArea generatorResult;
+    private TextArea generatorResultTextArea;
     @FXML
-    private CheckBox pwdLowChars;
+    private CheckBox pwdLowCharsCheckBox;
     @FXML
-    private CheckBox pwdDigits;
+    private CheckBox pwdDigitsCheckBox;
     @FXML
-    private CheckBox pwdUpperChars;
+    private CheckBox pwdUpperCharsCheckBox;
     @FXML
-    private CheckBox pwdSymbols;
+    private CheckBox pwdSymbolsCheckBox;
     @FXML
-    private TextField pwdLength;
+    private TextField pwdLengthField;
     @FXML
     private Label pwdLengthLabel;
     @FXML
@@ -50,62 +50,62 @@ public class GeneratorController implements Initializable {
 
     @FXML
     private void handleGenerateUUIDAction(@SuppressWarnings("unused") final ActionEvent event) {
-        StringBuilder buff = new StringBuilder();
-        Integer amount = uuidAmount.getValue();
+        StringBuilder builder = new StringBuilder();
+        Integer amount = uuidAmountComboBox.getValue();
         for (int i = 0; i < amount; i++) {
             String uuid = UUID.randomUUID().toString();
-            if (uuidUpperCase.isSelected()) {
+            if (uuidUpperCaseCheckBox.isSelected()) {
                 uuid = uuid.toUpperCase();
             }
-            if (!uuidHyphens.isSelected()) {
+            if (!uuidHyphensCheckBox.isSelected()) {
                 uuid = uuid.replace("-", "");
             }
-            buff.append(uuid).append("\n");
+            builder.append(uuid).append("\n");
         }
-        generatorResult.setText(buff.toString());
+        generatorResultTextArea.setText(builder.toString());
     }
 
     @FXML
     private void handleGeneratePasswordAction(@SuppressWarnings("unused") final ActionEvent actionEvent) {
         int length;
         try {
-            pwdLength.setBorder(Border.EMPTY);
+            pwdLengthField.setBorder(Border.EMPTY);
             length = validatePasswordLength();
         } catch (Exception e) {
-            pwdLength.setBorder(Elements.alertBorder);
+            pwdLengthField.setBorder(Elements.alertBorder);
             return;
         }
         PasswordGenerator generator = new PasswordGenerator.PasswordGeneratorBuilder()
-                .withLowerChars(pwdLowChars.isSelected())
-                .withDigits(pwdDigits.isSelected())
-                .withUpperChars(pwdUpperChars.isSelected())
-                .withSymbols(pwdSymbols.isSelected())
+                .withLowerChars(pwdLowCharsCheckBox.isSelected())
+                .withDigits(pwdDigitsCheckBox.isSelected())
+                .withUpperChars(pwdUpperCharsCheckBox.isSelected())
+                .withSymbols(pwdSymbolsCheckBox.isSelected())
                 .build();
-        generatorResult.setText(generator.generate(length));
+        generatorResultTextArea.setText(generator.generate(length));
     }
 
     private int validatePasswordLength() {
-        int length = Integer.parseInt(pwdLength.getText());
+        int length = Integer.parseInt(pwdLengthField.getText());
         checkState(length > 0, "Invalid password length");
         return length;
     }
 
     @FXML
     private void handleClearResult(@SuppressWarnings("unused") final ActionEvent actionEvent) {
-        generatorResult.setText("");
+        generatorResultTextArea.setText("");
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        uuidAmount.getItems().setAll(1, 2, 3, 5, 10, 20, 50, 100);
-        uuidAmount.setValue(1);
+        uuidAmountComboBox.getItems().setAll(1, 2, 3, 5, 10, 20, 50, 100);
+        uuidAmountComboBox.setValue(1);
         uuidAmountLabel.setPadding(new Insets(5));
         pwdLengthLabel.setPadding(new Insets(5));
         VBox.setMargin(clearButton, new Insets(5, 0, 0, 0));
-        pwdLength.setPrefWidth(64);
-        pwdLength.setText("16");
+        pwdLengthField.setPrefWidth(64);
+        pwdLengthField.setText("16");
 
-        pwdLowChars.setSelected(true);
-        pwdDigits.setSelected(true);
+        pwdLowCharsCheckBox.setSelected(true);
+        pwdDigitsCheckBox.setSelected(true);
     }
 }

@@ -1,6 +1,6 @@
 package com.github.reugn.devtools.controllers;
 
-import com.github.reugn.devtools.models.Request;
+import com.github.reugn.devtools.models.HttpRequest;
 import com.github.reugn.devtools.services.RestService;
 import com.github.reugn.devtools.utils.ReqHistoryListView;
 import com.google.inject.Inject;
@@ -8,6 +8,7 @@ import com.google.inject.Provider;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -24,12 +25,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-
 public class RestAPIController extends TabPaneController {
 
-    @FXML
     private static RestAPIController self;
+
     private final RestService restService;
+
     @FXML
     ReqHistoryListView historyListView;
     @FXML
@@ -64,8 +65,9 @@ public class RestAPIController extends TabPaneController {
         searchField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 if (!searchField.getText().isEmpty()) {
-                    List<Request> filtered = restService.getRequestHistory().stream()
-                            .filter(x -> x.toString().contains(searchField.getText())).collect(Collectors.toList());
+                    List<HttpRequest> filtered = restService.getRequestHistory().stream()
+                            .filter(r -> r.toString().contains(searchField.getText()))
+                            .collect(Collectors.toList());
                     historyListView.setItems(FXCollections.observableArrayList(filtered));
                 } else {
                     historyListView.setItems(FXCollections.observableArrayList(restService.getRequestHistory()));
@@ -83,21 +85,35 @@ public class RestAPIController extends TabPaneController {
         MenuItem closeCurrentItem = new MenuItem("Close Current Tab");
         closeCurrentItem.setOnAction(event -> {
             Tab currentTab = innerTabPane.getSelectionModel().getSelectedItem();
-            if (currentTab != null && currentTab.isClosable())
+            if (currentTab != null && currentTab.isClosable()) {
                 innerTabPane.getTabs().remove(currentTab);
+            }
         });
+        MenuItem closeAllItem = createCloseAllMenuItem();
+        innerTabPane.setContextMenu(new ContextMenu(closeCurrentItem, closeAllItem));
+    }
+
+    private MenuItem createCloseAllMenuItem() {
         MenuItem closeAllItem = new MenuItem("Close All Tabs");
         closeAllItem.setOnAction(event ->
-                innerTabPane.getTabs()
-                        .setAll(
-                                FXCollections.observableArrayList(
-                                        innerTabPane.getTabs()
-                                                .stream()
-                                                .filter(tab -> !tab.isClosable())
-                                                .collect(Collectors.toList()))
-                        )
+                innerTabPane.getTabs().setAll(FXCollections.observableArrayList(
+                        innerTabPane.getTabs()
+                                .stream()
+                                .filter(tab -> !tab.isClosable())
+                                .collect(Collectors.toList()))
+                )
         );
-        innerTabPane.setContextMenu(new ContextMenu(closeCurrentItem, closeAllItem));
+        return closeAllItem;
+    }
+
+    public void handleNewTabWithData(HttpRequest request) {
+        FXMLLoader loader = fxmlLoaderProvider.get();
+        Node node = loadFXML(loader, getInnerResource());
+        RestAPITabController controller = loader.getController();
+        controller.loadRequest(request);
+        Tab newTab = new Tab(controller.tabTitle());
+        newTab.setContent(node);
+        updateTabPane(newTab);
     }
 
     @Override
@@ -105,7 +121,7 @@ public class RestAPIController extends TabPaneController {
         return "/views/rest_api_tab.fxml";
     }
 
-    public ListView<Request> getHistoryListView() {
+    public ListView<HttpRequest> getHistoryListView() {
         return historyListView;
     }
 }

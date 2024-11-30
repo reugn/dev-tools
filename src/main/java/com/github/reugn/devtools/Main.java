@@ -23,7 +23,9 @@ public class Main {
 
     public static class App extends Application {
 
-        private static final String title = "Development Tools";
+        private static final String TITLE = "Development Tools";
+        private static final int SCENE_WIDTH = 900;
+        private static final int SCENE_HEIGHT = 500;
 
         public static void main(String[] args) {
             launch(args);
@@ -37,10 +39,12 @@ public class Main {
             fxmlLoader.setLocation(getClass().getResource("/views/main.fxml"));
             Parent root = fxmlLoader.load();
             MainController mainController = fxmlLoader.getController();
-            primaryStage.setTitle(title);
+            primaryStage.setTitle(TITLE);
+            primaryStage.setMinWidth(SCENE_WIDTH);
+            primaryStage.setMinHeight(SCENE_HEIGHT);
             primaryStage.getIcons().add(new Image(requireNonNull(
                     getClass().getResourceAsStream("/images/icons8-toolbox-64.png"))));
-            Scene scene = new Scene(root, 900, 500);
+            Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
             scene.getStylesheets().addAll("/css/main-dark.css", "/css/json-highlighting-dark.css");
             scene.getRoot().setStyle("-fx-font-family: 'Arial'");
             primaryStage.setScene(scene);

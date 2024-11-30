@@ -10,6 +10,7 @@ public class PasswordGenerator {
     private static final String digitsString = "0123456789";
     private static final String upperCharsString = lowerCharsString.toUpperCase(Locale.ENGLISH);
     private static final String symbolsString = "!@#$%^&*?";
+
     private final String dictionary;
 
     private PasswordGenerator(PasswordGeneratorBuilder builder) {
@@ -30,7 +31,9 @@ public class PasswordGenerator {
     }
 
     public String generate(int length) {
-        if (dictionary.isEmpty()) return "";
+        if (dictionary.isEmpty()) {
+            return "";
+        }
         StringBuilder password = new StringBuilder(length);
         Random random = new SecureRandom();
         for (int i = 0; i < length; i++) {

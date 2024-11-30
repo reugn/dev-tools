@@ -17,6 +17,13 @@ Label.uc {
     -fx-text-fill: grey;
 }
 
+Label.header2 {
+    -fx-font-size: 14px;
+    -fx-font-style: italic;
+    -fx-text-fill: grey;
+    -fx-padding: 7 0 7 0;
+}
+
 Button.refresh {
     -fx-graphic: url('/images/icons8-refresh-16.png');
 }
@@ -45,8 +52,20 @@ Button.refresh {
     -fx-graphic: url('/images/icons8-scroll-up-16.png');
 }
 
+.tools Button {
+    -fx-body-color: grey;
+}
+
+.tools Button:hover {
+    -fx-body-color: #b3b3b3;
+}
+
 .row {
     -fx-padding: 5 5 5 5;
+}
+
+.vPad {
+    -fx-padding: 10 0 10 0;
 }
 
 .regexField {
@@ -60,11 +79,6 @@ Button.refresh {
 
 .hbox {
 	-fx-background-color: transparent;
-}
-
-.scroll-pane {
-	-fx-background-color: transparent;
-	-fx-border-color: transparent;
 }
 
 .tab-pane {
@@ -111,8 +125,8 @@ Button.refresh {
 	-fx-padding: 1.0;
 }
 
-.combo-table-view {/*optional*/
-    /*i only use this style when a table-view has to emulate a combo-box or auto-complete look, by making the non focused color same as the focused one*/
+/*optional, making the non focused color same as the focused one*/
+.combo-table-view {
     -fx-selection-bar: -fx-accent;
 }
 

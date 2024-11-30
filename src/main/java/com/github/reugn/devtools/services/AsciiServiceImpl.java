@@ -10,9 +10,11 @@ public class AsciiServiceImpl implements AsciiService {
         Font font = new Font(fontName, fontStyle, textHeight);
         int imageWidth = imageWidth(text, font);
         BufferedImage image = new BufferedImage(imageWidth, textHeight, BufferedImage.TYPE_BYTE_BINARY);
+
         Graphics graphics = image.getGraphics();
         graphics.setFont(font);
         graphics.drawString(text, 0, bPos(graphics, font));
+
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < textHeight; i++) {
             for (int j = 0; j < imageWidth; j++)

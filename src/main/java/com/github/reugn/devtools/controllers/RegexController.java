@@ -28,18 +28,19 @@ import java.util.ResourceBundle;
 public class RegexController implements Initializable {
 
     private final RegexService regexService;
+
     @FXML
-    private TextField regexExpression;
+    private TextField regexExpressionField;
     @FXML
     private Button regexCalculateButton;
     @FXML
     private Button regexClearButton;
     @FXML
-    private Label regexMessage;
+    private Label regexMessageLabel;
     @FXML
-    private CodeArea regexTarget;
+    private CodeArea regexTargetCodeArea;
     @FXML
-    private TextArea regexResult;
+    private TextArea regexResultTextArea;
     @FXML
     private Label regexLabel;
     @FXML
@@ -52,16 +53,16 @@ public class RegexController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        regexExpression.setPrefWidth(512);
-        regexTarget.setPrefHeight(256);
-        HBox.setMargin(regexExpression, new Insets(10, 5, 10, 0));
+        regexExpressionField.setPrefWidth(512);
+        regexTargetCodeArea.setPrefHeight(256);
+        HBox.setMargin(regexExpressionField, new Insets(10, 5, 10, 0));
         HBox.setMargin(regexCalculateButton, new Insets(10, 5, 10, 0));
         HBox.setMargin(regexClearButton, new Insets(10, 5, 10, 0));
         HBox.setMargin(regexFlagsComboBox, new Insets(10, 5, 10, 0));
 
         regexLabel.setPadding(new Insets(15, 5, 10, 0));
-        regexMessage.setPadding(new Insets(15, 5, 10, 0));
-        regexMessage.setTextFill(Color.RED);
+        regexMessageLabel.setPadding(new Insets(15, 5, 10, 0));
+        regexMessageLabel.setTextFill(Color.RED);
 
         regexFlagsComboBox.getItems().addAll("global", "multiline", "insensitive", "unicode");
         regexFlagsComboBox.setTitle("Flags");
@@ -81,21 +82,21 @@ public class RegexController implements Initializable {
     }
 
     private void doMatch() {
-        regexMessage.setText("");
+        regexMessageLabel.setText("");
         if (validateInput()) {
             try {
-                RegexResult result = regexService.match(regexExpression.getText(), regexTarget.getText(),
+                RegexResult result = regexService.match(regexExpressionField.getText(), regexTargetCodeArea.getText(),
                         regexFlagsComboBox.getCheckModel().getCheckedItems());
-                regexResult.setText(result.getMatchSummary());
+                regexResultTextArea.setText(result.getMatchSummary());
                 List<Pair<Integer, Integer>> l = result.getFullMatchIndexes();
                 if (!l.isEmpty()) {
-                    regexTarget.deselect();
-                    regexTarget.moveTo(l.get(0).getKey());
-                    regexTarget.requestFollowCaret();
-                    regexTarget.selectRange(l.get(0).getKey(), l.get(0).getValue());
+                    regexTargetCodeArea.deselect();
+                    regexTargetCodeArea.moveTo(l.get(0).getKey());
+                    regexTargetCodeArea.requestFollowCaret();
+                    regexTargetCodeArea.selectRange(l.get(0).getKey(), l.get(0).getValue());
                 }
             } catch (Exception e) {
-                regexMessage.setText("Invalid regex");
+                regexMessageLabel.setText("Invalid regex");
             }
         }
     }
@@ -103,27 +104,27 @@ public class RegexController implements Initializable {
     private boolean validateInput() {
         resetBorders();
         boolean isValid = true;
-        if (regexExpression.getText().isEmpty()) {
-            regexExpression.setBorder(Elements.alertBorder);
+        if (regexExpressionField.getText().isEmpty()) {
+            regexExpressionField.setBorder(Elements.alertBorder);
             isValid = false;
         }
-        if (regexTarget.getText().isEmpty()) {
-            regexTarget.setBorder(Elements.alertBorder);
+        if (regexTargetCodeArea.getText().isEmpty()) {
+            regexTargetCodeArea.setBorder(Elements.alertBorder);
             isValid = false;
         }
         return isValid;
     }
 
     private void resetBorders() {
-        regexExpression.setBorder(Border.EMPTY);
-        regexTarget.setBorder(Border.EMPTY);
+        regexExpressionField.setBorder(Border.EMPTY);
+        regexTargetCodeArea.setBorder(Border.EMPTY);
     }
 
     @FXML
     public void handleClear(@SuppressWarnings("unused") ActionEvent actionEvent) {
         resetBorders();
-        regexExpression.setText("");
-        regexTarget.replaceText("");
-        regexResult.setText("");
+        regexExpressionField.setText("");
+        regexTargetCodeArea.replaceText("");
+        regexResultTextArea.setText("");
     }
 }

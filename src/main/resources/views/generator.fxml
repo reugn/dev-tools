@@ -2,7 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.github.reugn.devtools.controllers.GeneratorController">
@@ -18,29 +20,29 @@
             <HBox>
                 <VBox prefWidth="400">
                     <HBox>
-                        <ComboBox fx:id="uuidAmount"/>
+                        <ComboBox fx:id="uuidAmountComboBox"/>
                         <Label fx:id="uuidAmountLabel" text="Number of UUIDs"/>
                     </HBox>
-                    <CheckBox fx:id="uuidUpperCase" styleClass="row" text="Upper case"/>
-                    <CheckBox fx:id="uuidHyphens" styleClass="row" text="Hyphens"/>
+                    <CheckBox fx:id="uuidUpperCaseCheckBox" styleClass="row" text="Upper case"/>
+                    <CheckBox fx:id="uuidHyphensCheckBox" styleClass="row" text="Hyphens"/>
                     <Label style="-fx-padding: 6 5 6 5;"/>
                     <Label style="-fx-padding: 6 5 6 5;"/>
                     <Button styleClass="row" text="Generate UUIDs" onAction="#handleGenerateUUIDAction"/>
                 </VBox>
                 <VBox>
                     <HBox>
-                        <TextField fx:id="pwdLength"/>
+                        <TextField fx:id="pwdLengthField"/>
                         <Label fx:id="pwdLengthLabel" text="Password Length"/>
                     </HBox>
-                    <CheckBox fx:id="pwdLowChars" styleClass="row" text="Lowercase Characters"/>
-                    <CheckBox fx:id="pwdDigits" styleClass="row" text="Digits"/>
-                    <CheckBox fx:id="pwdUpperChars" styleClass="row" text="Uppercase Characters"/>
-                    <CheckBox fx:id="pwdSymbols" styleClass="row" text="Symbols"/>
+                    <CheckBox fx:id="pwdLowCharsCheckBox" styleClass="row" text="Lowercase Characters"/>
+                    <CheckBox fx:id="pwdDigitsCheckBox" styleClass="row" text="Digits"/>
+                    <CheckBox fx:id="pwdUpperCharsCheckBox" styleClass="row" text="Uppercase Characters"/>
+                    <CheckBox fx:id="pwdSymbolsCheckBox" styleClass="row" text="Symbols"/>
                     <Button styleClass="row" text="Generate Password" onAction="#handleGeneratePasswordAction"/>
                 </VBox>
             </HBox>
             <Separator styleClass="row"/>
-            <TextArea fx:id="generatorResult"/>
+            <TextArea fx:id="generatorResultTextArea" prefHeight="1200"/>
             <Button fx:id="clearButton" styleClass="row" text="Clear" onAction="#handleClearResult"/>
         </VBox>
     </center>

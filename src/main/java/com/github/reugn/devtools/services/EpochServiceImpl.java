@@ -35,8 +35,7 @@ public class EpochServiceImpl implements EpochService {
     }
 
     @Override
-    public String toTsEpoch(int year, int month, int dayOfMonth, int hour, int minute, int second,
-                            String timeZone) {
+    public String toTsEpoch(int year, int month, int dayOfMonth, int hour, int minute, int second, String timeZone) {
         StringBuilder buff = new StringBuilder();
         ZoneOffset offset = OffsetDateTime.now(ZoneId.of(timeZone)).getOffset();
         LocalDateTime dt = LocalDateTime.of(year, month, dayOfMonth, hour, minute, second);

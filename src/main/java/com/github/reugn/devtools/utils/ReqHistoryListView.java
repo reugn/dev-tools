@@ -3,7 +3,7 @@ package com.github.reugn.devtools.utils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.reugn.devtools.controllers.RestAPIController;
-import com.github.reugn.devtools.models.Request;
+import com.github.reugn.devtools.models.HttpRequest;
 import com.github.reugn.devtools.services.RestService;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ContextMenu;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ReqHistoryListView extends ListView<Request> {
+public class ReqHistoryListView extends ListView<HttpRequest> {
 
     private static final Logger log = LogManager.getLogger(ReqHistoryListView.class);
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -80,10 +80,11 @@ public class ReqHistoryListView extends ListView<Request> {
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(null);
             if (selectedFile == null) return;
+
             try (Stream<String> stream = Files.lines(Paths.get(selectedFile.getPath()))) {
                 String history = stream.collect(Collectors.joining(System.lineSeparator()));
                 @SuppressWarnings("all")
-                List<Request> requestList = mapper.readValue(history, new TypeReference<List<Request>>() {
+                List<HttpRequest> requestList = mapper.readValue(history, new TypeReference<List<HttpRequest>>() {
                 });
                 restService.addToRequestHistory(requestList);
                 setItems(FXCollections.observableArrayList(restService.getRequestHistory()));
@@ -101,11 +102,12 @@ public class ReqHistoryListView extends ListView<Request> {
     }
 
     private void openRequestWithData() {
-        if (getSelectionModel().isEmpty())
+        if (getSelectionModel().isEmpty()) {
             return;
+        }
 
         if (parentController != null) {
-            Request request = getSelectionModel().getSelectedItem();
+            HttpRequest request = getSelectionModel().getSelectedItem();
             parentController.handleNewTabWithData(request);
         } else {
             log.error("Parent RestAPIController has not been set.");
@@ -113,10 +115,11 @@ public class ReqHistoryListView extends ListView<Request> {
     }
 
     private void deleteRequest() {
-        if (getSelectionModel().isEmpty())
+        if (getSelectionModel().isEmpty()) {
             return;
+        }
 
-        Request request = getSelectionModel().getSelectedItem();
+        HttpRequest request = getSelectionModel().getSelectedItem();
         getItems().remove(request);
         restService.removeFromRequestHistory(request);
     }

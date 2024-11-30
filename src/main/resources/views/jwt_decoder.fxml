@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.reugn.devtools.controllers.JwtDecoderController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <top>
+        <Label styleClass="uc" text="JWT Decoder" style="-fx-padding: 0 0 10 0"/>
+    </top>
+
+    <center>
+        <HBox>
+            <VBox>
+                <Label styleClass="header2" text="Encoded Token"/>
+                <TextArea fx:id="tokenTextArea" prefWidth="900" prefHeight="1200"/>
+            </VBox>
+            <VBox style="-fx-padding: 0 0 0 10">
+                <Label styleClass="header2" text="Header"/>
+                <TextArea fx:id="headerTextArea" prefWidth="900" prefHeight="700"/>
+                <Label styleClass="header2" text="Payload"/>
+                <TextArea fx:id="payloadTextArea" prefWidth="900" prefHeight="700"/>
+                <Label fx:id="secretLabel" styleClass="header2" text="Secret"/>
+                <TextArea fx:id="secretTextArea" prefWidth="900" prefHeight="300"/>
+                <Label fx:id="publicKeyLabel" styleClass="header2" text="Public Key"/>
+                <TextArea fx:id="publicKeyTextArea" prefWidth="900" prefHeight="300"/>
+                <Label fx:id="privateKeyLabel" styleClass="header2" text="Private Key"/>
+                <TextArea fx:id="privateKeyTextArea" prefWidth="900" prefHeight="300"/>
+            </VBox>
+        </HBox>
+    </center>
+
+    <bottom>
+        <BorderPane style="-fx-padding: 10 0 0 0">
+            <left>
+                <GridPane hgap="7">
+                    <Label text="Algorithm" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <ChoiceBox fx:id="algorithmChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                               onAction="#handleAlgorithmChoice"/>
+                    <Label fx:id="messageLabel" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                </GridPane>
+            </left>
+
+            <right>
+                <HBox spacing="5">
+                    <Button onAction="#handleVerify" text="Verify"/>
+                    <Button onAction="#handleDecode" text="Decode"/>
+                    <Button onAction="#handleEncode" text="Encode"/>
+                    <Button onAction="#handleClear" text="Clear"/>
+                </HBox>
+            </right>
+        </BorderPane>
+    </bottom>
+</BorderPane>

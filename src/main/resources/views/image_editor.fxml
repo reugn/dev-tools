@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.reugn.devtools.controllers.ImageEditorController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <top>
+        <Label styleClass="uc" text="Image Editor" style="-fx-padding: 0 0 10 0"/>
+    </top>
+
+    <left>
+        <VBox>
+            <GridPane hgap="5" vgap="5">
+                <Label text="Line Width" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <ChoiceBox fx:id="lineWidthChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Color" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <ColorPicker fx:id="colorPicker" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="Zoom" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <ChoiceBox fx:id="zoomChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            </GridPane>
+
+            <Separator style="-fx-padding: 10 0 0 0"/>
+
+            <VBox>
+                <GridPane hgap="45">
+                    <Label text="Canvas Dimensions" styleClass="vPad"
+                           GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <Button fx:id="canvasDimensionsButton" onAction="#handleCanvasDimensions" text="Apply"
+                            GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <VBox.margin>
+                            <Insets>
+                                <top>7</top>
+                            </Insets>
+                        </VBox.margin>
+                    </Button>
+                </GridPane>
+                <GridPane hgap="5" vgap="5">
+                    <Label text="Width: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="canvasWidthField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                    <Label text="Height: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="canvasHeightField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                </GridPane>
+            </VBox>
+
+            <Separator style="-fx-padding: 10 0 0 0"/>
+
+            <VBox>
+                <Label text="Transformations" styleClass="vPad"/>
+                <GridPane hgap="5" vgap="5" styleClass="tools">
+                    <Button onAction="#handleRotateLeft" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <tooltip>
+                            <Tooltip text="Rotate left"/>
+                        </tooltip>
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <Image url="@/images/image-editor/rotate-left-64.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button onAction="#handleRotateRight" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <tooltip>
+                            <Tooltip text="Rotate right"/>
+                        </tooltip>
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <Image url="@/images/image-editor/rotate-right-64.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button onAction="#handleInvertColors" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <tooltip>
+                            <Tooltip text="Invert colors"/>
+                        </tooltip>
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <Image url="@/images/image-editor/color-invert-64.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </GridPane>
+            </VBox>
+
+            <Separator style="-fx-padding: 10 0 0 0"/>
+
+            <VBox>
+                <Label text="Tools" styleClass="vPad"/>
+                <GridPane hgap="5" vgap="5" styleClass="tools">
+                    <Button fx:id="brushButton" onAction="#handleToolSelection" userData="BRUSH"
+                            GridPane.columnIndex="0" GridPane.rowIndex="0" disable="true">
+                        <tooltip>
+                            <Tooltip text="Brush"/>
+                        </tooltip>
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <Image url="@/images/image-editor/brush-64.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button onAction="#handleToolSelection" userData="COLOR_FILL"
+                            GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <tooltip>
+                            <Tooltip text="Color Fill"/>
+                        </tooltip>
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <Image url="@/images/image-editor/color-fill-64.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button onAction="#handleToolSelection" userData="LINE"
+                            GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <tooltip>
+                            <Tooltip text="Line"/>
+                        </tooltip>
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <Image url="@/images/image-editor/editing-line-64.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button onAction="#handleToolSelection" userData="RECTANGLE"
+                            GridPane.columnIndex="3" GridPane.rowIndex="0">
+                        <tooltip>
+                            <Tooltip text="Rectangle"/>
+                        </tooltip>
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <Image url="@/images/image-editor/rectangle-64.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button onAction="#handleToolSelection" userData="ELLIPSE"
+                            GridPane.columnIndex="4" GridPane.rowIndex="0">
+                        <tooltip>
+                            <Tooltip text="Ellipse"/>
+                        </tooltip>
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <Image url="@/images/image-editor/ellipse-64.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+
+                    <Button onAction="#handleToolSelection" userData="AIR_BRUSH"
+                            GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <tooltip>
+                            <Tooltip text="Air Brush"/>
+                        </tooltip>
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <Image url="@/images/image-editor/spray-can-64.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button onAction="#handleToolSelection" userData="EYEDROPPER"
+                            GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <tooltip>
+                            <Tooltip text="Eyedropper"/>
+                        </tooltip>
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <Image url="@/images/image-editor/eyedropper-64.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button onAction="#handleToolSelection" userData="CROP"
+                            GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <tooltip>
+                            <Tooltip text="Crop"/>
+                        </tooltip>
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <Image url="@/images/image-editor/crop-64.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button onAction="#handleToolSelection" userData="ERASER"
+                            GridPane.columnIndex="3" GridPane.rowIndex="1">
+                        <tooltip>
+                            <Tooltip text="Eraser"/>
+                        </tooltip>
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <Image url="@/images/image-editor/eraser-64.png"/>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </GridPane>
+
+                <HBox fx:id="toolSettingsContainer" style="-fx-padding: 7 0 0 0">
+                    <GridPane fx:id="geometryGridPane" hgap="5" vgap="5" styleClass="tools">
+                        <Label GridPane.columnIndex="0" GridPane.rowIndex="0" text="Dashed: "/>
+                        <TextField fx:id="dashedTextField" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                   maxWidth="80" text="0"/>
+                        <Label GridPane.columnIndex="2" GridPane.rowIndex="0" text="Fill: "/>
+                        <CheckBox fx:id="fillCheckBox" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                    </GridPane>
+                    <GridPane fx:id="densityGridPane" hgap="5" vgap="5" styleClass="tools">
+                        <Label GridPane.columnIndex="0" GridPane.rowIndex="0" text="Density: "/>
+                        <TextField fx:id="densityTextField" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                   maxWidth="70" text="0.3"/>
+                    </GridPane>
+                </HBox>
+            </VBox>
+        </VBox>
+    </left>
+    <center>
+        <BorderPane fx:id="canvasBorderPane">
+            <padding>
+                <Insets left="10"/>
+            </padding>
+            <center>
+                <ScrollPane fx:id="canvasScrollPane" fitToWidth="true" fitToHeight="true">
+                    <Canvas fx:id="canvas" onMouseMoved="#handleMouseMoved" onMousePressed="#handleMousePressed"
+                            onMouseReleased="#handleMouseReleased" onMouseDragged="#handleMouseDragged"
+                            onMouseExited="#handleMouseExited"
+                            pickOnBounds="true"/>
+                </ScrollPane>
+            </center>
+            <bottom>
+                <BorderPane>
+                    <padding>
+                        <Insets top="10"/>
+                    </padding>
+                    <left>
+                        <HBox alignment="CENTER_LEFT" spacing="5">
+                            <Button onAction="#handleLoadImage">Load</Button>
+                            <Button onAction="#handleSaveImage">Save</Button>
+                            <Label fx:id="coordinatesLabel"/>
+                        </HBox>
+                    </left>
+                    <right>
+                        <HBox alignment="CENTER_RIGHT" spacing="5">
+                            <Button fx:id="undoButton" onAction="#handleUndoImage">Undo</Button>
+                            <Button fx:id="redoButton" onAction="#handleRedoImage">Redo</Button>
+                            <Button fx:id="clearButton" onAction="#handleClearImage">Clear</Button>
+                        </HBox>
+                    </right>
+                </BorderPane>
+            </bottom>
+        </BorderPane>
+    </center>
+</BorderPane>

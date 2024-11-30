@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.reugn</groupId>
-    <artifactId>devtools</artifactId>
-    <version>0.5.0</version>
+    <artifactId>dev-tools</artifactId>
+    <version>0.6.0</version>
 
     <organization>
         <name>com.github.reugn</name>
@@ -15,14 +15,21 @@
     <properties>
         <java.version>11</java.version>
 
-        <jackson.version>2.13.4</jackson.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
+        <gluonfx-maven-plugin.version>1.0.24</gluonfx-maven-plugin.version>
+        <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
+        <maven-wrapper-plugin.version>3.3.2</maven-wrapper-plugin.version>
+
+        <jackson.version>2.18.1</jackson.version>
         <javafx.version>11.0.2</javafx.version>
-        <controlsfx.version>11.0.3</controlsfx.version>
-        <richtextfx.version>0.10.9</richtextfx.version>
-        <log4j.version>2.18.0</log4j.version>
-        <guava.version>31.1-jre</guava.version>
+        <controlsfx.version>11.2.1</controlsfx.version>
+        <richtextfx.version>0.11.3</richtextfx.version>
+        <log4j.version>2.24.1</log4j.version>
+        <guava.version>33.3.1-jre</guava.version>
         <guice.version>5.1.0</guice.version>
-        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <commons-lang3.version>3.17.0</commons-lang3.version>
+        <java-jwt.version>4.4.0</java-jwt.version>
     </properties>
 
     <build>
@@ -30,7 +37,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -39,7 +46,7 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
+                <version>${javafx-maven-plugin.version}</version>
                 <configuration>
                     <mainClass>com.github.reugn.devtools.Main</mainClass>
                 </configuration>
@@ -47,14 +54,15 @@
             <plugin>
                 <groupId>com.gluonhq</groupId>
                 <artifactId>gluonfx-maven-plugin</artifactId>
-                <version>1.0.15</version>
+                <version>${gluonfx-maven-plugin.version}</version>
                 <configuration>
                     <mainClass>com.github.reugn.devtools.Main</mainClass>
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>${maven-assembly-plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -75,6 +83,11 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-wrapper-plugin</artifactId>
+                <version>${maven-wrapper-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
@@ -134,6 +147,16 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${java-jwt.version}</version>
         </dependency>
     </dependencies>
 </project>

@@ -9,8 +9,19 @@ Label.uc {
     -fx-text-fill: grey;
 }
 
+Label.header2 {
+    -fx-font-size: 14px;
+    -fx-font-style: italic;
+    -fx-text-fill: grey;
+    -fx-padding: 7 0 7 0;
+}
+
 .row {
     -fx-padding: 5 5 5 5;
+}
+
+.vPad {
+    -fx-padding: 10 0 10 0;
 }
 
 .regexField {
